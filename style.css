@@ -6,6 +6,15 @@
         color: var(--text-heading); /* MODIFIED */
       }
 
+      .span-slash{
+        color: var(--text-heading);
+        display: inline !important;
+      }
+
+      .emo-span{
+        color: var(--text-heading);
+      }
+
       h2 {
         font-size: 2.5em;
         letter-spacing: 0.01vw;
@@ -694,12 +703,6 @@
         .exp-desc p {
           font-size: 0.9em; /* Match original p */
         }
-        /* END: New Experience Media Query */
-
-        /* START: Projects Media Query - REMOVED */
-        /* END: Projects Media Query - REMOVED */
-
-        /* --- START: NEW PROJECT MEDIA QUERY --- */
         .projects-container {
           flex-direction: column; /* Stack cards on mobile */
           gap: 1em;
