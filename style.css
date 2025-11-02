@@ -1,0 +1,770 @@
+      /* --- Start utilities.css --- */
+      h1 {
+        font-size: 3.5em;
+        line-height: 1.2;
+        font-family: "Ot-light";
+        color: var(--text-heading); /* MODIFIED */
+      }
+
+      h2 {
+        font-size: 2.5em;
+        letter-spacing: 0.01vw;
+        line-height: 1.5;
+        font-family: "Ot-light";
+        color: var(--text-heading); /* MODIFIED */
+      }
+
+      h3 {
+        font-size: 1.8em;
+        letter-spacing: 0.01vw;
+        line-height: 1;
+        font-family: "Ot-light";
+        color: var(--text-heading); /* MODIFIED */
+      }
+
+      h4 {
+        font-family: "Ot-light";
+        font-size: 1.2em;
+        font-weight: 100;
+        color: var(--text-secondary); /* MODIFIED */
+      }
+
+      h5 {
+        font-family: "Ot-light";
+        font-size: 0.9em;
+        line-height: 1.5;
+        font-weight: 100;
+        color: var(--text-primary); /* MODIFIED */
+      }
+
+      p {
+        font-family: "Ot-light";
+        font-size: 0.9em;
+        color: var(--text-primary); /* MODIFIED */
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      li {
+        display: inline-block;
+        color: var(--text-primary); /* MODIFIED */
+        list-style: none;
+        padding-inline: 10px;
+        font-weight: 400;
+      }
+
+      span {
+        text-align: center;
+        display: block;
+      }
+
+      a {
+        width: fit-content;
+        text-decoration: none;
+        color: inherit;
+        font-size: 1vw;
+        font-size: initial;
+      }
+
+      .capsule {
+        outline: 0;
+        border: 0;
+        padding: 1.2em 2em;
+        border-radius: 30px;
+      }
+
+      .btn-border {
+        border: 5px solid var(--border-capsule); /* MODIFIED */
+        transition: all 0.5s;
+      }
+
+      .btn-border:hover {
+        border: 5px solid var(--border-capsule-hover); /* MODIFIED */
+      }
+
+      .white-capsule {
+        background-color: var(--bg-tertiary); /* MODIFIED */
+        color: var(--text-primary); /* MODIFIED */
+      }
+
+      .black-capsule {
+        background-color: var(--bg-accent); /* MODIFIED */
+        color: var(--text-accent); /* MODIFIED */
+      }
+
+      .mobile {
+        display: none;
+      }
+
+      .footer-btns a:nth-child(1) {
+        margin-right: 10px;
+      }
+      /* --- End utilities.css --- */
+
+      /* --- Start style.css --- */
+      :root {
+        --primary-padding: 5.2vw;
+        --secondry-padding: 3em;
+        --block-padding: 5em;
+        --section-padding: 3.5em; /* Reduced padding */
+
+        /* --- NEW: Light Mode Color Palette --- */
+        --bg-primary: #efeded;
+        --bg-secondary: #f9f8f9;
+        --bg-tertiary: #fff;
+        --bg-accent: #252425;
+
+        --text-primary: #363636;
+        --text-secondary: #282727;
+        --text-accent: #f9f8f9;
+        --text-heading: #252425;
+
+        --border-primary: #dcdcdc;
+        --border-secondary: #c0c0c0;
+        --border-tertiary: #e0e0e0;
+        --border-capsule: #f0f1ef;
+        --border-capsule-hover: #bdbdbd;
+      }
+
+      /* --- NEW: Dark Mode Palette --- */
+      #main.dark-mode {
+        --bg-primary: #121212;
+        --bg-secondary: #1e1e1e;
+        --bg-tertiary: #2a2a2a;
+        --bg-accent: #f9f8f9;
+
+        --text-primary: #b0b0b0;
+        --text-secondary: #dcdcdc;
+        --text-accent: #1e1e1e;
+        --text-heading: #f9f8f9;
+
+        --border-primary: #444444;
+        --border-secondary: #555555;
+        --border-tertiary: #333333;
+        --border-capsule: #2a2a2a;
+        --border-capsule-hover: #555;
+      }
+
+      /* --- NEW: Smooth Color Transitions --- */
+      #main,
+      .home,
+      .radius-container,
+      .about,
+      .experience,
+      .main-footer,
+      .about-me,
+      .about-me-wrapper,
+      .project-card,
+      .capsule,
+      .btn-border,
+      .link-icons a,
+      .view-projects-btn,
+      .theme-toggle,
+      .theme-toggle-mobile,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      p,
+      li,
+      .exp-info h4,
+      .exp-info h5,
+      .mail-sp,
+      .copyright {
+        transition: background-color 0.3s ease, color 0.3s ease,
+          border-color 0.3s ease;
+      }
+
+      * {
+        padding: 0%;
+        margin: 0%;
+        box-sizing: border-box;
+        font-family: "Ot-light";
+      }
+
+      html,body{
+        height: 100%;
+        overflow: hidden;
+      }
+
+      #main {
+        background-color: var(--bg-primary); /* MODIFIED */
+      }
+
+      .home {
+        min-height: 100vh;
+        width: 100%; /* <-- FIX for horizontal overflow */
+        position: relative;
+        z-index: 99;
+        background-color: var(--bg-secondary); /* MODIFIED */
+        border-bottom-left-radius: 100px;
+        border-bottom-right-radius: 100px;
+      }
+
+      .radius-container {
+        padding-top: var(--secondry-padding);
+        background-color: var(--bg-primary); /* MODIFIED */
+        border-bottom-left-radius: 100px;
+        border-bottom-right-radius: 100px;
+      }
+
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 7vh;
+        padding-inline: var(--primary-padding);
+      }
+
+      li:hover {
+        text-decoration: underline;
+      }
+
+      .mail-sp {
+        font-size: 0.8em;
+        font-family: "Ot-medium";
+        color: var(--text-heading); /* MODIFIED */
+      }
+
+      .min-capsule {
+        outline: none;
+        border: none;
+        background: var(--bg-tertiary); /* MODIFIED */
+        height: 5vh;
+        border-radius: 20px;
+        width: 6vw;
+      }
+
+      .radius-container {
+        height: 90vh;
+      }
+
+      .hero {
+        padding-block: var(--primary-padding);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2em;
+        /* line-height: 5em; */
+      }
+
+      .hero img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+
+      .hero .hero-img-container {
+        height: 9em;
+        width: 9em;
+        overflow: hidden;
+        border-radius: 50%;
+      }
+
+      .marquee {
+        position: static;
+        white-space: nowrap;
+        overflow-x: hidden;
+        padding: 5em 0 8em 0;
+        z-index: 9;
+      }
+
+      .marquee img {
+        margin: 0 3.3em;
+        width: 10em;
+        vertical-align: middle;
+      }
+
+      .marquee .elem {
+        display: inline-block;
+        animation-name: move;
+        animation-duration: 25s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+      }
+
+      @keyframes move {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-100%);
+        }
+      }
+
+      .about {
+        text-align: center;
+        padding-block: var(--block-padding);
+        background-color: var(--bg-secondary); /* MODIFIED */
+        border-bottom-left-radius: 100px;
+        border-bottom-right-radius: 100px;
+      }
+
+      .about h2 {
+        margin: auto;
+        width: fit-content;
+        border-bottom: solid var(--text-heading); /* MODIFIED */
+        border-width: thin;
+        padding-bottom: var(--primary-padding);
+      }
+
+      /* START: Updated Experience Section Styles */
+      .experience {
+        padding-block: var(--section-padding); /* Changed */
+        background-color: var(--bg-primary); /* MODIFIED */
+        max-width: 65%; /* Match old list width */
+        margin: 0 auto;
+        padding-inline: 20px;
+      }
+
+      .experience-title {
+        margin-bottom: 3.5em;
+      }
+
+      .experience-list {
+        text-align: left;
+        flex: 2;
+      }
+
+      .experience-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 2em;
+        padding: 2.5em 0;
+        border-bottom: 2px solid var(--border-primary); /* MODIFIED */
+        flex-wrap: wrap; /* --- ADDED: Allows items to wrap to next line --- */
+      }
+
+      .experience-item:first-child {
+        padding-top: 0;
+      }
+
+      .experience-item:last-child {
+        border-bottom: none;
+      }
+
+      .exp-info {
+        flex: 1; /* Takes up 1 part */
+      }
+
+      .exp-info h3 {
+        margin-bottom: 0.3em;
+      }
+      .exp-info h4 {
+        margin-bottom: 0.5em;
+        color: var(--text-primary); /* MODIFIED */
+      }
+      .exp-info h5 {
+        font-family: "Ot-medium";
+        color: var(--text-heading); /* MODIFIED */
+      }
+
+      .exp-desc {
+        flex: 2; /* Takes up 2 parts, making it wider */
+      }
+
+      .exp-desc p {
+        font-size: 1em; /* Slightly larger for readability */
+        line-height: 1.6;
+      }
+
+      .works .rot-btn {
+        background-color: var(--bg-secondary); /* MODIFIED */
+        color: var(--text-primary); /* MODIFIED */
+        position: absolute;
+        top: -5%;
+        left: 46%;
+        transform: rotate(-15deg);
+      }
+
+      .works {
+        position: relative;
+      }
+
+      .elem-container {
+        padding: 5em 0 2em 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+        flex-wrap: wrap;
+      }
+
+      .work {
+        width: 13em;
+        text-align: left;
+      }
+
+      .about img {
+        width: 40px;
+      }
+
+      h4 {
+        font-weight: 200;
+        border-bottom: #000;
+      }
+
+      .main-footer {
+        background-color: var(--bg-secondary); /* MODIFIED */
+        border-top-left-radius: 100px;
+        border-top-right-radius: 100px;
+      }
+
+      footer img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+
+      .main-footer {
+        padding: 5em 0 3em 0;
+      }
+
+      .footer-img-container {
+        height: 7em;
+        width: 7em;
+        margin: auto;
+        overflow: hidden;
+        border-radius: 50%;
+      }
+
+      .footer-btns {
+        text-align: center;
+        padding-block: var(--secondry-padding);
+      }
+
+      .footer-btns .capsule-white {
+        border: 1px solid gray;
+      }
+
+      .end-pc {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        padding-inline: var(--primary-padding);
+      }
+      .end-pc .copyright {
+        color: var(--text-primary); /* MODIFIED */
+      }
+
+      .link-icons a {
+        background-color: var(--bg-tertiary); /* MODIFIED */
+        padding: 0.6em 0.7em;
+        border-radius: 50%;
+        margin-left: 10px;
+        border: 5px solid var(--border-capsule); /* MODIFIED */
+        color: var(--text-primary); /* NEW */
+      }
+
+      .link-icons {
+        display: none;
+      }
+
+      /* --- START: NEW STYLES FOR PROJECTS --- */
+      .project-toggle-wrapper {
+        width: 100%;
+        margin-top: 1.5em;
+      }
+
+      .view-projects-btn {
+        background: transparent;
+        border: 1px solid var(--border-secondary); /* MODIFIED */
+        padding: 0.8em 1.5em;
+        border-radius: 30px;
+        font-family: "Ot-medium";
+        font-size: 0.9em;
+        color: var(--text-primary); /* MODIFIED */
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+      }
+
+      .view-projects-btn:hover {
+        background: var(--bg-secondary); /* MODIFIED */
+        border-color: var(--text-primary); /* MODIFIED */
+      }
+
+      .view-projects-btn .icon-plus {
+        display: inline-block;
+        font-size: 1.2em;
+        font-family: "Ot-light";
+        transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        line-height: 1;
+      }
+
+      .view-projects-btn.active .icon-plus {
+        transform: rotate(45deg);
+      }
+
+      .projects-container {
+        /* Hidden by default */
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+
+        /* Layout */
+        width: 100%;
+        display: flex;
+        gap: 1.5em;
+        padding-top: 0; /* No padding when hidden */
+
+        /* Animation */
+        transition: max-height 0.5s ease-out, opacity 0.3s ease-in-out,
+          padding-top 0.5s ease-out;
+      }
+
+      .projects-container.show {
+        /* Shown state */
+        max-height: 1000px; /* Arbitrary large value */
+        opacity: 1;
+        padding-top: 2.5em; /* Add padding only when shown */
+      }
+
+      .project-card {
+        flex: 1;
+        background: var(--bg-secondary); /* MODIFIED */
+        border-radius: 20px;
+        padding: 1.5em;
+        border: 1px solid var(--border-tertiary); /* MODIFIED */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+      }
+
+      .project-card h4 {
+        font-family: "Ot-medium";
+        font-size: 1.3em;
+        margin-bottom: 0.5em;
+      }
+
+      .project-card p {
+        font-size: 0.9em;
+        line-height: 1.5;
+        margin-bottom: 1.5em;
+      }
+
+      .project-card .capsule {
+        padding: 0.8em 1.5em;
+        font-size: 0.9em;
+      }
+
+      .about-me-wrapper {
+        background-color: var(--bg-secondary); /* MODIFIED */
+      }
+
+      .about-me {
+        background-color: var(--bg-primary); /* MODIFIED */
+        padding: var(--block-padding) var(--primary-padding);
+        border-bottom-left-radius: 100px;
+        border-bottom-right-radius: 100px;
+      }
+
+      .about-me-content {
+        display: flex;
+        align-items: center;
+        gap: 4em;
+        max-width: 1200px; /* Limit width */
+        margin: 0 auto;
+      }
+
+      .about-me-image {
+        flex: 1;
+        height: 500px;
+        background-color: var(--border-tertiary); /* MODIFIED */
+        border-radius: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Ot-medium";
+        color: var(--text-primary); /* MODIFIED */
+        background-image: url("./assets/Snapchat-211615248.jpg");
+        background-size: cover;
+        background-position: center bottom;
+        min-height: 300px; /* For flex shrink */
+      }
+
+      .about-me-text {
+        flex: 1.5; /* Give text more space */
+        text-align: left;
+      }
+
+      .about-me-text h2 {
+        font-size: 3em;
+        margin-bottom: 0.8em;
+        text-align: left;
+      }
+
+      .about-me-text p {
+        font-size: 1em;
+        line-height: 1.7;
+        margin-bottom: 1.5em;
+      }
+
+      .about-me-text .capsule {
+        padding: 1em 2em; /* Slightly smaller */
+      }
+
+      /* --- NEW: Theme Toggle Button Styles --- */
+      .theme-toggle {
+        padding: 0.8em 1em;
+        font-size: 0.8em;
+        line-height: 1;
+      }
+      .theme-toggle-mobile {
+        cursor: pointer;
+        display: flex; /* NEW: to center icon */
+        align-items: center; /* NEW: to center icon */
+        justify-content: center; /* NEW: to center icon */
+      }
+      /* --- END: Theme Toggle Button Styles --- */
+
+      @media (max-width: 802px) {
+        .pc {
+          display: none;
+        }
+
+        .hero {
+          height: 70vh;
+        }
+
+        .mobile {
+          display: flex;
+        }
+
+        h1 {
+          font-size: 2.5em;
+          line-height: 1.2;
+        }
+
+        h2 {
+          font-size: 1.5em;
+          letter-spacing: 0.01vw;
+          line-height: 1.5;
+        }
+
+        .marquee {
+          padding: 3em 0 6em 0;
+        }
+
+        .elem-container {
+          padding-top: 6em;
+          gap: 20px;
+        }
+
+        .link-icons {
+          display: block; /* This was already block, but ensuring it's correct */
+          display: flex; /* NEW: To align icons horizontally */
+          align-items: center; /* NEW: To align icons vertically */
+        }
+
+        .end-links {
+          display: none;
+        }
+
+        .work {
+          width: 10em;
+          text-align: left;
+        }
+
+        .rot-btn {
+          left: 40% !important;
+        }
+
+        /* START: New Experience Media Query */
+        .experience {
+          flex-direction: column;
+          gap: 1.5em; /* Increased gap for title */
+          padding-inline: var(--primary-padding);
+          max-width: 100%; /* NEW: Allow full width on mobile */
+        }
+
+        .experience-item {
+          flex-direction: column;
+          gap: 1em;
+          padding: 2em 0;
+        }
+
+        .exp-desc {
+          flex: 1; /* Reset flex */
+        }
+        .exp-desc p {
+          font-size: 0.9em; /* Match original p */
+        }
+        /* END: New Experience Media Query */
+
+        /* START: Projects Media Query - REMOVED */
+        /* END: Projects Media Query - REMOVED */
+
+        /* --- START: NEW PROJECT MEDIA QUERY --- */
+        .projects-container {
+          flex-direction: column; /* Stack cards on mobile */
+          gap: 1em;
+        }
+
+        .project-card {
+          padding: 1.2em;
+        }
+
+        .project-card h4 {
+          font-size: 1.2em;
+        }
+        /* --- END: NEW PROJECT MEDIA QUERY --- */
+
+        /* --- START: MEDIA QUERY FOR NEW ABOUT ME --- */
+        .about-me {
+          padding: var(--section-padding) var(--primary-padding);
+        }
+        .about-me-content {
+          flex-direction: column;
+          gap: 2em;
+        }
+        .about-me-image {
+          width: 100%;
+          max-width: 300px;
+          height: 300px;
+        }
+        .about-me-text {
+          text-align: center;
+        }
+        .about-me-text h2 {
+          font-size: 2.5em;
+          text-align: center;
+        }
+        /* --- END: MEDIA QUERY FOR NEW ABOUT ME --- */
+      }
+
+      @media (max-width: 423px) {
+        nav .capsule {
+          padding: 2vw 3vw;
+          font-size: 3vw;
+        }
+        .copyright {
+          font-size: 3.5vw;
+        }
+        .rot-btn {
+          left: 38% !important;
+        }
+
+        h2 {
+          font-size: 1.4em;
+        }
+      }
+
+      @media (max-width: 332px) {
+        nav {
+          padding: 0;
+        }
+      }
+
+      @media (max-height: 774px) {
+        .hero {
+          padding-block: var(--secondry-padding);
+          gap: 1em;
+          /* line-height: 5em; */
+        }
+      }
+      /* --- End style.css --- */
