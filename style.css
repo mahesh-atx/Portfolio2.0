@@ -197,7 +197,7 @@ li,
 html,
 body {
   height: 100%;
-  overflow: hidden;
+  width: 100%;
 }
 
 #main {
