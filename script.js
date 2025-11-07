@@ -1,7 +1,7 @@
 try {
   const locoScroll = new LocomotiveScroll({
     el: document.querySelector("#main"),
-    smooth: true
+    smooth: true,
   });
 } catch (e) {
   console.warn("Locomotive Scroll not initialized.", e);
@@ -46,12 +46,17 @@ if (copyEmailBtn) {
     const email = "Dongaremahesh10@gmail.com";
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(email).then(() => {
-        copyEmailBtn.textContent = "Copied!";
-        setTimeout(() => { copyEmailBtn.textContent = "Copy"; }, 2000);
-      }).catch(() => {
-        copyEmailFallback(email, copyEmailBtn);
-      });
+      navigator.clipboard
+        .writeText(email)
+        .then(() => {
+          copyEmailBtn.textContent = "Copied!";
+          setTimeout(() => {
+            copyEmailBtn.textContent = "Copy";
+          }, 2000);
+        })
+        .catch(() => {
+          copyEmailFallback(email, copyEmailBtn);
+        });
     } else {
       copyEmailFallback(email, copyEmailBtn);
     }
@@ -66,7 +71,9 @@ function copyEmailFallback(text, buttonEl) {
   try {
     document.execCommand("copy");
     buttonEl.textContent = "Copied!";
-    setTimeout(() => { buttonEl.textContent = "Copy"; }, 2000);
+    setTimeout(() => {
+      buttonEl.textContent = "Copy";
+    }, 2000);
   } catch (err) {
     console.error("Failed to copy email: ", err);
     buttonEl.textContent = "Failed";
@@ -77,7 +84,9 @@ function copyEmailFallback(text, buttonEl) {
 const projectToggleButtons = document.querySelectorAll(".view-projects-btn");
 projectToggleButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    const projectsContainer = button.closest(".experience-item")?.querySelector(".projects-container");
+    const projectsContainer = button
+      .closest(".experience-item")
+      ?.querySelector(".projects-container");
     if (projectsContainer) {
       button.classList.toggle("active");
       if (button.classList.contains("active")) {
