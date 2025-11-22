@@ -39,12 +39,31 @@
   --border-capsule-hover: #555;
 }
 
+/* === Masked Lines Animation CSS === */
+.line-mask {
+  display: block; /* Ensures each line is on a new row */
+  overflow: hidden; /* Hides the text when it's translated down */
+  line-height: 1.2; /* Matches your H1 line-height */
+}
+
+.line-mask span {
+  display: block; /* Essential for transform to work */
+  text-align: center;
+  /* We don't set transform here to avoid FOUC issues, GSAP handles 'from' */
+}
+
+/* Specific alignment for the About section which might not be centered */
+.about .line-mask span {
+  text-align: center;
+}
+/* ================================== */
+
 #main,
 .home,
 .radius-container,
 .about,
 .experience,
-.projects-section, /* Added projects-section */
+.projects-section,
 .main-footer,
 .about-me,
 .about-me-wrapper,
@@ -533,7 +552,6 @@ footer img {
   padding: 1.5em;
   border: 1px solid var(--border-tertiary);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-  /* Ensure consistent height in grid */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -618,7 +636,7 @@ footer img {
 .about-me,
 .about,
 .experience,
-.projects-section, /* Added projects-section */
+.projects-section,
 .main-footer {
   position: relative;
   overflow: hidden;
@@ -629,7 +647,7 @@ footer img {
   z-index: 2;
 }
 
-/* Base doodle styles (visible by default) */
+/* Base doodle styles */
 .section-doodle {
   position: absolute;
   width: 120px;
@@ -639,7 +657,6 @@ footer img {
   pointer-events: none;
 }
 
-/* Desktop / large viewport positions */
 .doodle-hero-1 {
   top: 75%;
   left: 70%;
@@ -655,7 +672,7 @@ footer img {
 
 .doodle-about-me-1 {
   top: 115px;
-  left: 66%;
+  left: 48%;
   width: 110px;
   transform: rotate(5deg);
 }
@@ -679,7 +696,6 @@ footer img {
   transform: rotate(15deg);
 }
 
-/* Adjusted experience doodles (desktop) */
 .doodle-exp-2 {
   top: 33%;
   left: 74%;
@@ -691,7 +707,7 @@ footer img {
   left: 24%;
   width: 100px;
   transform: rotate(-5deg);
-} /* changed bottom from 86% to 25% */
+}
 .doodle-exp-4 {
   bottom: 15%;
   left: 58%;
@@ -699,7 +715,6 @@ footer img {
   transform: rotate(18deg);
 }
 
-/* New project doodle positions */
 .doodle-proj-1 {
   top: 15%;
   left: 74%;
@@ -720,7 +735,7 @@ footer img {
   transform: rotate(0deg);
 }
 
-/* === Responsive: make doodles visible and reposition them for smaller screens === */
+/* Responsive */
 @media (max-width: 802px) {
   .pc {
     display: none;
@@ -821,14 +836,12 @@ footer img {
     text-align: center;
   }
 
-  /* Make doodles visible on mobile and scale them down so they don't cover content */
   .section-doodle {
     display: block;
     opacity: 0.85;
-    width: clamp(60px, 12vw, 120px); /* scales between 60px and 120px */
+    width: clamp(60px, 12vw, 120px);
   }
 
-  /* reposition doodles so they sit near the correct section on mobile */
   .doodle-hero-1 {
     top: auto;
     bottom: 8%;
@@ -894,7 +907,6 @@ footer img {
     transform: rotate(12deg);
   }
 
-  /* New mobile doodle positions */
   .doodle-proj-1 {
     top: 8%;
     left: 72%;
@@ -940,7 +952,6 @@ footer img {
     height: 80vh;
   }
 
-  /* extra micro-adjustments for very small phones */
   .section-doodle {
     opacity: 0.8;
   }
