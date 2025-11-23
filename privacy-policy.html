@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy Policy — Mahesh</title>
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="./favicon/site.webmanifest" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.css"
+    />
+    <script
+      src="https://kit.fontawesome.com/ae8ff12b97.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="./fonts.css" />
+
+    <style>
+      /* --- REUSING YOUR VARIABLES FOR CONSISTENCY --- */
+      :root {
+        --primary-padding: 5.2vw;
+        --secondry-padding: 3em;
+        --block-padding: 5em;
+        --section-padding: 3.5em;
+
+        --bg-primary: #efeded;
+        --bg-secondary: #f9f8f9;
+        --bg-tertiary: #fff;
+        --bg-accent: #252425;
+
+        --text-primary: #363636;
+        --text-secondary: #282727;
+        --text-accent: #f9f8f9;
+        --text-heading: #252425;
+
+        --border-primary: #dcdcdc;
+        --border-secondary: #c0c0c0;
+        --border-tertiary: #e0e0e0;
+        --border-capsule: #f0f1ef;
+        --border-capsule-hover: #bdbdbd;
+      }
+
+      /* Dark Mode Variables */
+      body.dark-mode {
+        --bg-primary: #121212; /* Fallback for body */
+      }
+
+      #main.dark-mode {
+        --bg-primary: #121212;
+        --bg-secondary: #1e1e1e;
+        --bg-tertiary: #2a2a2a;
+        --bg-accent: #f9f8f9;
+
+        --text-primary: #b0b0b0;
+        --text-secondary: #dcdcdc;
+        --text-accent: #1e1e1e;
+        --text-heading: #f9f8f9;
+
+        --border-primary: #444444;
+        --border-secondary: #555555;
+        --border-tertiary: #333333;
+        --border-capsule: #2a2a2a;
+        --border-capsule-hover: #555;
+      }
+
+      /* Base Styles */
+      * {
+        padding: 0%;
+        margin: 0%;
+        box-sizing: border-box;
+        font-family: "Ot-light", sans-serif;
+      }
+
+      html, body {
+        height: 100%;
+        width: 100%;
+      }
+
+      #main {
+        background-color: var(--bg-primary);
+        min-height: 100vh;
+        transition: background-color 0.3s ease;
+      }
+
+      /* Reusing Navigation Styles */
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 10vh; /* Slightly taller for standalone page */
+        padding-inline: var(--primary-padding);
+        background-color: var(--bg-secondary);
+      }
+
+      .radius-container {
+        /* Adjusted for a simple header look */
+        padding-top: 0; 
+        background-color: var(--bg-secondary);
+        border-bottom-left-radius: 50px;
+        border-bottom-right-radius: 50px;
+        padding-bottom: 2em;
+      }
+
+      /* Typography */
+      h1 {
+        font-size: 3em;
+        font-family: "Ot-light", sans-serif;
+        color: var(--text-heading);
+        margin-bottom: 0.5em;
+      }
+      
+      h2 {
+        font-size: 1.8em;
+        font-family: "Ot-medium", sans-serif;
+        color: var(--text-heading);
+        margin-top: 1.5em;
+        margin-bottom: 0.5em;
+      }
+
+      p, li {
+        font-family: "Ot-light", sans-serif;
+        font-size: 1em;
+        color: var(--text-primary);
+        line-height: 1.6;
+        margin-bottom: 1em;
+      }
+      
+      ul {
+        padding-left: 1.5em;
+        margin-bottom: 1em;
+      }
+      
+      li {
+        list-style: disc;
+        display: list-item; /* Resetting inline-block from index.html if needed */
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      /* Buttons / Capsules */
+      .capsule {
+        padding: 0.8em 1.5em;
+        border-radius: 30px;
+        font-size: 0.9em;
+        cursor: pointer;
+      }
+      
+      .btn-border {
+        border: 1px solid var(--border-secondary);
+      }
+      
+      .white-capsule {
+        background-color: var(--bg-tertiary);
+        color: var(--text-primary);
+      }
+      
+      /* Theme Toggle */
+      .theme-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background-color: var(--bg-tertiary);
+        border: 1px solid var(--border-secondary);
+        color: var(--text-heading);
+        cursor: pointer;
+      }
+
+      /* Privacy Content Specifics */
+      .privacy-wrapper {
+        padding: var(--block-padding) var(--primary-padding);
+        max-width: 900px;
+        margin: 0 auto;
+        min-height: 60vh;
+      }
+
+      .back-btn-container {
+        margin-bottom: 2em;
+      }
+      
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5em;
+        color: var(--text-primary);
+        font-family: "Ot-medium", sans-serif;
+        font-size: 1.1em;
+        transition: transform 0.3s ease;
+      }
+      
+      .back-btn:hover {
+        transform: translateX(-5px);
+      }
+
+      /* Footer */
+      .main-footer {
+        background-color: var(--bg-secondary);
+        border-top-left-radius: 50px;
+        border-top-right-radius: 50px;
+        padding: 3em var(--primary-padding);
+        text-align: center;
+      }
+      
+      .copyright {
+        color: var(--text-primary);
+        font-size: 0.9em;
+      }
+
+      /* Custom Cursor (reused) */
+      .custom-cursor {
+        width: 20px;
+        height: 20px;
+        background-color: #fff;
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 99999;
+        mix-blend-mode: difference;
+        display: none;
+      }
+
+      .custom-cursor-follower {
+        width: 40px;
+        height: 40px;
+        border: 1px solid #fff;
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 99998;
+        mix-blend-mode: difference;
+        display: none;
+        transition: width 0.3s, height 0.3s, background-color 0.3s;
+      }
+
+      @media (min-width: 768px) {
+        .custom-cursor, .custom-cursor-follower { display: block; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Cursor Elements -->
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-follower"></div>
+
+    <div id="main">
+      <!-- Header Area -->
+      <div class="radius-container">
+        <nav>
+          <div class="logo">
+             <a href="index.html" style="font-size: 1.5em; font-family: 'Ot-medium', sans-serif; color: var(--text-heading);">Mahesh.</a>
+          </div>
+          <div>
+            <button class="theme-toggle">
+               <i class="fa-solid fa-moon"></i>
+            </button>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Main Content -->
+      <div class="privacy-wrapper">
+        <div class="back-btn-container">
+           <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+        </div>
+
+        <h1>Privacy Policy</h1>
+        <p><strong>Last Updated:</strong> November 2025</p>
+
+        <h2>1. Introduction</h2>
+        <p>
+          Welcome to my portfolio website. I value your privacy and am committed to protecting your personal data. This privacy policy explains how I handle any information you might share while visiting this site.
+        </p>
+
+        <h2>2. Information I Collect</h2>
+        <p>
+          Currently, this website is a static portfolio used to showcase my work. I do not actively collect personal data (like names, emails, or phone numbers) unless you voluntarily provide it by:
+        </p>
+        <ul>
+            <li>Sending me an email via the contact links.</li>
+            <li>Connecting with me on social media platforms linked here.</li>
+        </ul>
+
+        <h2>3. Cookies and Analytics</h2>
+        <p>
+          This website may use local storage to save your preferences, such as the <strong>Dark/Light mode</strong> setting, to improve your browsing experience. This is stored locally on your device and is not sent to any server.
+        </p>
+
+        <h2>4. External Links</h2>
+        <p>
+          My portfolio contains links to external websites (e.g., LinkedIn, GitHub, Instagram, Live Projects). Please be aware that I am not responsible for the content or privacy practices of these external sites.
+        </p>
+
+        <h2>5. Contact Me</h2>
+        <p>
+          If you have any questions about this privacy policy, please feel free to contact me at:<br>
+          <a href="mailto:Dongaremahesh10@gmail.com" style="text-decoration: underline; color: var(--text-heading);">Dongaremahesh10@gmail.com</a>
+        </p>
+      </div>
+
+      <!-- Footer -->
+      <footer class="main-footer">
+        <span class="copyright">© 2024 Mahesh Dongare. All rights reserved.</span>
+      </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.min.js"></script>
+
+    <script>
+      // 1. Theme Logic
+      const mainElement = document.getElementById("main");
+      const themeToggleBtn = document.querySelector(".theme-toggle");
+      const themeIcon = themeToggleBtn.querySelector("i");
+
+      // Check saved theme
+      if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-mode");
+        mainElement.classList.add("dark-mode");
+        themeIcon.classList.remove("fa-moon");
+        themeIcon.classList.add("fa-sun");
+      }
+
+      themeToggleBtn.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+        mainElement.classList.toggle("dark-mode");
+        
+        const isDark = document.body.classList.contains("dark-mode");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+        
+        if (isDark) {
+            themeIcon.classList.remove("fa-moon");
+            themeIcon.classList.add("fa-sun");
+        } else {
+            themeIcon.classList.remove("fa-sun");
+            themeIcon.classList.add("fa-moon");
+        }
+      });
+
+      // 2. Locomotive Scroll
+      const locoScroll = new LocomotiveScroll({
+        el: document.querySelector("#main"),
+        smooth: true,
+      });
+
+      // 3. Custom Cursor Logic
+      const cursor = document.querySelector(".custom-cursor");
+      const follower = document.querySelector(".custom-cursor-follower");
+
+      gsap.set(cursor, { xPercent: -50, yPercent: -50 });
+      gsap.set(follower, { xPercent: -50, yPercent: -50 });
+
+      window.addEventListener("mousemove", (e) => {
+          gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
+          gsap.to(follower, { x: e.clientX, y: e.clientY, duration: 0.5 });
+      });
+
+      // Cursor interactions
+      const interactiveElements = document.querySelectorAll("a, button");
+      interactiveElements.forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          gsap.to(follower, { scale: 1.8, backgroundColor: "#fff", mixBlendMode: "difference", duration: 0.3 });
+          gsap.to(cursor, { opacity: 0, duration: 0.3 });
+        });
+        el.addEventListener("mouseleave", () => {
+          gsap.to(follower, { scale: 1, backgroundColor: "transparent", duration: 0.3 });
+          gsap.to(cursor, { opacity: 1, duration: 0.3 });
+        });
+      });
+    </script>
+  </body>
+</html>
