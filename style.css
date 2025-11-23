@@ -39,6 +39,49 @@
   --border-capsule-hover: #555;
 }
 
+/* === Dual Custom Cursor Styles === */
+/* The Dot */
+.custom-cursor {
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  mix-blend-mode: difference;
+  display: none; /* Hidden on mobile */
+}
+
+/* The Follower Ring */
+.custom-cursor-follower {
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99998;
+  mix-blend-mode: difference;
+  display: none; /* Hidden on mobile */
+  /* We use GSAP for movement, but CSS transitions for property changes like opacity/color */
+  transition: width 0.3s, height 0.3s, background-color 0.3s;
+}
+
+/* Only show cursor on desktops */
+@media (min-width: 768px) {
+  .custom-cursor,
+  .custom-cursor-follower {
+    display: block;
+  }
+}
+/* ================================= */
+
 /* === Masked Lines Animation CSS === */
 .line-mask {
   display: block; /* Ensures each line is on a new row */
@@ -672,7 +715,7 @@ footer img {
 
 .doodle-about-me-1 {
   top: 115px;
-  left: 48%;
+  left: 66%;
   width: 110px;
   transform: rotate(5deg);
 }

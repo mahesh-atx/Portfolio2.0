@@ -35,10 +35,1116 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="./fonts.css" />
-    <link rel="stylesheet" href="./style.css" />
+
+    <style>
+      :root {
+        --primary-padding: 5.2vw;
+        --secondry-padding: 3em;
+        --block-padding: 5em;
+        --section-padding: 3.5em;
+
+        --bg-primary: #efeded;
+        --bg-secondary: #f9f8f9;
+        --bg-tertiary: #fff;
+        --bg-accent: #252425;
+
+        --text-primary: #363636;
+        --text-secondary: #282727;
+        --text-accent: #f9f8f9;
+        --text-heading: #252425;
+
+        --border-primary: #dcdcdc;
+        --border-secondary: #c0c0c0;
+        --border-tertiary: #e0e0e0;
+        --border-capsule: #f0f1ef;
+        --border-capsule-hover: #bdbdbd;
+      }
+
+      #main.dark-mode {
+        --bg-primary: #121212;
+        --bg-secondary: #1e1e1e;
+        --bg-tertiary: #2a2a2a;
+        --bg-accent: #f9f8f9;
+
+        --text-primary: #b0b0b0;
+        --text-secondary: #dcdcdc;
+        --text-accent: #1e1e1e;
+        --text-heading: #f9f8f9;
+
+        --border-primary: #444444;
+        --border-secondary: #555555;
+        --border-tertiary: #333333;
+        --border-capsule: #2a2a2a;
+        --border-capsule-hover: #555;
+      }
+
+      /* === Dual Custom Cursor Styles === */
+      /* The Dot */
+      .custom-cursor {
+        width: 20px;
+        height: 20px;
+        background-color: #fff;
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 99999;
+        mix-blend-mode: difference;
+        display: none; /* Hidden on mobile */
+      }
+
+      /* The Follower Ring */
+      .custom-cursor-follower {
+        width: 40px;
+        height: 40px;
+        background-color: transparent;
+        border: 1px solid #fff;
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 99998;
+        mix-blend-mode: difference;
+        display: none; /* Hidden on mobile */
+        /* We use GSAP for movement, but CSS transitions for property changes like opacity/color */
+        transition: width 0.3s, height 0.3s, background-color 0.3s;
+      }
+
+      /* Only show cursor on desktops */
+      @media (min-width: 768px) {
+        .custom-cursor,
+        .custom-cursor-follower {
+          display: block;
+        }
+      }
+      /* ================================= */
+
+      /* === Masked Lines Animation CSS === */
+      .line-mask {
+        display: block; /* Ensures each line is on a new row */
+        overflow: hidden; /* Hides the text when it's translated down */
+        line-height: 1.2; /* Matches your H1 line-height */
+      }
+
+      .line-mask span {
+        display: block; /* Essential for transform to work */
+        text-align: center;
+        /* We don't set transform here to avoid FOUC issues, GSAP handles 'from' */
+      }
+
+      /* Specific alignment for the About section which might not be centered */
+      .about .line-mask span {
+        text-align: center;
+      }
+      /* ================================== */
+
+      #main,
+      .home,
+      .radius-container,
+      .about,
+      .experience,
+      .projects-section,
+      .main-footer,
+      .about-me,
+      .about-me-wrapper,
+      .project-card,
+      .capsule,
+      .btn-border,
+      .link-icons a,
+      .view-projects-btn,
+      .theme-toggle,
+      .theme-toggle-mobile,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      p,
+      li,
+      .exp-info h4,
+      .exp-info h5,
+      .mail-sp,
+      .copyright,
+      .work {
+        transition: background-color 0.3s ease, color 0.3s ease,
+          border-color 0.3s ease;
+      }
+
+      * {
+        padding: 0%;
+        margin: 0%;
+        box-sizing: border-box;
+        font-family: "Ot-light", sans-serif;
+      }
+
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+      }
+
+      #main {
+        background-color: var(--bg-primary);
+      }
+
+      .home {
+        min-height: 100vh;
+        width: 100%;
+        position: relative;
+        z-index: 99;
+        background-color: var(--bg-secondary);
+        border-bottom-left-radius: 100px;
+        border-bottom-right-radius: 100px;
+      }
+
+      .radius-container {
+        padding-top: var(--secondry-padding);
+        background-color: var(--bg-primary);
+        border-bottom-left-radius: 100px;
+        border-bottom-right-radius: 100px;
+      }
+
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 7vh;
+        padding-inline: var(--primary-padding);
+      }
+
+      h1 {
+        font-size: 3.5em;
+        line-height: 1.2;
+        font-family: "Ot-light", sans-serif;
+        color: var(--text-heading);
+      }
+
+      .span-slash {
+        color: var(--text-heading);
+        display: inline !important;
+      }
+
+      .emo-span {
+        color: var(--text-heading);
+      }
+
+      h2 {
+        font-size: 2.5em;
+        letter-spacing: 0.01vw;
+        line-height: 1.5;
+        font-family: "Ot-light", sans-serif;
+        color: var(--text-heading);
+      }
+
+      h3 {
+        font-size: 1.8em;
+        letter-spacing: 0.01vw;
+        line-height: 1;
+        font-family: "Ot-light", sans-serif;
+        color: var(--text-heading);
+      }
+
+      h4 {
+        font-family: "Ot-light", sans-serif;
+        font-size: 1.2em;
+        font-weight: 100;
+        color: var(--text-secondary);
+      }
+
+      h5 {
+        font-family: "Ot-light", sans-serif;
+        font-size: 0.9em;
+        line-height: 1.5;
+        font-weight: 100;
+        color: var(--text-primary);
+      }
+
+      p {
+        font-family: "Ot-light", sans-serif;
+        font-size: 0.9em;
+        color: var(--text-primary);
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      li {
+        display: inline-block;
+        color: var(--text-primary);
+        list-style: none;
+        padding-inline: 10px;
+        font-weight: 400;
+      }
+
+      span {
+        text-align: center;
+        display: block;
+      }
+
+      a {
+        width: fit-content;
+        text-decoration: none;
+        color: inherit;
+        font-size: initial;
+      }
+
+      .capsule {
+        outline: 0;
+        border: 0;
+        padding: 1.2em 2em;
+        border-radius: 30px;
+      }
+
+      /* Magnetic Button base styles */
+      .magnetic-btn {
+        display: inline-block;
+        /* Ensure it can be transformed */
+      }
+
+      .btn-border {
+        border: 5px solid var(--border-capsule);
+      }
+
+      .btn-border:hover {
+        border: 5px solid var(--border-capsule-hover);
+      }
+
+      .white-capsule {
+        background-color: var(--bg-tertiary);
+        color: var(--text-primary);
+      }
+
+      .black-capsule {
+        background-color: var(--bg-accent);
+        color: var(--text-accent);
+      }
+
+      .mobile {
+        display: none;
+      }
+
+      .footer-btns a:nth-child(1) {
+        margin-right: 10px;
+      }
+
+      .mail-sp {
+        font-size: 0.8em;
+        font-family: "Ot-medium", sans-serif;
+        color: var(--text-heading);
+      }
+
+      .min-capsule {
+        outline: none;
+        border: none;
+        background: var(--bg-tertiary);
+        height: 5vh;
+        border-radius: 20px;
+        width: 6vw;
+      }
+
+      .radius-container {
+        height: 90vh;
+      }
+
+      .hero {
+        padding-block: var(--primary-padding);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2em;
+      }
+
+      .hero img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+
+      .hero .hero-img-container {
+        height: 9em;
+        width: 9em;
+        overflow: hidden;
+        border-radius: 50%;
+      }
+
+      .marquee {
+        position: static;
+        white-space: nowrap;
+        overflow-x: hidden;
+        padding: 5em 0 8em 0;
+        z-index: 9;
+      }
+
+      .marquee img {
+        margin: 0 3.3em;
+        width: 10em;
+        vertical-align: middle;
+      }
+
+      .marquee .elem {
+        display: inline-block;
+        animation-name: move;
+        animation-duration: 25s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+      }
+
+      @keyframes move {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-100%);
+        }
+      }
+
+      .about {
+        text-align: center;
+        padding-block: var(--block-padding);
+        background-color: var(--bg-secondary);
+        border-bottom-left-radius: 100px;
+        border-bottom-right-radius: 100px;
+      }
+
+      .about h2 {
+        margin: auto;
+        width: fit-content;
+        border-bottom: solid var(--text-heading);
+        border-width: thin;
+        padding-bottom: var(--primary-padding);
+      }
+
+      .experience,
+      .projects-section {
+        padding-block: var(--section-padding);
+        background-color: var(--bg-primary);
+        max-width: 65%;
+        margin: 0 auto;
+        padding-inline: 20px;
+      }
+
+      .experience-title,
+      .projects-section-title {
+        margin-bottom: 3.5em;
+      }
+      .experience-list {
+        text-align: left;
+        flex: 2;
+      }
+
+      .projects-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5em;
+      }
+
+      .experience-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 2em;
+        padding: 2.5em 0;
+        border-bottom: 2px solid var(--border-primary);
+        flex-wrap: wrap;
+      }
+
+      .experience-item:first-child {
+        padding-top: 0;
+      }
+      .experience-item:last-child {
+        border-bottom: none;
+      }
+
+      .exp-info {
+        flex: 1;
+      }
+      .exp-info h3 {
+        margin-bottom: 0.3em;
+      }
+      .exp-info h4 {
+        margin-bottom: 0.5em;
+        color: var(--text-primary);
+      }
+      .exp-info h5 {
+        font-family: "Ot-medium", sans-serif;
+        color: var(--text-heading);
+      }
+
+      .exp-desc {
+        flex: 2;
+      }
+      .exp-desc p {
+        font-size: 1em;
+        line-height: 1.6;
+      }
+
+      .works {
+        position: relative;
+        padding-top: 5em; /* Added padding to clear the rotated button */
+
+      }
+
+      .works .rot-btn {
+        background-color: var(--bg-accent);
+        color: var(--text-accent);
+        position: absolute;
+        top: -16px;
+        left: 46%;
+        transform: rotate(-15deg) translateY(-50%);
+        z-index: 5;
+      }
+
+      /* ========================================= */
+      /* REFINED SERVICES CARD STYLES START HERE */
+      /* ========================================= */
+
+      /* Focus Effect: Dim non-hovered items */
+      .elem-container {
+        padding: 2em;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 2em;
+        max-width: 1300px;
+        margin: 0 auto;
+        justify-content: center;
+      }
+
+      .elem-container:hover .work {
+        opacity: 0.4;
+        filter: blur(2px);
+        transition: opacity 0.4s ease, filter 0.4s ease;
+      }
+
+      .elem-container .work:hover {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(-8px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border-color: var(--border-secondary);
+      }
+
+      .work {
+        width: 100%;
+        text-align: left;
+        background-color: var(--bg-tertiary);
+        padding: 2.5em 2em;
+        border-radius: 24px;
+        border: 1px solid transparent;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        position: relative;
+        overflow: hidden;
+        /* Subtle shadow for depth */
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02),
+          0 2px 4px -1px rgba(0, 0, 0, 0.02);
+      }
+
+      .work img {
+        width: 65px;
+        height: 65px;
+        margin-bottom: 1.5em;
+        object-fit: contain;
+        /* Icon styling */
+        padding: 14px;
+        background-color: var(--bg-primary);
+        border-radius: 18px;
+        transition: transform 0.4s ease;
+      }
+
+      .work:hover img {
+        transform: scale(1.1) rotate(5deg);
+      }
+
+      .work h4 {
+        font-family: "Ot-medium", sans-serif;
+        font-weight: 600;
+        font-size: 1.4em;
+        border-bottom: none;
+        margin-bottom: 0.8em;
+        color: var(--text-heading);
+      }
+
+      .work p {
+        font-size: 1em;
+        line-height: 1.6;
+        color: var(--text-primary);
+        opacity: 0.9;
+      }
+
+      /* Dark mode specific tweak for cards */
+      #main.dark-mode .work {
+        background-color: var(--bg-tertiary);
+        border: 1px solid var(--border-tertiary);
+      }
+      #main.dark-mode .work:hover {
+        border-color: var(--text-primary);
+      }
+
+      /* ========================================= */
+      /* REFINED SERVICES CARD STYLES END HERE   */
+      /* ========================================= */
+
+      .main-footer {
+        background-color: var(--bg-secondary);
+        border-top-left-radius: 100px;
+        border-top-right-radius: 100px;
+      }
+
+      footer img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+
+      .main-footer {
+        padding: 5em 0 3em 0;
+      }
+
+      .footer-img-container {
+        height: 7em;
+        width: 7em;
+        margin: auto;
+        overflow: hidden;
+        border-radius: 50%;
+      }
+
+      .footer-btns {
+        text-align: center;
+        padding-block: var(--secondry-padding);
+      }
+      .footer-btns .capsule-white {
+        border: 1px solid gray;
+      }
+
+      .end-pc {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        padding-inline: var(--primary-padding);
+      }
+      .end-pc .copyright {
+        color: var(--text-primary);
+      }
+
+      .link-icons a {
+        background-color: var(--bg-tertiary);
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin-left: 10px;
+        border: 5px solid var(--border-capsule);
+        color: var(--text-primary);
+        padding: 0;
+      }
+
+      .link-icons {
+        display: none;
+      }
+
+      .project-toggle-wrapper {
+        width: 100%;
+        margin-top: 1.5em;
+      }
+
+      .view-projects-btn {
+        background: transparent;
+        border: 1px solid var(--border-secondary);
+        padding: 0.8em 1.5em;
+        border-radius: 30px;
+        font-family: "Ot-medium", sans-serif;
+        font-size: 0.9em;
+        color: var(--text-primary);
+        cursor: pointer;
+        /* transition: all 0.3s ease; */
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+      }
+
+      .view-projects-btn:hover {
+        background: var(--bg-secondary);
+        border-color: var(--text-primary);
+      }
+
+      .view-projects-btn .icon-plus {
+        display: inline-block;
+        font-size: 1.2em;
+        font-family: "Ot-light", sans-serif;
+        transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        line-height: 1;
+      }
+
+      .view-projects-btn.active .icon-plus {
+        transform: rotate(45deg);
+      }
+
+      .projects-container {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        width: 100%;
+        display: flex;
+        gap: 1.5em;
+        padding-top: 0;
+        transition: max-height 0.5s ease-out, opacity 0.3s ease-in-out,
+          padding-top 0.5s ease-out;
+      }
+
+      .projects-container.show {
+        max-height: 1000px;
+        opacity: 1;
+        padding-top: 2.5em;
+      }
+
+      /* Updated Box Styles for "Other Boxes" */
+      .project-card {
+        flex: 1;
+        background: var(--bg-secondary);
+        border-radius: 20px;
+        padding: 1.5em;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        /* Defined Borders and Shadows (Static) */
+        border: 1px solid var(--border-tertiary);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: border-color 0.3s ease, background-color 0.3s ease;
+        /* No transform on hover requested */
+      }
+
+      .project-card:hover {
+        border-color: var(--border-primary);
+        /* No transform here */
+      }
+
+      .project-card h4 {
+        font-family: "Ot-medium", sans-serif;
+        font-size: 1.3em;
+        margin-bottom: 0.5em;
+      }
+
+      .project-card p {
+        font-size: 0.9em;
+        line-height: 1.5;
+        margin-bottom: 1.5em;
+      }
+      .project-card .capsule {
+        padding: 0.8em 1.5em;
+        font-size: 0.9em;
+      }
+
+      .about-me-wrapper {
+        background-color: var(--bg-secondary);
+      }
+
+      .about-me {
+        background-color: var(--bg-primary);
+        padding: var(--block-padding) var(--primary-padding);
+        border-bottom-left-radius: 100px;
+        border-bottom-right-radius: 100px;
+      }
+
+      .about-me-content {
+        display: flex;
+        align-items: center;
+        gap: 4em;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .about-me-image {
+        flex: 1;
+        height: 500px;
+        background-color: var(--border-tertiary);
+        border-radius: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Ot-medium", sans-serif;
+        color: var(--text-primary);
+        background-image: url("./assets/Snapchat-211615248.jpg");
+        background-size: cover;
+        background-position: center bottom;
+        min-height: 300px;
+        /* Box Styles */
+        border: 1px solid var(--border-tertiary);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .about-me-text {
+        flex: 1.5;
+        text-align: left;
+      }
+      .about-me-text h2 {
+        font-size: 3em;
+        margin-bottom: 0.8em;
+        text-align: left;
+      }
+      .about-me-text p {
+        font-size: 1em;
+        line-height: 1.7;
+        margin-bottom: 1.5em;
+      }
+      .about-me-text .capsule {
+        padding: 1em 2em;
+      }
+
+      .theme-toggle {
+        padding: 0.8em 1em;
+        font-size: 0.8em;
+        line-height: 1;
+      }
+
+      .radius-container,
+      .about-me,
+      .about,
+      .experience,
+      .projects-section,
+      .main-footer {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .content-layer {
+        position: relative;
+        z-index: 2;
+      }
+
+      /* Base doodle styles */
+      .section-doodle {
+        position: absolute;
+        width: 120px;
+        height: auto;
+        z-index: 1;
+        opacity: 0.9;
+        pointer-events: none;
+      }
+
+      .doodle-hero-1 {
+        top: 75%;
+        left: 70%;
+        width: 150px;
+        transform: rotate(10deg);
+      }
+      .doodle-hero-2 {
+        top: 40%;
+        left: 78%;
+        width: 120px;
+        transform: rotate(-15deg);
+      }
+
+      .doodle-about-me-1 {
+        top: 95px;
+        left: 48%;
+        width: 110px;
+        transform: rotate(5deg);
+      }
+      .doodle-about-me-2 {
+        bottom: 20px;
+        right: 110px;
+        width: 140px;
+        transform: rotate(0deg);
+      }
+
+      .doodle-services-1 {
+        top: 10%;
+        left: 17%;
+        width: 130px;
+        transform: rotate(-10deg);
+      }
+      .doodle-services-2 {
+        bottom: 5%;
+        right: 10%;
+        width: 130px;
+        transform: rotate(15deg);
+      }
+
+      .doodle-exp-2 {
+        top: 33%;
+        left: 74%;
+        width: 110px;
+        transform: rotate(-12deg);
+      }
+      .doodle-exp-3 {
+        bottom: 85%;
+        left: 24%;
+        width: 100px;
+        transform: rotate(-5deg);
+      }
+      .doodle-exp-4 {
+        bottom: 15%;
+        left: 58%;
+        width: 120px;
+        transform: rotate(18deg);
+      }
+
+      .doodle-proj-1 {
+        top: 15%;
+        left: 74%;
+        width: 110px;
+        transform: rotate(-12deg);
+      }
+      .doodle-proj-2 {
+        bottom: 15%;
+        left: 10%;
+        width: 120px;
+        transform: rotate(18deg);
+      }
+
+      .doodle-footer-1 {
+        top: 50%;
+        left: 60%;
+        width: 110px;
+        transform: rotate(0deg);
+      }
+
+      /* Responsive */
+      @media (max-width: 802px) {
+        .pc {
+          display: none;
+        }
+        .hero {
+          height: 70vh;
+        }
+        .mobile {
+          display: flex;
+        }
+        .mobile .btns {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        h1 {
+          font-size: 2.5em;
+          line-height: 1.2;
+        }
+        h2 {
+          font-size: 1.5em;
+          letter-spacing: 0.01vw;
+          line-height: 1.5;
+        }
+        .marquee {
+          padding: 3em 0 6em 0;
+        }
+        .elem-container {
+          padding-top: 6em;
+          gap: 20px;
+        }
+        .link-icons {
+          display: flex;
+          align-items: center;
+        }
+        .end-links {
+          display: none;
+        }
+        .works{
+        padding-top: 0; /* Added padding to clear the rotated button */
+
+        }
+        .work {
+          /* width: 10em; removed in favor of grid */
+          text-align: left;
+        }
+        .rot-btn {
+          left: 40% !important;
+        }
+        .experience,
+        .projects-section {
+          flex-direction: column;
+          gap: 1.5em;
+          padding-inline: var(--primary-padding);
+          max-width: 100%;
+        }
+        .experience-item {
+          flex-direction: column;
+          gap: 1em;
+          padding: 2em 0;
+        }
+        .exp-desc {
+          flex: 1;
+        }
+        .exp-desc p {
+          font-size: 0.9em;
+        }
+
+        .projects-container {
+          flex-direction: column;
+          gap: 1em;
+        }
+
+        .projects-grid {
+          grid-template-columns: 1fr;
+          gap: 1em;
+        }
+
+        .project-card {
+          padding: 1.2em;
+        }
+        .project-card h4 {
+          font-size: 1.2em;
+        }
+        .about-me {
+          padding: var(--section-padding) var(--primary-padding);
+        }
+        .about-me-content {
+          flex-direction: column;
+          gap: 2em;
+        }
+        .about-me-image {
+          width: 100%;
+          max-width: 300px;
+          height: 300px;
+        }
+        .about-me-text {
+          text-align: center;
+        }
+        .about-me-text h2 {
+          font-size: 2.5em;
+          text-align: center;
+        }
+
+        .section-doodle {
+          display: block;
+          opacity: 0.85;
+          width: clamp(60px, 12vw, 120px);
+        }
+
+        /* Doodle queries ... */
+        .doodle-hero-1 {
+          top: auto;
+          bottom: 8%;
+          left: 70%;
+          width: clamp(60px, 12vw, 120px);
+          transform: rotate(8deg);
+        }
+        .doodle-hero-2 {
+          top: 8%;
+          left: 78%;
+          width: clamp(50px, 10vw, 100px);
+          transform: rotate(-10deg);
+        }
+        .doodle-about-me-1 {
+          top: 10%;
+          left: 60%;
+          width: clamp(60px, 11vw, 110px);
+          transform: rotate(3deg);
+        }
+        .doodle-about-me-2 {
+          bottom: 10%;
+          right: 6%;
+          width: clamp(70px, 13vw, 120px);
+          transform: rotate(0deg);
+        }
+        .doodle-services-1 {
+          top: 6%;
+          left: 6%;
+          width: clamp(50px, 10vw, 90px);
+          transform: rotate(-8deg);
+        }
+        .doodle-services-2 {
+          bottom: 6%;
+          right: 6%;
+          width: clamp(60px, 12vw, 100px);
+          transform: rotate(12deg);
+        }
+        .doodle-exp-2 {
+          top: 28%;
+          left: 72%;
+          width: clamp(50px, 10vw, 90px);
+          transform: rotate(-10deg);
+        }
+        .doodle-exp-3 {
+          bottom: 42%;
+          left: 6%;
+          width: clamp(50px, 10vw, 90px);
+          transform: rotate(-5deg);
+        }
+        .doodle-exp-4 {
+          bottom: 6%;
+          left: 50%;
+          width: clamp(60px, 12vw, 100px);
+          transform: rotate(12deg);
+        }
+        .doodle-proj-1 {
+          top: 8%;
+          left: 72%;
+          width: clamp(50px, 10vw, 90px);
+          transform: rotate(-10deg);
+        }
+        .doodle-proj-2 {
+          bottom: 8%;
+          left: 6%;
+          width: clamp(60px, 12vw, 100px);
+          transform: rotate(12deg);
+        }
+        .doodle-footer-1 {
+          top: auto;
+          bottom: 18%;
+          left: 62%;
+          width: clamp(60px, 12vw, 100px);
+          transform: rotate(0deg);
+        }
+      }
+
+      @media (max-width: 423px) {
+        nav .capsule {
+          padding: 2vw 3vw;
+          font-size: 3vw;
+        }
+        .copyright {
+          font-size: 3.5vw;
+        }
+        .rot-btn {
+          left: 38% !important;
+        }
+        h2 {
+          font-size: 1.4em;
+        }
+
+        .section-doodle {
+          display: none;
+        }
+
+        .radius-container {
+          height: 80vh;
+        }
+
+        .section-doodle {
+          opacity: 0.8;
+        }
+        /* Mobile doodle adjustments... */
+      }
+
+      @media (max-width: 332px) {
+        nav {
+          padding: 0;
+        }
+      }
+
+      @media (max-height: 774px) {
+        .hero {
+          padding-block: var(--secondry-padding);
+          gap: 1em;
+        }
+      }
+    </style>
   </head>
 
   <body>
+    <!-- Dual Custom Cursor Elements -->
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-follower"></div>
+
     <div id="main">
       <div class="home">
         <div class="radius-container">
@@ -56,14 +1162,16 @@
                 <li>
                   <a href="#"
                     ><button
-                      class="capsule white-capsule btn-border"
+                      class="capsule white-capsule btn-border magnetic-btn"
                       id="copy-email-btn"
                     >
                       Copy
                     </button></a
                   >
                   <a href="./assets/Mahesh_Resume.pdf" download
-                    ><button class="capsule white-capsule btn-border">
+                    ><button
+                      class="capsule white-capsule btn-border magnetic-btn"
+                    >
                       CV
                     </button></a
                   >
@@ -94,7 +1202,9 @@
                   >
                 </li>
                 <li>
-                  <button class="capsule white-capsule btn-border theme-toggle">
+                  <button
+                    class="capsule white-capsule btn-border theme-toggle magnetic-btn"
+                  >
                     <i class="fa-solid fa-moon"></i>
                   </button>
                 </li>
@@ -133,7 +1243,11 @@
 
           <div class="hero content-layer">
             <div class="hero-img-container">
-              <img src="./assets/Snapchat-172367734.jpg" alt />
+              <img
+                src="./assets/Snapchat-172367734.jpg"
+                alt
+                onerror="this.src='https://placehold.co/150x150?text=MD'"
+              />
             </div>
             <div class="hero-text">
               <span class="emo-span" style="text-align: center"
@@ -142,13 +1256,17 @@
               <!-- Masked Animation Structure -->
               <h1>
                 <span class="line-mask"><span>Building digital</span></span>
-                <span class="line-mask"><span>products, brands, and</span></span>
+                <span class="line-mask"
+                  ><span>products, brands, and</span></span
+                >
                 <span class="line-mask"><span>experience.</span></span>
               </h1>
             </div>
             <div>
               <a href="#"
-                ><button class="capsule black-capsule">Latest Shots</button></a
+                ><button class="capsule black-capsule magnetic-btn">
+                  Latest Shots
+                </button></a
               >
             </div>
           </div>
@@ -156,20 +1274,68 @@
 
         <div class="marquee content-layer">
           <span class="elem">
-            <img src="./assets/logos/nb.svg" alt />
-            <img src="./assets/logos/cocacola.svg" alt />
-            <img src="./assets/logos/matered.svg" alt />
-            <img src="./assets/logos/subway.svg" alt />
-            <img src="./assets/logos/codeac.svg" alt />
-            <img src="./assets/logos/adoby.svg" alt />
+            <img
+              src="./assets/logos/nb.svg"
+              alt="logo"
+              onerror="this.style.display='none'"
+            />
+            <img
+              src="./assets/logos/cocacola.svg"
+              alt="logo"
+              onerror="this.style.display='none'"
+            />
+            <img
+              src="./assets/logos/matered.svg"
+              alt="logo"
+              onerror="this.style.display='none'"
+            />
+            <img
+              src="./assets/logos/subway.svg"
+              alt="logo"
+              onerror="this.style.display='none'"
+            />
+            <img
+              src="./assets/logos/codeac.svg"
+              alt="logo"
+              onerror="this.style.display='none'"
+            />
+            <img
+              src="./assets/logos/adoby.svg"
+              alt="logo"
+              onerror="this.style.display='none'"
+            />
           </span>
           <span class="elem">
-            <img src="./assets/logos/nb.svg" alt />
-            <img src="./assets/logos/cocacola.svg" alt />
-            <img src="./assets/logos/matered.svg" alt />
-            <img src="./assets/logos/subway.svg" alt />
-            <img src="./assets/logos/codeac.svg" alt />
-            <img src="./assets/logos/adoby.svg" alt />
+            <img
+              src="./assets/logos/nb.svg"
+              alt="logo"
+              onerror="this.style.display='none'"
+            />
+            <img
+              src="./assets/logos/cocacola.svg"
+              alt="logo"
+              onerror="this.style.display='none'"
+            />
+            <img
+              src="./assets/logos/matered.svg"
+              alt="logo"
+              onerror="this.style.display='none'"
+            />
+            <img
+              src="./assets/logos/subway.svg"
+              alt="logo"
+              onerror="this.style.display='none'"
+            />
+            <img
+              src="./assets/logos/codeac.svg"
+              alt="logo"
+              onerror="this.style.display='none'"
+            />
+            <img
+              src="./assets/logos/adoby.svg"
+              alt="logo"
+              onerror="this.style.display='none'"
+            />
           </span>
         </div>
       </div>
@@ -185,8 +1351,9 @@
             <div class="about-me-content content-layer">
               <div class="about-me-image"></div>
               <div class="about-me-text">
-                
-                <h2><span class="line-mask"><span>A Bit About Me</span></span></h2>
+                <h2>
+                  <span class="line-mask"><span>A Bit About Me</span></span>
+                </h2>
                 <p>
                   Hello! I'm a passionate developer with a knack for building
                   digital solutions that are both functional and delightful to
@@ -202,7 +1369,7 @@
                 </p>
                 <a
                   href="mailto:Dongaremahesh10@gmail.com"
-                  class="capsule black-capsule btn-border"
+                  class="capsule black-capsule btn-border magnetic-btn"
                   >Let's Talk</a
                 >
               </div>
@@ -218,12 +1385,16 @@
           />
           <h2 class="content-layer">
             <!-- Masked Animation Structure -->
-            <span class="line-mask"><span>Collaborate with brands and agencies to</span></span>
-            <span class="line-mask"><span>create impactful results.</span></span>
+            <span class="line-mask"
+              ><span>Collaborate with brands and agencies to</span></span
+            >
+            <span class="line-mask"
+              ><span>create impactful results.</span></span
+            >
           </h2>
           <div class="works content-layer">
             <a href="#"
-              ><button class="white-capsule capsule rot-btn">
+              ><button class="white-capsule capsule rot-btn magnetic-btn">
                 Services
               </button></a
             >
@@ -233,6 +1404,7 @@
                   src="./assets/ux-design.png"
                   alt="UI/UX Icon"
                   width="40px"
+                  onerror="this.src='https://placehold.co/40?text=UX'"
                 />
                 <h4>UI & UX</h4>
                 <p>
@@ -245,6 +1417,7 @@
                   src="./assets/app-development.png"
                   alt="App Development Icon"
                   width="40px"
+                  onerror="this.src='https://placehold.co/40?text=App'"
                 />
                 <h4>Web & Mobile App</h4>
                 <p>
@@ -257,6 +1430,7 @@
                   src="./assets/web-programming.png"
                   alt="Design Icon"
                   width="40px"
+                  onerror="this.src='https://placehold.co/40?text=Dev'"
                 />
                 <h4>Design & Creative</h4>
                 <p>
@@ -269,6 +1443,7 @@
                   src="./assets/project.png"
                   alt="Development Icon"
                   width="40px"
+                  onerror="this.src='https://placehold.co/40?text=Code'"
                 />
                 <h4>Development</h4>
                 <p>
@@ -300,7 +1475,7 @@
           <div class="experience-title content-layer">
             <!-- Masked Animation Structure -->
             <h1>
-               <span class="line-mask"><span>Experience</span></span>
+              <span class="line-mask"><span>Experience</span></span>
             </h1>
           </div>
           <div class="experience-list content-layer">
@@ -323,7 +1498,7 @@
               </div>
 
               <div class="project-toggle-wrapper">
-                <button class="view-projects-btn">
+                <button class="view-projects-btn magnetic-btn">
                   View Associated Projects <span class="icon-plus">+</span>
                 </button>
               </div>
@@ -337,7 +1512,9 @@
                     in API integration, backend development, and real-time
                     messaging solutions.
                   </p>
-                  <a href="#" class="capsule white-capsule btn-border"
+                  <a
+                    href="#"
+                    class="capsule white-capsule btn-border magnetic-btn"
                     >Working</a
                   >
                 </div>
@@ -371,7 +1548,7 @@
               </div>
 
               <div class="project-toggle-wrapper">
-                <button class="view-projects-btn">
+                <button class="view-projects-btn magnetic-btn">
                   View Associated Projects <span class="icon-plus">+</span>
                 </button>
               </div>
@@ -390,7 +1567,7 @@
                   <a
                     href="https://mahesh-coder007.github.io/Personal-Portfolio/"
                     target="_blank"
-                    class="capsule white-capsule btn-border"
+                    class="capsule white-capsule btn-border magnetic-btn"
                     >View Live</a
                   >
                 </div>
@@ -431,7 +1608,9 @@
 
           <div class="projects-section-title content-layer">
             <!-- Masked Animation Structure -->
-            <h1><span class="line-mask"><span>Projects</span></span></h1>
+            <h1>
+              <span class="line-mask"><span>Projects</span></span>
+            </h1>
           </div>
           <div class="projects-grid content-layer">
             <div class="project-card">
@@ -458,7 +1637,7 @@
               <a
                 href="https://lynq-8zfp.onrender.com/"
                 target="_blank"
-                class="capsule white-capsule btn-border"
+                class="capsule white-capsule btn-border magnetic-btn"
                 >View Live</a
               >
             </div>
@@ -473,23 +1652,29 @@
           />
 
           <div class="footer-img-container content-layer">
-            <img src="./assets/download.gif" alt />
+            <img
+              src="./assets/download.gif"
+              alt
+              onerror="this.src='https://placehold.co/100x100?text=Hi'"
+            />
           </div>
           <div class="footer-text content-layer">
-             <!-- Masked Animation Structure -->
+            <!-- Masked Animation Structure -->
             <h1>
-                <span class="line-mask"><span>Tell me about your next</span></span>
-                <span class="line-mask"><span>project</span></span>
+              <span class="line-mask"
+                ><span>Tell me about your next</span></span
+              >
+              <span class="line-mask"><span>project</span></span>
             </h1>
           </div>
           <div class="footer-btns content-layer">
             <a href="mailto:Dongaremahesh10@gmail.com"
-              ><button class="capsule black-capsule btn-border">
+              ><button class="capsule black-capsule btn-border magnetic-btn">
                 Email me
               </button></a
             >
             <a href="#"
-              ><button class="capsule white-capsule btn-border">
+              ><button class="capsule white-capsule btn-border magnetic-btn">
                 Whats app
               </button></a
             >
@@ -542,6 +1727,286 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.min.js"></script>
-    <script src="./script.js"></script>
+
+    <script>
+      gsap.registerPlugin(ScrollTrigger);
+
+      // 1. Initialize Locomotive Scroll with ScrollTrigger Proxy
+      const locoScroll = new LocomotiveScroll({
+        el: document.querySelector("#main"),
+        smooth: true,
+      });
+
+      ScrollTrigger.scrollerProxy("#main", {
+        scrollTop(value) {
+          return arguments.length
+            ? locoScroll.scrollTo(value, 0, 0)
+            : locoScroll.scroll.instance.scroll.y;
+        },
+        getBoundingClientRect() {
+          return {
+            top: 0,
+            left: 0,
+            width: window.innerWidth,
+            height: window.innerHeight,
+          };
+        },
+        pinType: document.querySelector("#main").style.transform
+          ? "transform"
+          : "fixed",
+      });
+
+      locoScroll.on("scroll", ScrollTrigger.update);
+      ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
+      ScrollTrigger.refresh();
+
+      // 2. Setup Masked Text Animations
+      function initMaskedAnimations() {
+        const headings = document.querySelectorAll(
+          ".hero h1, .about h2,.about-me-content h2, .experience-title h1, .projects-section-title h1, .footer-text h1"
+        );
+
+        headings.forEach((heading) => {
+          const lines = heading.querySelectorAll(".line-mask span");
+
+          if (lines.length > 0) {
+            gsap.from(lines, {
+              y: "110%",
+              opacity: 0,
+              duration: 1,
+              ease: "power4.out",
+              stagger: 0.1,
+              scrollTrigger: {
+                trigger: heading,
+                scroller: "#main",
+                start: "top 80%",
+                end: "bottom 20%",
+                toggleActions: "play none none reverse",
+              },
+            });
+          }
+        });
+      }
+
+      initMaskedAnimations();
+
+      // 3. Magnetic Buttons Logic
+      function initMagneticButtons() {
+        const magnets = document.querySelectorAll(".magnetic-btn");
+        magnets.forEach((magnet) => {
+          magnet.addEventListener("mousemove", (e) => {
+            const bound = magnet.getBoundingClientRect();
+            // Calculate center of the button
+            const centerX = bound.left + bound.width / 2;
+            const centerY = bound.top + bound.height / 2;
+
+            // Calculate distance from center
+            // We use clientX/Y to get mouse pos relative to viewport
+            const x = e.clientX - centerX;
+            const y = e.clientY - centerY;
+
+            // Move button - strength 0.3 means it moves 30% of the distance
+            gsap.to(magnet, {
+              x: x * 0.7,
+              y: y * 0.7,
+              duration: 0.3,
+              ease: "power2.out",
+            });
+          });
+
+          magnet.addEventListener("mouseleave", () => {
+            // Elastic snap back
+            gsap.to(magnet, {
+              x: 0,
+              y: 0,
+              duration: 0.8,
+              ease: "elastic.out(1, 0.3)",
+            });
+          });
+        });
+      }
+
+      initMagneticButtons();
+
+      // 4. Dual Custom Cursor Logic
+      function initCustomCursor() {
+        const cursor = document.querySelector(".custom-cursor");
+        const follower = document.querySelector(".custom-cursor-follower");
+
+        if (!cursor || !follower) return;
+
+        // Set initial position centered (using GSAP to avoid CSS conflict)
+        gsap.set(cursor, { xPercent: -50, yPercent: -50 });
+        gsap.set(follower, { xPercent: -50, yPercent: -50 });
+
+        // Main dot: moves instantly
+        const cursorX = gsap.quickTo(cursor, "x", {
+          duration: 0.1,
+          ease: "power3",
+        });
+        const cursorY = gsap.quickTo(cursor, "y", {
+          duration: 0.2,
+          ease: "power3",
+        });
+
+        // Follower ring: moves with delay (duration: 0.6)
+        const followerX = gsap.quickTo(follower, "x", {
+          duration: 0.5,
+          ease: "power3",
+        });
+        const followerY = gsap.quickTo(follower, "y", {
+          duration: 1,
+          ease: "power3",
+        });
+
+        window.addEventListener("mousemove", (e) => {
+          // Only animate if element is actually visible (desktop)
+          if (window.getComputedStyle(cursor).display !== "none") {
+            cursorX(e.clientX);
+            cursorY(e.clientY);
+            followerX(e.clientX);
+            followerY(e.clientY);
+          }
+        });
+
+        // Hover Effects - Updated to include new card classes
+        const interactiveElements = document.querySelectorAll(
+          "a, button, .project-card, .view-projects-btn, .work"
+        );
+
+        interactiveElements.forEach((el) => {
+          el.addEventListener("mouseenter", () => {
+            // Shrink the dot slightly
+            gsap.to(cursor, { opacity: 0, duration: 0.3 });
+
+            // Expand the follower and fill it white
+            gsap.to(follower, {
+              scale: 1.8,
+              backgroundColor: "rgba(255, 255, 255, 1)",
+              mixBlendMode: "difference",
+              duration: 0.3,
+            });
+          });
+
+          el.addEventListener("mouseleave", () => {
+            // Reset dot
+            gsap.to(cursor, { opacity: 1, duration: 0.3 });
+
+            // Reset follower
+            gsap.to(follower, {
+              scale: 1,
+              backgroundColor: "transparent",
+              duration: 0.3,
+            });
+          });
+        });
+      }
+
+      initCustomCursor();
+
+      // ==========================================
+      // EXISTING LOGIC (Themes, Copy Email, etc.)
+      // ==========================================
+
+      const themeToggleButtons = document.querySelectorAll(".theme-toggle");
+      const mainElement = document.getElementById("main");
+
+      if (localStorage.getItem("theme") === "dark") {
+        mainElement.classList.add("dark-mode");
+        updateIcons(true);
+      }
+
+      themeToggleButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          mainElement.classList.toggle("dark-mode");
+          let isDark = mainElement.classList.contains("dark-mode");
+          localStorage.setItem("theme", isDark ? "dark" : "light");
+          updateIcons(isDark);
+        });
+      });
+
+      function updateIcons(isDark) {
+        themeToggleButtons.forEach((button) => {
+          const icon = button.querySelector("i");
+          if (icon) {
+            if (isDark) {
+              icon.classList.remove("fa-moon");
+              icon.classList.add("fa-sun");
+            } else {
+              icon.classList.remove("fa-sun");
+              icon.classList.add("fa-moon");
+            }
+          }
+        });
+      }
+
+      const copyEmailBtn = document.getElementById("copy-email-btn");
+      if (copyEmailBtn) {
+        copyEmailBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          const email = "Dongaremahesh10@gmail.com";
+
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard
+              .writeText(email)
+              .then(() => {
+                copyEmailBtn.textContent = "Copied!";
+                setTimeout(() => {
+                  copyEmailBtn.textContent = "Copy";
+                }, 2000);
+              })
+              .catch(() => {
+                copyEmailFallback(email, copyEmailBtn);
+              });
+          } else {
+            copyEmailFallback(email, copyEmailBtn);
+          }
+        });
+      }
+
+      function copyEmailFallback(text, buttonEl) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand("copy");
+          buttonEl.textContent = "Copied!";
+          setTimeout(() => {
+            buttonEl.textContent = "Copy";
+          }, 2000);
+        } catch (err) {
+          console.error("Failed to copy email: ", err);
+          buttonEl.textContent = "Failed";
+        }
+        document.body.removeChild(textArea);
+      }
+
+      const projectToggleButtons =
+        document.querySelectorAll(".view-projects-btn");
+      projectToggleButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const projectsContainer = button
+            .closest(".experience-item")
+            ?.querySelector(".projects-container");
+          if (projectsContainer) {
+            button.classList.toggle("active");
+            if (button.classList.contains("active")) {
+              projectsContainer.classList.add("show");
+              const plus = button.querySelector(".icon-plus");
+              if (plus) plus.textContent = "-";
+              // Update Locomotive Scroll because height changed
+              setTimeout(() => locoScroll.update(), 600);
+            } else {
+              projectsContainer.classList.remove("show");
+              const plus = button.querySelector(".icon-plus");
+              if (plus) plus.textContent = "+";
+              // Update Locomotive Scroll because height changed
+              setTimeout(() => locoScroll.update(), 600);
+            }
+          }
+        });
+      });
+    </script>
   </body>
 </html>
