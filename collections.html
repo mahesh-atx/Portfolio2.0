@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Collections — Mahesh</title>
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./favicon/favicon-16x16.png"
+    />
+    
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.css"
+    />
+    <script
+      src="https://kit.fontawesome.com/ae8ff12b97.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="./fonts.css" />
+
+    <style>
+         :root {
+        --primary-padding: 5.2vw;
+        --secondry-padding: 3em;
+        --block-padding: 5em;
+        --section-padding: 3.5em;
+
+        --bg-primary: #efeded;
+        --bg-secondary: #f9f8f9;
+        --bg-tertiary: #fff;
+        --bg-accent: #252425;
+
+        --text-primary: #363636;
+        --text-secondary: #282727;
+        --text-accent: #f9f8f9;
+        --text-heading: #252425;
+
+        --border-primary: #dcdcdc;
+        --border-secondary: #c0c0c0;
+        --border-tertiary: #e0e0e0;
+        --border-capsule: #f0f1ef;
+        --border-capsule-hover: #bdbdbd;
+      }
+
+      /* Dark Mode Variables */
+      body.dark-mode {
+        --bg-primary: #121212;
+        --bg-secondary: #1e1e1e;
+        --bg-tertiary: #2a2a2a;
+        --bg-accent: #f9f8f9;
+
+        --text-primary: #b0b0b0;
+        --text-secondary: #dcdcdc;
+        --text-accent: #1e1e1e;
+        --text-heading: #f9f8f9;
+
+        --border-primary: #444444;
+        --border-secondary: #555555;
+        --border-tertiary: #333333;
+        --border-capsule: #2a2a2a;
+        --border-capsule-hover: #555;
+      }
+      
+      * {
+        padding: 0%;
+        margin: 0%;
+        box-sizing: border-box;
+        font-family: "Ot-light", sans-serif;
+      }
+
+      html, body {
+        width: 100%;
+        min-height: 100vh;
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      
+      /* Reusing key classes from main page */
+      .magnetic-btn { display: inline-block; }
+      .capsule {
+        padding: 0.8em 1.5em;
+        border-radius: 30px;
+        border: 1px solid var(--border-secondary);
+        background: transparent;
+        color: var(--text-heading);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+      }
+      .capsule:hover {
+          background-color: var(--bg-secondary);
+          border-color: var(--text-heading);
+      }
+
+      /* Collection Page Specifics */
+      #collections-main {
+          padding: var(--primary-padding);
+          min-height: 100vh;
+      }
+
+      header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 3em;
+      }
+      
+      h1 {
+          font-size: 3em;
+          color: var(--text-heading);
+          font-family: "Ot-light", sans-serif;
+      }
+
+      /* Sticky Category Nav */
+      .collection-categories {
+        position: sticky;
+        top: 20px;
+        background-color: rgba(239, 237, 237, 0.9);
+        backdrop-filter: blur(10px);
+        z-index: 100;
+        padding: 1em 0;
+        margin-bottom: 2em;
+        border-bottom: 1px solid var(--border-tertiary);
+        border-radius: 20px;
+      }
+      
+      body.dark-mode .collection-categories {
+          background-color: rgba(18, 18, 18, 0.9);
+      }
+
+      .categories-list {
+        display: flex;
+        gap: 2em;
+        overflow-x: auto;
+        padding: 0 1em;
+        position: relative;
+        justify-content: center;
+      }
+      
+      .categories-list::-webkit-scrollbar { display: none; }
+
+      .collection-category-btn {
+        background: none;
+        border: none;
+        font-size: 1.1em;
+        color: var(--text-primary);
+        cursor: pointer;
+        padding: 0.5em 0;
+        position: relative;
+        white-space: nowrap;
+        opacity: 0.6;
+        transition: opacity 0.3s ease, color 0.3s ease;
+      }
+
+      .collection-category-btn:hover { opacity: 1; }
+      .collection-category-btn.active {
+        opacity: 1;
+        color: var(--text-heading);
+        font-family: "Ot-medium", sans-serif;
+      }
+
+      .category-underline {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 2px;
+        background-color: var(--text-heading);
+        transition: left 0.3s ease, width 0.3s ease;
+        pointer-events: none;
+      }
+
+      /* === PINTEREST STYLE MASONRY LAYOUT === */
+      .gallery-grid {
+        column-count: 4;
+        column-gap: 20px;
+        width: 100%;
+      }
+
+      .gallery-item {
+        background-color: var(--bg-secondary);
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        border: 1px solid var(--border-tertiary);
+        margin-bottom: 20px; /* Space between vertical items */
+        break-inside: avoid; /* Prevents item from splitting across columns */
+        
+        /* Minimal Hover Effect */
+        transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: auto;
+        display: block; /* Removes bottom space */
+        transition: transform 0.6s ease;
+      }
+
+      .gallery-item:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+          z-index: 2;
+      }
+      
+      .gallery-item:hover img {
+          transform: scale(1.05);
+      }
+      
+      /* Overlay text on hover (Optional, kept minimal) */
+      .gallery-overlay {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          padding: 20px;
+          background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+          opacity: 0;
+          transition: opacity 0.3s ease;
+      }
+      .gallery-item:hover .gallery-overlay {
+          opacity: 1;
+      }
+      .gallery-overlay span {
+          color: white;
+          font-size: 0.9em;
+          text-align: left;
+          display: block;
+      }
+
+      /* Custom Cursor elements */
+      .custom-cursor {
+        width: 20px;
+        height: 20px;
+        background-color: #fff;
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 99999;
+        mix-blend-mode: difference;
+        display: none;
+      }
+      .custom-cursor-follower {
+        width: 40px;
+        height: 40px;
+        background: transparent;
+        border: 1px solid #fff;
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 99998;
+        mix-blend-mode: difference;
+        display: none;
+      }
+
+      /* Responsive Columns */
+      @media (min-width: 768px) {
+        .custom-cursor, .custom-cursor-follower { display: block; }
+      }
+
+      @media (max-width: 1200px) {
+          .gallery-grid {
+              column-count: 3;
+          }
+      }
+
+      @media (max-width: 800px) {
+          .gallery-grid {
+              column-count: 2;
+          }
+          h1 { font-size: 2em; }
+          .categories-list { justify-content: flex-start; }
+      }
+      
+      @media (max-width: 480px) {
+          .gallery-grid {
+              column-count: 1; /* Single column for very small screens */
+          }
+      }
+    </style>
+</head>
+<body>
+
+    <!-- Cursor -->
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-follower"></div>
+
+    <div id="main" data-scroll-container>
+        <div id="collections-main" data-scroll-section>
+            <header>
+                <a href="./index.html" class="magnetic-btn">
+                    <button class="capsule">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                    </button>
+                </a>
+                <h1>Collections</h1>
+                <button class="capsule theme-toggle magnetic-btn">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </header>
+
+            <div class="collection-categories">
+                <div class="categories-list">
+                    <button class="collection-category-btn active" data-filter="all">All</button>
+                    <button class="collection-category-btn" data-filter="anime">Anime</button>
+                    <button class="collection-category-btn" data-filter="designs">Designs</button>
+                    <button class="collection-category-btn" data-filter="illustration">Illustration</button>
+                    <button class="collection-category-btn" data-filter="wallpapers">Wallpapers</button>
+                    <button class="collection-category-btn" data-filter="doodles">Doodles</button>
+                    <div class="category-underline"></div>
+                </div>
+            </div>
+
+            <div class="gallery-grid">
+                 <!-- DESIGNS -->
+                 <div class="gallery-item" data-category="designs">
+                     <img src="https://images.unsplash.com/photo-1558655146-d09347e0c766?q=80&w=600&auto=format&fit=crop" alt="Design">
+                 </div>
+                 <div class="gallery-item" data-category="designs">
+                     <img src="https://images.unsplash.com/photo-1626785774573-4b799314346d?q=80&w=600&auto=format&fit=crop" alt="Design">
+                 </div>
+                 <div class="gallery-item" data-category="designs">
+                     <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=600&auto=format&fit=crop" alt="Design">
+                 </div>
+                 <div class="gallery-item" data-category="designs">
+                     <img src="https://images.unsplash.com/photo-1586717791821-3f44a5638d0f?q=80&w=600&auto=format&fit=crop" alt="Design">
+                 </div>
+                 <div class="gallery-item" data-category="designs">
+                     <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=600&auto=format&fit=crop" alt="Design">
+                 </div>
+                 <div class="gallery-item" data-category="designs">
+                     <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop" alt="Design">
+                 </div>
+
+                 <!-- ANIME -->
+                 <div class="gallery-item" data-category="anime">
+                     <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=600&auto=format&fit=crop" alt="Anime">
+                 </div>
+                 <div class="gallery-item" data-category="anime">
+                     <img src="https://images.unsplash.com/photo-1560972550-aba3456b5564?q=80&w=600&auto=format&fit=crop" alt="Anime">
+                 </div>
+                 <div class="gallery-item" data-category="anime">
+                     <img src="https://images.unsplash.com/photo-1607604276583-eef5f0b7ac0b?q=80&w=600&auto=format&fit=crop" alt="Anime">
+                 </div>
+                 <div class="gallery-item" data-category="anime">
+                     <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop" alt="Gaming">
+                 </div>
+                 <div class="gallery-item" data-category="anime">
+                     <img src="https://images.unsplash.com/photo-1620553756848-d30963d76e3c?q=80&w=600&auto=format&fit=crop" alt="Anime Art">
+                 </div>
+
+                 <!-- ILLUSTRATION -->
+                 <div class="gallery-item" data-category="illustration">
+                     <img src="https://images.unsplash.com/photo-1614730341194-75c60740a070?q=80&w=600&auto=format&fit=crop" alt="Illustration">
+                 </div>
+                 <div class="gallery-item" data-category="illustration">
+                     <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=600&auto=format&fit=crop" alt="Art">
+                 </div>
+                 <div class="gallery-item" data-category="illustration">
+                     <img src="https://images.unsplash.com/photo-1549490349-8643362247b5?q=80&w=600&auto=format&fit=crop" alt="Drawing">
+                 </div>
+                 <div class="gallery-item" data-category="illustration">
+                     <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=600&auto=format&fit=crop" alt="Digital Art">
+                 </div>
+                 <div class="gallery-item" data-category="illustration">
+                     <img src="https://images.unsplash.com/photo-1634152962476-4b8a00e1915c?q=80&w=600&auto=format&fit=crop" alt="Abstract">
+                 </div>
+                 <div class="gallery-item" data-category="illustration">
+                     <img src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=600&auto=format&fit=crop" alt="Vibrant">
+                 </div>
+
+                 <!-- WALLPAPERS -->
+                 <div class="gallery-item" data-category="wallpapers">
+                     <img src="https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=600&auto=format&fit=crop" alt="Wallpaper">
+                 </div>
+                 <div class="gallery-item" data-category="wallpapers">
+                     <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop" alt="Wallpaper">
+                 </div>
+                 <div class="gallery-item" data-category="wallpapers">
+                     <img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=600&auto=format&fit=crop" alt="Nature">
+                 </div>
+                 <div class="gallery-item" data-category="wallpapers">
+                     <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=600&auto=format&fit=crop" alt="Landscape">
+                 </div>
+                 <div class="gallery-item" data-category="wallpapers">
+                     <img src="https://images.unsplash.com/photo-1534067783941-51c67a47995e?q=80&w=600&auto=format&fit=crop" alt="Urban">
+                 </div>
+                 <div class="gallery-item" data-category="wallpapers">
+                     <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?q=80&w=600&auto=format&fit=crop" alt="Mountain">
+                 </div>
+
+                 <!-- DOODLES -->
+                 <div class="gallery-item" data-category="doodles">
+                     <img src="https://images.unsplash.com/photo-1605106702734-205df224ecce?q=80&w=600&auto=format&fit=crop" alt="Doodle">
+                 </div>
+                 <div class="gallery-item" data-category="doodles">
+                     <img src="https://images.unsplash.com/photo-1544252899-72c057635293?q=80&w=600&auto=format&fit=crop" alt="Sketch">
+                 </div>
+                 <div class="gallery-item" data-category="doodles">
+                     <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=600&auto=format&fit=crop" alt="Friends">
+                 </div>
+                 <div class="gallery-item" data-category="doodles">
+                     <img src="https://images.unsplash.com/photo-1482160549825-59d1b23cb208?q=80&w=600&auto=format&fit=crop" alt="Sketchbook">
+                 </div>
+                 <div class="gallery-item" data-category="doodles">
+                     <img src="https://images.unsplash.com/photo-1519638399535-1b036603ac77?q=80&w=600&auto=format&fit=crop" alt="Hand drawn">
+                 </div>
+                 
+                 <!-- MORE MIXED FOR DENSITY -->
+                 <div class="gallery-item" data-category="anime">
+                     <img src="https://images.unsplash.com/photo-1569701813229-33284b643638?q=80&w=600&auto=format&fit=crop" alt="Neon">
+                 </div>
+                 <div class="gallery-item" data-category="designs">
+                     <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=600&auto=format&fit=crop" alt="Minimal">
+                 </div>
+                 <div class="gallery-item" data-category="illustration">
+                     <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600&auto=format&fit=crop" alt="Fantasy">
+                 </div>
+            </div>
+            
+            <footer style="margin-top: 5em; text-align: center; opacity: 0.6;">
+                <p>&copy; 2024 Mahesh Dongare</p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.min.js"></script>
+
+    <script>
+        // 1. Theme Logic
+        const themeBtn = document.querySelector(".theme-toggle");
+        if (localStorage.getItem("theme") === "dark") {
+            document.body.classList.add("dark-mode");
+            updateIcon(true);
+        } else {
+            updateIcon(false);
+        }
+
+        themeBtn.addEventListener("click", () => {
+            document.body.classList.toggle("dark-mode");
+            const isDark = document.body.classList.contains("dark-mode");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+            updateIcon(isDark);
+        });
+
+        function updateIcon(isDark) {
+            const icon = themeBtn.querySelector("i");
+            if(isDark) {
+                icon.classList.remove("fa-moon");
+                icon.classList.add("fa-sun");
+            } else {
+                icon.classList.remove("fa-sun");
+                icon.classList.add("fa-moon");
+            }
+        }
+
+        // 2. Locomotive Scroll
+        const scroll = new LocomotiveScroll({
+            el: document.querySelector('#main'),
+            smooth: true
+        });
+
+        // 3. Filter Logic
+        const categoryBtns = document.querySelectorAll(".collection-category-btn");
+        const underline = document.querySelector(".category-underline");
+        const galleryItems = document.querySelectorAll(".gallery-item");
+
+        // Initial Underline
+        window.onload = () => {
+            const active = document.querySelector(".collection-category-btn.active");
+            moveUnderline(active);
+        };
+
+        categoryBtns.forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                // Update buttons
+                categoryBtns.forEach(b => b.classList.remove("active"));
+                e.target.classList.add("active");
+                
+                moveUnderline(e.target);
+                
+                const filter = e.target.getAttribute("data-filter");
+                
+                // GSAP animation for filtering
+                galleryItems.forEach(item => {
+                    const itemCat = item.getAttribute("data-category");
+                    
+                    // Reset display
+                    item.style.display = "block";
+                    
+                    if(filter === "all" || itemCat === filter) {
+                        gsap.to(item, { 
+                            opacity: 1, 
+                            scale: 1, 
+                            duration: 0.4, 
+                            display: "block",
+                            ease: "power2.out" 
+                        });
+                    } else {
+                        gsap.to(item, {
+                            opacity: 0,
+                            scale: 0.8,
+                            duration: 0.3,
+                            display: "none",
+                            onComplete: () => { item.style.display = "none"; }
+                        });
+                    }
+                });
+                
+                // Refresh scroll after filtering changes layout
+                setTimeout(() => scroll.update(), 500);
+            });
+        });
+
+        function moveUnderline(target) {
+            if(!target) return;
+            const parent = target.parentElement;
+            const targetRect = target.getBoundingClientRect();
+            const parentRect = parent.getBoundingClientRect();
+            
+            underline.style.width = `${targetRect.width}px`;
+            underline.style.left = `${targetRect.left - parentRect.left}px`;
+        }
+
+        // 4. Cursor Logic
+        const cursor = document.querySelector(".custom-cursor");
+        const follower = document.querySelector(".custom-cursor-follower");
+
+        gsap.set(cursor, {xPercent: -50, yPercent: -50});
+        gsap.set(follower, {xPercent: -50, yPercent: -50});
+
+        window.addEventListener("mousemove", e => {
+            gsap.to(cursor, {x: e.clientX, y: e.clientY, duration: 0.1});
+            gsap.to(follower, {x: e.clientX, y: e.clientY, duration: 0.5});
+        });
+        
+        document.querySelectorAll("a, button, .gallery-item").forEach(el => {
+            el.addEventListener("mouseenter", () => {
+                gsap.to(follower, {scale: 1.5, borderColor: "transparent", backgroundColor: "rgba(255,255,255,1)", mixBlendMode: "difference"});
+            });
+            el.addEventListener("mouseleave", () => {
+                gsap.to(follower, {scale: 1, borderColor: "#fff", backgroundColor: "transparent", mixBlendMode: "difference"});
+            });
+        });
+        
+        // 5. Magnetic Buttons
+        document.querySelectorAll(".magnetic-btn").forEach(btn => {
+            btn.addEventListener("mousemove", (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - (rect.left + rect.width / 2);
+                const y = e.clientY - (rect.top + rect.height / 2);
+                gsap.to(btn, {x: x * 0.5, y: y * 0.5, duration: 0.3});
+            });
+            btn.addEventListener("mouseleave", () => {
+                gsap.to(btn, {x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.3)"});
+            });
+        });
+
+    </script>
+</body>
+</html>
