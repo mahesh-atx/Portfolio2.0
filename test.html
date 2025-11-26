@@ -34,6 +34,8 @@
       src="https://kit.fontawesome.com/ae8ff12b97.js"
       crossorigin="anonymous"
     ></script>
+    <!-- Added SplitType Library -->
+    <script src="https://unpkg.com/split-type"></script>
     <link rel="stylesheet" href="./fonts.css" />
 
     <style>
@@ -182,6 +184,19 @@
         overflow: hidden;
       }
       /* ======================================= */
+      
+      /* === Grain Overlay (Retained) === */
+      .grain-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9998;
+        opacity: 0.06;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      }
 
       /* === Dual Custom Cursor Styles === */
       .custom-cursor {
@@ -297,19 +312,22 @@
         border-bottom-right-radius: 100px;
       }
 
-      .radius-container {
-        padding-top: var(--secondry-padding);
-        background-color: var(--bg-primary);
-        border-bottom-left-radius: 100px;
-        border-bottom-right-radius: 100px;
-      }
-
+      /* Reverted Nav Styles */
       nav {
         display: flex;
         align-items: center;
         justify-content: space-between;
         height: 7vh;
         padding-inline: var(--primary-padding);
+      }
+
+      /* Reverted Radius Container Styles */
+      .radius-container {
+        padding-top: var(--secondry-padding);
+        background-color: var(--bg-primary);
+        border-bottom-left-radius: 100px;
+        border-bottom-right-radius: 100px;
+        height: 90vh; /* Restored original height */
       }
 
       h1 {
@@ -420,6 +438,20 @@
         color: var(--text-accent);
       }
 
+      /* === High Contrast CTA Button (Retained) === */
+      .cta-primary button {
+        background-color: var(--text-heading); /* Strong contrast */
+        color: var(--bg-tertiary);
+        transform: scale(1.1);
+        font-weight: 600;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+      }
+      .cta-primary button:hover {
+        transform: scale(1.15);
+        box-shadow: 0 0 20px rgba(0,0,0,0.15);
+      }
+
       .mobile {
         display: none;
       }
@@ -441,10 +473,6 @@
         height: 5vh;
         border-radius: 20px;
         width: 6vw;
-      }
-
-      .radius-container {
-        height: 90vh;
       }
 
       .hero {
@@ -489,6 +517,11 @@
         animation-duration: 25s;
         animation-timing-function: linear;
         animation-iteration-count: infinite;
+      }
+      
+      /* Hover pause effect for marquee */
+      .marquee:hover .elem {
+        animation-play-state: paused;
       }
 
       @keyframes move {
@@ -851,23 +884,21 @@
         margin: 0 auto;
       }
 
+      .about-me-image img{
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+
+      }
+
       .about-me-image {
-        flex: 1;
+        width: 400px;
         height: 500px;
-        background-color: var(--border-tertiary);
-        border-radius: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: "Ot-medium", sans-serif;
-        color: var(--text-primary);
-        background-image: url("./assets/Snapchat-211615248.jpg");
-        background-size: cover;
-        background-position: center bottom;
-        min-height: 300px;
         /* Box Styles */
         border: 1px solid var(--border-tertiary);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        border-radius: 1em;
       }
 
       .about-me-text {
@@ -879,11 +910,20 @@
         margin-bottom: 0.8em;
         text-align: left;
       }
+      /* UPDATED ABOUT ME TEXT STYLES FOR ANIMATION */
       .about-me-text p {
-        font-size: 1em;
-        line-height: 1.7;
+        font-size: 2.5em; /* Increased Size */
+        line-height: 1.1;
+        /* font-weight: 700; */
         margin-bottom: 1.5em;
+        color: var(--text-primary); /* Default color */
       }
+      
+      .reveal-text .char {
+        /* Necessary for transforms if we add any, but mostly for consistency */
+        display: inline-block; 
+      }
+
       .about-me-text .capsule {
         padding: 1em 2em;
       }
@@ -1073,6 +1113,11 @@
         .exp-desc p {
           font-size: 0.9em;
         }
+        
+        /* Adjust About Me text size on mobile so it's not too huge */
+        .about-me-text p {
+           font-size: 1.2em;
+        }
 
         .projects-container {
           flex-direction: column;
@@ -1239,14 +1284,17 @@
   </head>
 
   <body class="loading">
+    <!-- NEW: Grain Overlay for Texture (Retained) -->
+    <div class="grain-overlay"></div>
+    
     <!-- Preloader Wrapper -->
-    <div id="preloader">
+    <!-- <div id="preloader">
       <div class="preloader-content">
         <h1 id="preloader-text">
           <span>W</span><span>e</span><span>l</span><span>c</span><span>o</span><span>m</span><span>e</span>
         </h1>
         <div id="loader-ball">
-          <!-- Added Face -->
+        
           <div class="face">
             <div class="eye left"></div>
             <div class="eye right"></div>
@@ -1254,7 +1302,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Dual Custom Cursor Elements -->
     <div class="custom-cursor"></div>
@@ -1268,6 +1316,7 @@
             alt="Doodle"
             class="section-doodle doodle-hero-1"
           />
+          <!-- Modified NAV (Reverted to original) -->
           <nav class="pc content-layer">
             <div class="nav-mail">
               <ul>
@@ -1458,30 +1507,33 @@
       <footer>
         <div class="about-me-wrapper">
           <div class="about-me">
-            <img
+            <!-- <img
               src="./New folder/IMG_20251104_124725.png"
               alt="Doodle"
               class="section-doodle doodle-about-me-1"
-            />
+            /> -->
             <div class="about-me-content content-layer">
-              <div class="about-me-image"></div>
+              <div class="about-me-image" data-scroll-container>
+                <img src="./assets/Snapchat-211615248.jpg" alt="" data-scroll data-scroll-speed="2">
+              </div>
               <div class="about-me-text">
                 <h2>
                   <span class="line-mask"><span>A Bit About Me</span></span>
                 </h2>
-                <p>
-                  Hello! I'm a passionate developer with a knack for building
-                  digital solutions that are both functional and delightful to
-                  use. My journey in tech is driven by a constant curiosity and
-                  a desire to solve real-world problems.
+                <!-- UPDATED TEXT WITH ANIMATION CLASSES -->
+                <p class="reveal-text">
+                  Hello! I'm a <span style="color: #da532c">passionate developer</span> with a knack for building
+                  digital solutions that are both <span>functional</span> and <span>delightful</span> to
+                  use. My journey in tech is driven by a constant <span>curiosity</span> and
+                  a desire to solve <span>real-world problems</span>.
                 </p>
-                <p>
-                  I thrive on solving complex challenges, whether it's
-                  architecting a backend system, designing a smooth user
-                  interface, or diving into new technologies. When I'm not
+                <!-- <p class="reveal-text">
+                  I thrive on solving <span>complex challenges</span>, whether it's
+                  architecting a <span>backend system</span>, designing a smooth <span>user
+                  interface</span>, or diving into new technologies. When I'm not
                   coding, you can find me exploring the latest in tech or
                   working on a new personal project.
-                </p>
+                </p> -->
                 <a
                   href="mailto:Dongaremahesh10@gmail.com"
                   class="capsule black-capsule btn-border magnetic-btn"
@@ -1750,26 +1802,12 @@
                 </p>
               </div>
               <a
-                href="https://lynqchat2-0.onrender.com/"
+                href="https://lynq-8zfp.onrender.com/"
                 target="_blank"
                 class="capsule white-capsule btn-border magnetic-btn"
                 >View Live</a
               >
             </div>
-            <!-- <div class="project-card">
-              <div>
-                <h4>Demo Project Title</h4>
-                <p>
-                  This is a placeholder description for your new project. Describe what you built, the technologies used (like React, Node.js, etc.), and the problem it solves. This text demonstrates how the layout adapts to new content.
-                </p>
-              </div>
-              <a
-                href="#"
-                target="_blank"
-                class="capsule white-capsule btn-border magnetic-btn"
-                >View Live</a
-              >
-            </div> -->
           </div>
         </div>
 
@@ -1797,7 +1835,7 @@
             </h1>
           </div>
           <div class="footer-btns content-layer">
-            <a href="mailto:Dongaremahesh10@gmail.com"
+            <a href="mailto:Dongaremahesh10@gmail.com" class="cta-primary"
               ><button class="capsule black-capsule btn-border magnetic-btn">
                 Email me
               </button></a
@@ -2048,6 +2086,64 @@
       }
 
       initMaskedAnimations();
+      
+      // --- NEW: TEXT COLOR REVEAL ANIMATION (About Me) ---
+      function initTextReveal() {
+        // Wait briefly for fonts to load or layout to settle
+        setTimeout(() => {
+          const revealElements = document.querySelectorAll(".reveal-text");
+          
+          revealElements.forEach((element) => {
+            // Split text into characters
+            const splitText = new SplitType(element, { types: "chars" });
+            
+            // Common Scroll Trigger Config
+            const scrollConfig = {
+              trigger: element,
+              scroller: "#main", // Important for Locomotive Scroll
+              start: "top 80%",
+              end: "top 20%",
+              scrub: true,
+              toggleActions: "play play reverse reverse",
+            };
+
+            // Animation 1: Opacity fade for all characters
+            gsap.fromTo(
+              splitText.chars, 
+              { opacity: 0.2 }, 
+              {
+                opacity: 1,
+                duration: 0.3,
+                stagger: 0.02,
+                scrollTrigger: scrollConfig,
+              }
+            );
+
+            // Animation 2: Color change for highlight spans
+            // Note: SplitType breaks spans into chars but keeps the parent span structure usually.
+            // We target chars that are inside the span tags.
+            // const highlightChars = element.querySelectorAll("span .char");
+            
+            // if(highlightChars.length > 0) {
+            //    gsap.fromTo(
+            //     highlightChars, 
+            //     { color: "var(--text-primary)" }, // From normal text color
+            //     {
+            //       color: "#da532c", // Highlight color (Orange-ish)
+            //       duration: 0.3,
+            //       stagger: 0.02,
+            //       scrollTrigger: scrollConfig,
+            //     }
+            //   );
+            // }
+          });
+          
+          // Refresh ScrollTrigger to calculate positions of new split text
+          ScrollTrigger.refresh();
+        }, 100);
+      }
+      
+      initTextReveal();
 
       // --- 6. MAGNETIC BUTTONS ---
       function initMagneticButtons() {
@@ -2081,7 +2177,7 @@
 
       initMagneticButtons();
 
-      // --- 7. CUSTOM CURSOR ---
+      // --- 7. CUSTOM CURSOR (Reverted to original logic) ---
       function initCustomCursor() {
         const cursor = document.querySelector(".custom-cursor");
         const follower = document.querySelector(".custom-cursor-follower");
@@ -2105,9 +2201,9 @@
           }
         });
 
-        // Updated for new elements
+        // Standard Interactive Elements
         const interactiveElements = document.querySelectorAll(
-          "a, button, .project-card, .view-projects-btn, .work, .collection-category-btn, .gallery-item"
+          "a, button, .view-projects-btn, .work, .collection-category-btn, .gallery-item, .project-card"
         );
 
         interactiveElements.forEach((el) => {
