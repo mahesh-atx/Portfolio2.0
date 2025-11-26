@@ -244,7 +244,6 @@
       .about,
       .experience,
       .projects-section,
-      .collection-section,
       .main-footer,
       .about-me,
       .about-me-wrapper,
@@ -518,8 +517,7 @@
       }
 
       .experience,
-      .projects-section,
-      .collection-section {
+      .projects-section {
         padding-block: var(--section-padding);
         background-color: var(--bg-primary);
         max-width: 65%;
@@ -528,8 +526,7 @@
       }
 
       .experience-title,
-      .projects-section-title,
-      .collection-title {
+      .projects-section-title {
         margin-bottom: 3.5em;
       }
       .experience-list {
@@ -902,7 +899,6 @@
       .about,
       .experience,
       .projects-section,
-      .collection-section,
       .main-footer {
         position: relative;
         overflow: hidden;
@@ -1001,28 +997,6 @@
         transform: rotate(0deg);
       }
 
-      /* === COLLECTIONS SECTION STYLES === */
-      
-      .collection-card {
-        width: 100%;
-        /* removed magnetic-btn class here */
-        /* removed cursor pointer unless clicking button */
-      }
-      
-      .collection-card-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        gap: 20px;
-      }
-      .collection-card-text {
-        flex: 1;
-      }
-      .collection-card-text button {
-        margin-top: 1.5em;
-      }
-
       /* Responsive */
       @media (max-width: 802px) {
         .pc {
@@ -1082,8 +1056,7 @@
           left: 40% !important;
         }
         .experience,
-        .projects-section,
-        .collection-section {
+        .projects-section {
           flex-direction: column;
           gap: 1.5em;
           padding-inline: var(--primary-padding);
@@ -1217,12 +1190,6 @@
           left: 62%;
           width: clamp(60px, 12vw, 100px);
           transform: rotate(0deg);
-        }
-        
-        .collection-card-content {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 1em;
         }
       }
 
@@ -1806,31 +1773,6 @@
           </div>
         </div>
 
-        <!-- NEW COLLECTION SECTION MOVED AFTER PROJECTS -->
-        <!-- <div class="collection-section">
-            <div class="collection-title content-layer">
-               <h1>
-                  <span class="line-mask"><span>Curated</span></span>
-                  <span class="line-mask"><span>Collections</span></span>
-               </h1>
-            </div> -->
-            
-            <!-- Removed magnetic-btn from main card -->
-            <div class="collection-card project-card" id="open-collections-card">
-               <div class="collection-card-content">
-                  <div class="collection-card-text">
-                     <h4>My Collections</h4>
-                     <p>Explore a curated gallery of my designs, anime art, illustrations, wallpapers, and creative doodles. Dive into visual stories across different categories.</p>
-                     <!-- Added link and kept magnetic-btn here -->
-                     <a href="#">
-                       <button class="capsule white-capsule btn-border magnetic-btn"><a href="./collections.html"><i>Coming soon!</i></a></button>
-                     </a>
-                  </div>
-                 
-               </div>
-            </div>
-        </div>
-
         <div class="main-footer">
           <img
             src="./New folder/IMG_20251104_124753.png"
@@ -2079,9 +2021,8 @@
 
       // --- 5. MASKED TEXT ANIMATIONS ---
       function initMaskedAnimations() {
-        // Updated to include collection title
         const headings = document.querySelectorAll(
-          ".about h2,.about-me-content h2, .experience-title h1, .projects-section-title h1, .footer-text h1, .collection-title h1"
+          ".about h2,.about-me-content h2, .experience-title h1, .projects-section-title h1, .footer-text h1"
         );
 
         headings.forEach((heading) => {
@@ -2166,7 +2107,7 @@
 
         // Updated for new elements
         const interactiveElements = document.querySelectorAll(
-          "a, button, .project-card, .view-projects-btn, .work, .collection-card, .collection-category-btn, .gallery-item"
+          "a, button, .project-card, .view-projects-btn, .work, .collection-category-btn, .gallery-item"
         );
 
         interactiveElements.forEach((el) => {
