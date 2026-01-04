@@ -1,0 +1,76 @@
+:root {
+    --primary-padding: 5.2vw;
+    --secondry-padding: 3em;
+    --block-padding: 5em;
+    --section-padding: 3.5em;
+
+    --bg-primary: #efeded;
+    --bg-secondary: #f9f8f9;
+    --bg-tertiary: #fff;
+    --bg-accent: #252425;
+
+    --text-primary: #363636;
+    --text-secondary: #282727;
+    --text-accent: #f9f8f9;
+    --text-heading: #252425;
+
+
+    --border-primary: #dcdcdc;
+    --border-secondary: #c0c0c0;
+    --border-tertiary: #e0e0e0;
+    --border-capsule: #f0f1ef;
+    --border-capsule-hover: #bdbdbd;
+
+    /* Gradients */
+    --gradient-widget: linear-gradient(135deg, #FF6B6B, #EE5253, #FF9F43);
+    --gradient-glass-1: linear-gradient(135deg, #667eea, #764ba2, #6B8DD6);
+    --gradient-glass-2: linear-gradient(135deg, #FF9A9E, #FECFEF, #FF9A9E);
+    --gradient-glass-3: linear-gradient(135deg, #FF6B6B, #EE5253, #FF9F43);
+    --gradient-glass-4: linear-gradient(135deg, #4facfe, #00f2fe, #43e97b);
+    --gradient-aura-light: conic-gradient(from 180deg at 50% 50%, #FF9A9E 0deg, #FECFEF 60deg, #A18CD1 120deg, #FBC2EB 180deg, #FF9A9E 240deg, #f6d365 300deg, #FF9A9E 360deg);
+    --gradient-aura-dark: conic-gradient(from 180deg at 50% 50%, #667eea 0deg, #764ba2 60deg, #FF9A9E 120deg, #6B8DD6 180deg, #8E37D7 240deg, #667eea 360deg);
+
+    /* Shadows */
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.12);
+    --shadow-xl: 0 35px 80px rgba(0, 0, 0, 0.15);
+    --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.4);
+
+    /* Preloader Variables (Light Theme Default) */
+    --preloader-bg: #efeded;
+    --preloader-color: #252425;
+    /* Dark ball */
+    --preloader-face: #efeded;
+    /* Light face on dark ball */
+    --preloader-border: #252425;
+    --preloader-shadow: rgba(0, 0, 0, 0.2);
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --preloader-bg: #09090b;
+    --preloader-color: #ffffff;
+    /* White ball */
+    --preloader-face: #09090b;
+    /* Dark face on white ball */
+    --preloader-border: #ffffff;
+    --preloader-shadow: rgba(255, 255, 255, 0.5);
+}
+
+#main.dark-mode {
+    --bg-primary: #121212;
+    --bg-secondary: #1e1e1e;
+    --bg-tertiary: #2a2a2a;
+    --bg-accent: #f9f8f9;
+
+    --text-primary: #b0b0b0;
+    --text-secondary: #dcdcdc;
+    --text-accent: #1e1e1e;
+    --text-heading: #f9f8f9;
+
+    --border-primary: #444444;
+    --border-secondary: #555555;
+    --border-tertiary: #333333;
+    --border-capsule-hover: #555;
+}
