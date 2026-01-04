@@ -113,6 +113,11 @@
         width: 100%;
     }
 
+    /* Hero inline elements responsive - em units scale automatically */
+    .hero-inline-images .inline-block {
+        border-width: 1px;
+    }
+
     .mobile {
         display: flex;
     }

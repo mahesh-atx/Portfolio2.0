@@ -21,6 +21,8 @@
     --border-capsule: #f0f1ef;
     --border-capsule-hover: #bdbdbd;
 
+    --accent-primary: #6366f1;
+
     /* Gradients */
     --gradient-widget: linear-gradient(135deg, #FF6B6B, #EE5253, #FF9F43);
     --gradient-glass-1: linear-gradient(135deg, #667eea, #764ba2, #6B8DD6);
@@ -73,4 +75,6 @@ body.dark-mode {
     --border-secondary: #555555;
     --border-tertiary: #333333;
     --border-capsule-hover: #555;
+
+    --accent-primary: #818cf8;
 }

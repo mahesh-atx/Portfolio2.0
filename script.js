@@ -11,7 +11,7 @@ if (localStorage.getItem("theme") === "dark") {
 // --- 2. HERO ANIMATION CONTROLLER ---
 // Defined separate function so we can call it from the preloader timeline
 function playHeroAnimations() {
-  const heroLines = document.querySelectorAll(".hero h1 .line-mask span");
+  const heroLines = document.querySelectorAll(".hero h1 .line-mask > span");
   const heroImage = document.querySelector(".hero-img-container");
 
   // Ensure elements are visible for animation
@@ -52,7 +52,7 @@ function initPreloader() {
     },
   });
 
-  gsap.set(ball, { scale: 0, autoAlpha: 1 });
+  if (ball) gsap.set(ball, { scale: 0, autoAlpha: 1 });
 
   tl
     // Text Reveal
@@ -74,6 +74,7 @@ function initPreloader() {
     )
     // Ball Drop
     .call(() => {
+      if(!ball) return;
       const ballRect = ball.getBoundingClientRect();
       const dropDist = window.innerHeight - ballRect.bottom - 40;
 
@@ -179,7 +180,7 @@ function initMaskedAnimations() {
   );
 
   headings.forEach((heading) => {
-    const lines = heading.querySelectorAll(".line-mask span");
+    const lines = heading.querySelectorAll(".line-mask > span");
 
     if (lines.length > 0) {
       gsap.from(lines, {

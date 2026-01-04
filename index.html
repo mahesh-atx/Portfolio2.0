@@ -82,14 +82,14 @@
   <body class="loading">
     <div class="noise-overlay"></div>
     <!-- Preloader Wrapper -->
-    <div id="preloader">
+    <!-- <div id="preloader">
       <div class="preloader-content">
         <h1 id="preloader-text">
           <span>W</span><span>e</span><span>l</span><span>c</span><span>o</span
           ><span>m</span><span>e</span>
         </h1>
         <div id="loader-ball">
-          <!-- Added Face -->
+          
           <div class="face">
             <div class="eye left"></div>
             <div class="eye right"></div>
@@ -97,7 +97,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Dual Custom Cursor Elements -->
     <div class="custom-cursor"></div>
@@ -230,17 +230,11 @@
                 <span class="greeting-text">Hej! I'm Mahesh</span>
               </div>
               <div class="hero-text">
-                <!-- Masked Animation Structure -->
+                <!-- Masked Animation Structure with Inline Media -->
                 <h1>
-                  <span class="line-mask"
-                    ><span>I solve complex product</span></span
-                  >
-                  <span class="line-mask"
-                    ><span>problems at scale by aligning</span></span
-                  >
-                  <span class="line-mask"
-                    ><span>systems, people, and pixels.</span></span
-                  >
+                  <span class="line-mask"><span>I solve complex <span class="hero-inline-images"><span class="inline-block block-1"></span><span class="inline-block block-2"></span><span class="inline-block block-3"></span></span> product</span></span>
+                  <span class="line-mask"><span>problems at scale by aligning</span></span>
+                  <span class="line-mask"><span>systems, people, and <span class="hero-pill-badge"><i class="ph ph-monitor"></i><span>pixels</span></span>.</span></span>
                   <span class="line-mask"><span>Product Developer.</span></span>
                 </h1>
               </div>
@@ -298,6 +292,50 @@
           </div>
         </div>
       </div>
+
+      <!-- About Me Section -->
+      <section class="about-section" id="about">
+        <div class="about-container content-layer">
+          <!-- Images Stack -->
+          <div class="about-images">
+            <div class="image-stack">
+              <img src="./assets/profile-1.jpg" alt="Mahesh - Profile 1" class="stack-img img-1" loading="lazy" />
+              <img src="./assets/profile-2.jpg" alt="Mahesh - Profile 2" class="stack-img img-2" loading="lazy" />
+              <img src="./assets/profile-3.jpg" alt="Mahesh - Profile 3" class="stack-img img-3" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- About Content -->
+          <div class="about-content">
+            <span class="about-label">About Me</span>
+            <h2>I'm Mahesh, a Product Developer based in India</h2>
+            <p>
+              I specialize in building digital products that solve real problems. 
+              With a passion for clean code and intuitive design, I bridge the gap 
+              between technical complexity and user-friendly experiences.
+            </p>
+            <p>
+              When I'm not coding, you'll find me exploring new technologies, 
+              contributing to open-source, or working on side projects that push 
+              creative boundaries.
+            </p>
+            <div class="about-stats">
+              <div class="stat">
+                <span class="stat-number">3+</span>
+                <span class="stat-label">Years Experience</span>
+              </div>
+              <div class="stat">
+                <span class="stat-number">15+</span>
+                <span class="stat-label">Projects Completed</span>
+              </div>
+              <div class="stat">
+                <span class="stat-number">10+</span>
+                <span class="stat-label">Happy Clients</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <footer>
         <div class="about-me-wrapper">
@@ -592,6 +630,8 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
 
             <div class="projects-section" id="projects-section">
               <div class="projects-container content-layer">
@@ -725,7 +765,6 @@
                 </div>
               </div>
             </div>
-          </div>
           <div class="main-footer">
             <!-- Aura Background Layer -->
             <div class="footer-aura"></div>
