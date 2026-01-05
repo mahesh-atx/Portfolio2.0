@@ -229,26 +229,77 @@ function initMaskedAnimations() {
 initMaskedAnimations();
 
 // --- 5.5 BENTO GRID ANIMATIONS ---
-function initBentoAnimations() {
-  const items = document.querySelectorAll(".bento-item");
-  if (items.length > 0) {
-    gsap.from(items, {
-      y: 50,
-      opacity: 0,
-      duration: 1,
-      stagger: 0.1,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: ".about-me-bento-grid",
-        scroller: "#main",
-        start: "top 85%", // Start slightly earlier
-        toggleActions: "play none none reverse",
-      },
+// --- 5.5 PROJECT HOVER REVEAL ANIMATIONS ---
+function initProjectHoverAnimations() {
+  const projectRows = document.querySelectorAll(".project-row");
+  const revealWrapper = document.querySelector(".project-reveal-wrapper");
+  const revealImg = document.querySelector(".project-reveal-img");
+  const projectList = document.querySelector(".project-list");
+
+  if (!projectRows.length || !revealWrapper || !revealImg) return;
+
+  // Initial State
+  gsap.set(revealWrapper, { xPercent: -50, yPercent: -50, autoAlpha: 0, scale: 0.8 });
+
+  // Mouse Move Handler (Follow Cursor)
+  const xTo = gsap.quickTo(revealWrapper, "x", { duration: 0.4, ease: "power3" });
+  const yTo = gsap.quickTo(revealWrapper, "y", { duration: 0.4, ease: "power3" });
+
+  window.addEventListener("mousemove", (e) => {
+    // Check if hovering over the list area
+    if (e.target.closest(".project-list")) {
+        xTo(e.clientX);
+        yTo(e.clientY);
+    }
+  });
+
+  // Row Hover Handlers
+  projectRows.forEach((row) => {
+    row.addEventListener("mouseenter", () => {
+      const imgUrl = row.getAttribute("data-image");
+      
+      // Update Image
+      if (imgUrl) {
+          revealImg.src = imgUrl;
+      }
+
+      // Show Wrapper
+      gsap.to(revealWrapper, {
+        autoAlpha: 1,
+        scale: 1,
+        duration: 0.4,
+        ease: "power2.out",
+        overwrite: "auto"
+      });
+
+      // Optional: Parallax inner image
+      gsap.fromTo(revealImg, 
+        { scale: 1.2 }, 
+        { scale: 1, duration: 0.4, ease: "power2.out" }
+      );
     });
+
+    row.addEventListener("mouseleave", () => {
+       // Only hide if leaving the row and not entering another (handled by shared wrapper logic usually, but here handled by list leave or row switch)
+       // Actually simplest to hide when leaving the list or individual row?
+       // Let's hide when leaving the entire list to avoid flickering, but here we trigger show on enter.
+    });
+  });
+
+  // Hide when leaving the list container
+  if (projectList) {
+      projectList.addEventListener("mouseleave", () => {
+        gsap.to(revealWrapper, {
+            autoAlpha: 0,
+            scale: 0.8,
+            duration: 0.3,
+            ease: "power2.in"
+        });
+      });
   }
 }
 
-initBentoAnimations();
+initProjectHoverAnimations();
 
 // --- 6. MAGNETIC BUTTONS ---
 function initMagneticButtons() {
@@ -551,6 +602,7 @@ function initExperienceAnimations() {
 window.addEventListener('load', () => {
   setTimeout(() => {
     initExperienceAnimations();
+    initProjectHoverAnimations();
     initProjectsAnimations();
     ScrollTrigger.refresh();
   }, 500);
