@@ -249,43 +249,8 @@
         font-size: 0.9em;
     }
 
-    /* Experience */
-    .experience-container {
-        padding-left: 3em;
-        padding-right: 1em;
-    }
-
-    .wavy-line-container {
-        left: 0;
-        transform: none;
-        width: 100%;
-    }
-
-    .experience-row {
-        flex-direction: column !important;
-        align-items: flex-start;
-        margin-bottom: 3em;
-        padding-left: 4em;
-    }
-
-    .experience-icon-wrapper {
-        position: absolute;
-        left: -2em;
-        top: 0;
-        width: 50px;
-        height: 50px;
-        margin: 0;
-    }
-
-    .experience-card {
-        width: 100%;
-        margin: 0;
-        margin-top: 1em;
-    }
-
-    .experience-spacer {
-        display: none;
-    }
+    /* Experience - New layout handles its own responsiveness, so we remove legacy conflicts if any */
+    /* Keeping this block for potential future general 768px adjustments */
 }
 
 @media (max-width: 423px) {

@@ -256,12 +256,22 @@
               </div>
             </div>
             <div class="hero-right">
-              <div class="hero-img-container">
-                <img
-                  src="./assets/Snapchat-172367734.jpg"
-                  alt="Mahesh Dongare"
-                  onerror="this.src='https://placehold.co/400x500?text=MD'"
-                />
+              <div class="glass-card-container">
+                <div class="glass-card">
+                  <div class="glass-card-content">
+                    <div class="glass-header">
+                      <h3>Mahesh Dongare</h3>
+                      <span class="status-pill"><span class="dot"></span> Connecting</span>
+                    </div>
+                    <div class="glass-image-wrapper">
+                      <img
+                        src="./assets/profile-1.jpg"
+                        alt="Mahesh Dongare"
+                        onerror="this.src='https://placehold.co/400x500?text=MD'"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -307,7 +317,9 @@
 
           <!-- About Content -->
           <div class="about-content">
-            <span class="about-label">About Me</span>
+            <h1>
+              <span class="line-mask"><span>About Me</span></span>
+            </h1>
             <h2>I'm Mahesh, a Product Developer based in India</h2>
             <p>
               I specialize in building digital products that solve real problems. 
@@ -518,48 +530,24 @@
 
             <div class="experience" id="experience-section">
               <div class="experience-title content-layer">
-                <!-- Masked Animation Structure -->
                 <h1>
                   <span class="line-mask"><span>Experience</span></span>
                 </h1>
               </div>
 
               <div class="experience-container content-layer">
-                <!-- Central Wavy Line SVG -->
-                <div class="wavy-line-container">
-                  <svg class="wavy-svg">
-                    <defs>
-                      <linearGradient
-                        id="waveGradient"
-                        x1="0%"
-                        y1="0%"
-                        x2="0%"
-                        y2="100%"
-                      >
-                        <stop offset="0%" stop-color="#6366f1" />
-                        <stop offset="50%" stop-color="#ec4899" />
-                        <stop offset="100%" stop-color="#10b981" />
-                      </linearGradient>
-                    </defs>
-                    <path
-                      class="wavy-path-base"
-                      fill="none"
-                      vector-effect="non-scaling-stroke"
-                    ></path>
-                    <path
-                      class="wavy-path-active"
-                      fill="none"
-                      vector-effect="non-scaling-stroke"
-                    ></path>
-                  </svg>
-                </div>
-
-                <!-- Timeline Item 1 (Left) -->
-                <div class="experience-row left-align">
+                <div class="experience-timeline-line"></div>
+                
+                <!-- Experience Item 1 -->
+                <div class="experience-item">
+                  <div class="experience-dot"></div>
+                  <div class="experience-date">Sept 2025 - Present</div>
                   <div class="experience-card">
                     <div class="card-header">
-                      <span class="exp-date">Sept 2025 - Present</span>
-                      <h3>Software Developer Intern</h3>
+                      <div class="card-icon-title">
+                        <i class="ph ph-shield-check"></i>
+                        <h3>Software Developer Intern</h3>
+                      </div>
                       <span class="company">Akola Police Cybercell</span>
                     </div>
                     <p>
@@ -568,29 +556,21 @@
                       workflows.
                     </p>
                     <div class="card-tags">
-                      <span>Node.js</span><span>WhatsApp API</span>
+                      <span>Node.js</span><span>WhatsApp API</span><span>Automation</span>
                     </div>
                   </div>
-                  <div class="experience-icon-wrapper">
-                    <div class="experience-icon" style="background: #6366f1">
-                      <i class="ph ph-shield-check"></i>
-                    </div>
-                  </div>
-                  <div class="experience-spacer"></div>
                 </div>
 
-                <!-- Timeline Item 2 (Right) -->
-                <div class="experience-row right-align">
-                  <div class="experience-spacer"></div>
-                  <div class="experience-icon-wrapper">
-                    <div class="experience-icon" style="background: #ec4899">
-                      <i class="ph ph-code"></i>
-                    </div>
-                  </div>
+                <!-- Experience Item 2 -->
+                <div class="experience-item">
+                  <div class="experience-dot"></div>
+                  <div class="experience-date">May 2024 - Jul 2024</div>
                   <div class="experience-card">
                     <div class="card-header">
-                      <span class="exp-date">May 2024 - Jul 2024</span>
-                      <h3>Internship Trainee</h3>
+                      <div class="card-icon-title">
+                        <i class="ph ph-code"></i>
+                        <h3>Internship Trainee</h3>
+                      </div>
                       <span class="company">Xenosis IT Solutions</span>
                     </div>
                     <p>
@@ -599,17 +579,21 @@
                       applications.
                     </p>
                     <div class="card-tags">
-                      <span>Full Stack</span><span>UI/UX</span>
+                      <span>Full Stack</span><span>UI/UX</span><span>React</span>
                     </div>
                   </div>
                 </div>
 
-                <!-- Timeline Item 3 (Left) -->
-                <div class="experience-row left-align">
+                <!-- Experience Item 3 -->
+                <div class="experience-item">
+                  <div class="experience-dot"></div>
+                  <div class="experience-date">Sep 2021 - Nov 2021</div>
                   <div class="experience-card">
                     <div class="card-header">
-                      <span class="exp-date">Sep 2021 - Nov 2021</span>
-                      <h3>Internship Trainee</h3>
+                      <div class="card-icon-title">
+                        <i class="ph ph-desktop"></i>
+                        <h3>Internship Trainee</h3>
+                      </div>
                       <span class="company">iBase Electrosoft LLP</span>
                     </div>
                     <p>
@@ -618,15 +602,9 @@
                       projects.
                     </p>
                     <div class="card-tags">
-                      <span>Python</span><span>Tkinter</span>
+                      <span>Python</span><span>Tkinter</span><span>GUI</span>
                     </div>
                   </div>
-                  <div class="experience-icon-wrapper">
-                    <div class="experience-icon" style="background: #10b981">
-                      <i class="ph ph-desktop"></i>
-                    </div>
-                  </div>
-                  <div class="experience-spacer"></div>
                 </div>
               </div>
             </div>
@@ -655,7 +633,7 @@
                     >
                       <div class="bento-card-image">
                         <img
-                          src="./assets/lynq-preview.png"
+                          src="https://placehold.co/900x600?text=LYNQ+AI"
                           alt="LYNQ AI"
                           loading="lazy"
                           onerror="this.src='https://placehold.co/900x600?text=LYNQ+AI'"
@@ -685,7 +663,7 @@
                     <a href="#" class="bento-card-link">
                       <div class="bento-card-image">
                         <img
-                          src="./assets/project-placeholder.png"
+                          src="https://placehold.co/600x400?text=Portfolio+Builder"
                           alt="Portfolio Builder"
                           loading="lazy"
                           onerror="this.src='https://placehold.co/600x400?text=Portfolio+Builder'"
@@ -713,7 +691,7 @@
                     <a href="#" class="bento-card-link">
                       <div class="bento-card-image">
                         <img
-                          src="./assets/project-placeholder.png"
+                          src="https://placehold.co/600x400?text=E-Commerce"
                           alt="E-Commerce"
                           loading="lazy"
                           onerror="this.src='https://placehold.co/600x400?text=E-Commerce'"
@@ -739,7 +717,7 @@
                     <a href="#" class="bento-card-link">
                       <div class="bento-card-image">
                         <img
-                          src="./assets/project-placeholder.png"
+                          src="https://placehold.co/600x400?text=Analytics+Dashboard"
                           alt="Dashboard"
                           loading="lazy"
                           onerror="this.src='https://placehold.co/600x400?text=Analytics+Dashboard'"

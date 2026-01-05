@@ -44,7 +44,7 @@ nav {
 }
 
 .hero-left {
-    flex: 1.3;
+    /* flex: 1.3; */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -116,6 +116,7 @@ nav {
 
 .hero-text .line-mask span {
     text-align: left;
+    font-weight: 600;
 }
 
 .hero-buttons {
@@ -137,8 +138,8 @@ nav {
 
 .hero-inline-images .inline-block {
     display: inline-block !important;
-    width: 0.9em;
-    height: 0.9em;
+    width: 1.2em;
+    height: 1.2em;
     border-radius: 0.2em;
     border: 2px solid var(--bg-primary);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
@@ -348,8 +349,8 @@ nav {
 }
 
 /* About Section */
-.about {
-    text-align: center;
+.about-section {
+    text-align: left;
     padding-block: var(--block-padding);
     background-color: var(--bg-secondary);
     border-bottom-left-radius: 60px;
@@ -359,8 +360,8 @@ nav {
     align-items: center;
 }
 
-.about .line-mask span {
-    text-align: center;
+.about-section .line-mask span {
+    text-align: left;
 }
 
 /* Bento Grid */
@@ -1171,8 +1172,8 @@ nav {
 
 /* Service Card Base */
 .service-card {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-tertiary);
+    background: #ffffff; /* Light background */
+    border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: 24px;
     padding: 2em;
     width: 260px;
@@ -1182,6 +1183,7 @@ nav {
     position: relative;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
 }
 
 /* Raised Cards (2nd and 4th) */
@@ -1189,20 +1191,20 @@ nav {
     transform: translateY(-40px);
 }
 
-/* Accent Background Cards */
+/* Accent Background Cards - keeping them light but maybe slightly different or same */
 .service-card.accent {
-    background: var(--bg-tertiary);
+    background: #f8fafc; /* Very subtle difference */
 }
 
 /* Card Hover Effects */
 .service-card:hover {
-    transform: translateY(-12px);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
-    border-color: var(--text-secondary);
+    transform: translateY(-12px) scale(1.02); /* Slight scale up */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08); /* Softer, larger shadow */
+    border-color: rgba(0, 0, 0, 0.15);
 }
 
 .service-card.raised:hover {
-    transform: translateY(-52px);
+    transform: translateY(-52px) scale(1.02);
 }
 
 /* Card Top Row */
@@ -1218,8 +1220,8 @@ nav {
     font-family: 'Ot-medium', sans-serif;
     font-size: 0.85em;
     color: var(--text-heading);
-    background: var(--bg-primary);
-    border: 1px solid var(--border-tertiary);
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.05);
     padding: 0.4em 0.8em;
     border-radius: 8px;
     opacity: 0.8;
@@ -1230,69 +1232,76 @@ nav {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: var(--bg-primary);
-    border: 1px solid var(--border-tertiary);
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--text-heading);
-    font-size: 1em;
+    font-size: 1.1em;
     transition: all 0.3s ease;
 }
 
 .service-card:hover .service-arrow {
     background: var(--text-heading);
-    color: var(--bg-primary);
+    color: #fff;
     border-color: var(--text-heading);
-    transform: rotate(45deg);
+    transform: rotate(45deg) scale(1.1);
 }
 
 /* Card Typography */
 .service-card h4 {
-    font-size: 1.35em;
+    font-size: 1.5em;
     font-family: 'Ot-medium', sans-serif;
-    color: var(--text-heading);
+    color: #1a1a1a; /* Strong dark text */
     margin: 0 0 0.8em 0;
     line-height: 1.3;
 }
 
 .service-card p {
-    font-size: 0.9em;
-    line-height: 1.65;
-    color: var(--text-primary);
-    opacity: 0.65;
+    font-size: 0.95em;
+    line-height: 1.6;
+    color: #4a4a4a; /* Softer dark text */
+    opacity: 1;
     margin: 0;
     flex-grow: 1;
 }
 
-/* Dark Mode Styles */
+/* Dark Mode Styles Update */
 #main.dark-mode .service-card {
-    background: var(--bg-secondary);
-    border-color: rgba(255, 255, 255, 0.06);
-}
-
-#main.dark-mode .service-card.accent {
-    background: var(--bg-tertiary);
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: none;
 }
 
 #main.dark-mode .service-card:hover {
-    border-color: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+#main.dark-mode .service-card h4 {
+    color: #fff;
+}
+
+#main.dark-mode .service-card p {
+    color: rgba(255, 255, 255, 0.7);
 }
 
 #main.dark-mode .service-num {
     background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 #main.dark-mode .service-arrow {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
 }
 
 #main.dark-mode .service-card:hover .service-arrow {
-    background: var(--text-heading);
-    color: var(--bg-primary);
+    background: #fff;
+    color: #000;
 }
 
 /* Mobile Responsive */
@@ -1380,172 +1389,217 @@ nav {
 }
 
 
-/* Experience Section */
+/* Experience Section - Modern Vertical Timeline */
 .experience {
     padding-block: var(--section-padding);
-    max-width: 90%;
-    margin: 0 auto;
-    padding-inline: 20px;
+    background-color: var(--bg-secondary);
+    position: relative;
 }
 
 .experience-title {
-    margin-bottom: 3.5em;
+    margin-bottom: 4em;
+    text-align: center;
 }
 
 .experience-container {
-    position: relative;
-    max-width: 1400px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 4em 0;
+    position: relative;
+    padding: 2em 0;
     display: flex;
     flex-direction: column;
-    gap: 6em;
-    overflow: visible;
-    padding-bottom: 2em;
+    gap: 3em;
 }
 
-.wavy-line-container {
+/* Vertical Timeline Line */
+.experience-timeline-line {
     position: absolute;
+    left: 40px;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    pointer-events: none;
-    transform: none;
-}
-
-.wavy-svg {
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-}
-
-.wavy-path-base {
-    stroke: var(--border-tertiary);
-    stroke-width: 2px;
-}
-
-.wavy-path-active {
-    stroke: url(#waveGradient);
-    stroke-width: 3px;
-    stroke-linecap: round;
-}
-
-.experience-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    position: relative;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, 
+        transparent, 
+        var(--accent-primary) 10%, 
+        var(--accent-primary) 90%, 
+        transparent);
     z-index: 1;
+    opacity: 0.3;
 }
 
-.experience-row.left-align {
-    flex-direction: row;
-}
-
-.experience-row.right-align {
-    flex-direction: row;
-}
-
-.experience-spacer {
-    flex: 1;
-}
-
-.experience-icon-wrapper {
-    flex: 0 0 100px;
+.experience-item {
     display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.experience-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.5em;
+    align-items: flex-start;
     position: relative;
     z-index: 2;
-    border: 3px solid var(--bg-secondary);
+    padding-left: 80px;
 }
 
-/* Clean Card Style - Matches Services Section */
+.experience-dot {
+    position: absolute;
+    left: 41px;
+    top: 32px;
+    width: 12px;
+    height: 12px;
+    background: var(--bg-secondary);
+    border: 2px solid var(--accent-primary);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    transition: all 0.3s ease;
+}
+
+.experience-item:hover .experience-dot {
+    background: var(--accent-primary);
+    box-shadow: 0 0 15px var(--accent-primary);
+    transform: translate(-50%, -50%) scale(1.3);
+}
+
+.experience-date {
+    font-family: 'Ot-medium', sans-serif;
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    margin-bottom: 0.5em;
+    opacity: 0.8;
+}
+
+/* Glassmorphic Experience Card */
 .experience-card {
-    flex: 1;
-    padding: 2em 2.5em;
-    background: var(--bg-primary);
-    border-radius: 20px;
-    border: 1px solid var(--border-tertiary);
-    margin: 0 2em;
-    position: relative;
-    z-index: 1;
+    width: 100%;
+    padding: 2em;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-#main.dark-mode .experience-card {
-    background: var(--bg-tertiary);
-    border-color: rgba(255, 255, 255, 0.06);
+.experience-card:hover {
+    transform: translateX(10px);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
 .card-header {
-    margin-bottom: 1em;
+    margin-bottom: 1.2em;
 }
 
-.exp-date {
-    font-size: 0.85em;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-secondary);
-    margin-bottom: 0.5em;
-    display: block;
-    opacity: 0.7;
+.card-icon-title {
+    display: flex;
+    align-items: center;
+    gap: 0.8em;
+    margin-bottom: 0.4em;
+}
+
+.card-icon-title i {
+    font-size: 1.8em;
+    color: var(--accent-primary);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.experience-card:hover .card-icon-title i {
+    transform: scale(1.2) rotate(5deg);
 }
 
 .card-header h3 {
-    font-size: 1.4em;
-    margin-bottom: 0.2em;
+    font-size: 1.6em;
+    margin-bottom: 0;
     color: var(--text-heading);
     font-family: 'Ot-medium', sans-serif;
 }
 
 .card-header .company {
     font-family: 'Ot-medium', sans-serif;
-    color: var(--text-secondary);
-    font-size: 0.95em;
-    opacity: 0.8;
+    color: var(--accent-primary);
+    font-size: 1.1em;
+    font-weight: 500;
 }
 
 .experience-card p {
-    font-size: 0.95em;
-    line-height: 1.6;
-    margin-bottom: 1.2em;
+    font-size: 1em;
+    line-height: 1.7;
+    margin-bottom: 1.5em;
     color: var(--text-primary);
-    opacity: 0.7;
+    opacity: 0.8;
 }
 
 .card-tags {
     display: flex;
-    gap: 0.6em;
+    gap: 0.8em;
     flex-wrap: wrap;
 }
 
 .card-tags span {
-    padding: 0.4em 1em;
-    border-radius: 20px;
-    background: var(--bg-tertiary);
-    font-size: 0.8em;
-    color: var(--text-primary);
-    border: 1px solid var(--border-tertiary);
+    padding: 0.5em 1.2em;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.05);
+    font-size: 0.85em;
+    color: var(--text-heading);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     font-family: 'Ot-medium', sans-serif;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    cursor: default;
 }
 
-#main.dark-mode .card-tags span {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.08);
+.card-tags span:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent-primary);
+    background: rgba(99, 102, 241, 0.1);
+    box-shadow: 0 5px 15px rgba(99, 102, 241, 0.1);
+}
+
+.experience-card:hover .card-tags span {
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+/* Light Mode Overrides for Glassmorphism */
+#main:not(.dark-mode) .experience-card {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+}
+
+#main:not(.dark-mode) .experience-card:hover {
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+}
+
+#main:not(.dark-mode) .card-tags span {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.05);
+    color: var(--text-primary);
+}
+
+#main:not(.dark-mode) .experience-card:hover .card-tags span {
+    background: rgba(99, 102, 241, 0.05);
+    border-color: var(--accent-primary);
+}
+
+/* Tablet & Mobile Responsive */
+@media (max-width: 768px) {
+    .experience-timeline-line {
+        left: 20px;
+    }
+    
+    .experience-item {
+        padding-left: 50px;
+    }
+    
+    .experience-dot {
+        left: 21px;
+    }
+    
+    .experience-card {
+        padding: 1.5em;
+    }
+    
+    .card-header h3 {
+        font-size: 1.4em;
+    }
 }
 
 /* Projects Section - Bento Grid */
@@ -2120,3 +2174,134 @@ footer {
         width: 100%;
     }
 }
+/* === Glassmorphism Card (Hero Right) === */
+.glass-card-container {
+    position: relative;
+    width: 380px;
+    height: 480px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: rotate(-3deg);
+    transition: transform 0.4s ease;
+}
+
+.glass-card-container:hover {
+    transform: rotate(0deg) scale(1.02);
+}
+
+.glass-card {
+    width: 100%;
+    height: 100%;
+    /* Removed background on the card itself so image is visible clearly, or keep subtle tint */
+    background: transparent;
+    border-radius: 30px;
+    /* border: 1px solid rgba(255, 255, 255, 0.4); */ /* Optional: remove border if it interferes with full image look */
+    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.3);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Image fills the card completely */
+.glass-image-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.glass-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.glass-card:hover .glass-image-wrapper img {
+    transform: scale(1.05);
+}
+
+.glass-card-content {
+    /* No longer flow layout, just a container if needed, or unused */
+    position: absolute;
+    inset: 0;
+    pointer-events: none; /* Let clicks pass through if needed */
+    z-index: 2;
+}
+
+/* Header Text Overlay */
+.glass-header {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 3;
+    pointer-events: auto;
+}
+
+.glass-header h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    /* Transparent background / blurred */
+    background: rgba(255, 255, 255, 0.15);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: #fff;
+    font-weight: 500;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.status-pill .dot {
+    width: 6px;
+    height: 6px;
+    background-color: #4ade80;
+    border-radius: 50%;
+    animation: pulse-dot 2s infinite;
+    box-shadow: 0 0 5px #4ade80;
+}
+
+@keyframes pulse-dot {
+    0% { transform: scale(0.95); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+/* Curved Bottom Blur */
+.glass-card::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; /* Push down slightly */
+    left: -10%;
+    width: 120%;
+    height: 180px; /* Height of the blurred area */
+    background: linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,255,255,0.25));
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 1;
+    /* Create the curve */
+    border-top-left-radius: 50% 100%;
+    border-top-right-radius: 50% 100%;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.05) inset;
+    pointer-events: none;
+}
+
+/* Remove unused or conflicting parts from previous iterations */
+.glass-card::before { display: none; }
+

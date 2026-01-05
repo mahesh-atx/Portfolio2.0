@@ -12,29 +12,36 @@ if (localStorage.getItem("theme") === "dark") {
 // Defined separate function so we can call it from the preloader timeline
 function playHeroAnimations() {
   const heroLines = document.querySelectorAll(".hero h1 .line-mask > span");
-  const heroImage = document.querySelector(".hero-img-container");
+  // Updated selector to match new glass card structure
+  const heroImage = document.querySelector(".glass-card-container") || document.querySelector(".hero-img-container");
 
   // Ensure elements are visible for animation
   // (Mask parents already hide overflow, but opacity helps smooth entry)
 
   const tl = gsap.timeline();
 
-  tl.from(heroLines, {
-    y: "110%",
-    opacity: 0,
-    duration: 1.2,
-    ease: "power4.out",
-    stagger: 0.1,
-  }).from(
-    heroImage,
-    {
-      scale: 0.8,
+  if (heroLines.length > 0) {
+    tl.from(heroLines, {
+      y: "110%",
       opacity: 0,
       duration: 1.2,
-      ease: "power2.out",
-    },
-    "<0.2"
-  );
+      ease: "power4.out",
+      stagger: 0.1,
+    });
+  }
+  
+  if (heroImage) {
+    tl.from(
+      heroImage,
+      {
+        scale: 0.8,
+        opacity: 0,
+        duration: 1.2,
+        ease: "power2.out",
+      },
+      "<0.2"
+    );
+  }
 }
 
 // --- 3. PRELOADER LOGIC ---
@@ -43,6 +50,13 @@ function initPreloader() {
   const ball = document.querySelector("#loader-ball");
   const letters = document.querySelectorAll("#preloader-text span");
   const face = document.querySelector(".face");
+
+  // If preloader HTML is missing/commented out, just show content and return
+  if (!container) {
+    document.body.classList.remove("loading");
+    playHeroAnimations();
+    return;
+  }
 
   const tl = gsap.timeline({
     onComplete: () => {
@@ -54,23 +68,25 @@ function initPreloader() {
 
   if (ball) gsap.set(ball, { scale: 0, autoAlpha: 1 });
 
-  tl
-    // Text Reveal
-    .to(letters, {
+  // Only add animations if elements exist
+  if (letters.length > 0) {
+    tl.to(letters, {
       y: 0,
       duration: 1,
       stagger: 0.05,
       ease: "power4.out",
-    })
-    // Ball Pop In
-    .to(
+    });
+  }
+
+  if (ball) {
+    tl.to(
       ball,
       {
         scale: 1,
         duration: 0.5,
         ease: "elastic.out(1, 0.5)",
       },
-      "-=0.5"
+      letters.length > 0 ? "-=0.5" : "0" // Adjust timing based on letters existence
     )
     // Ball Drop
     .call(() => {
@@ -99,10 +115,16 @@ function initPreloader() {
       scaleY: 1,
       duration: 0.3,
       ease: "elastic.out(1, 0.3)",
-    })
-    // Fade out FACE and Text
-    .to(
-      [letters, face],
+    });
+  }
+
+  if (letters.length > 0 || face) {
+    const fadeTargets = [];
+    if (letters.length > 0) fadeTargets.push(letters);
+    if (face) fadeTargets.push(face);
+
+    tl.to(
+      fadeTargets,
       {
         y: -20,
         opacity: 0,
@@ -111,10 +133,12 @@ function initPreloader() {
         ease: "power2.in",
       },
       "+=0.1"
-    )
+    );
+  }
 
+  if (ball) {
     // Massive Expand (Cover screen)
-    .to(
+    tl.to(
       ball,
       {
         scale: 250,
@@ -122,24 +146,25 @@ function initPreloader() {
         ease: "power4.inOut",
       },
       "<"
-    )
+    );
+  }
 
     // === CONCURRENT HERO REVEAL ===
-    .add(() => {
-      // Start Hero Animation AS the container fades
-      playHeroAnimations();
-    }, "-=0.6") // Sync point: Start slightly before expansion finishes
+  tl.add(() => {
+    // Start Hero Animation AS the container fades
+    playHeroAnimations();
+  }, "-=0.6") // Sync point: Start slightly before expansion finishes
 
     // Container Fade Out (Reveals the animating hero underneath)
-    .to(
-      container,
-      {
-        opacity: 0,
-        duration: 1,
-        ease: "power2.inOut",
-      },
-      "<"
-    );
+  .to(
+    container,
+    {
+      opacity: 0,
+      duration: 1,
+      ease: "power2.inOut",
+    },
+    "<"
+  );
 }
 
 initPreloader();
@@ -237,8 +262,8 @@ function initMagneticButtons() {
       const y = e.clientY - centerY;
 
       gsap.to(magnet, {
-        x: x * 0.7,
-        y: y * 0.7,
+        x: x * 0.5,
+        y: y * 0.5,
         duration: 0.3,
         ease: "power2.out",
       });
@@ -278,8 +303,14 @@ function initCustomCursor() {
     ease: "power3",
   });
 
+  // Optimize visibility check to avoid getComputedStyle on every frame
+  let isCursorVisible = window.innerWidth > 768;
+  window.addEventListener("resize", () => {
+      isCursorVisible = window.innerWidth > 768;
+  });
+
   window.addEventListener("mousemove", (e) => {
-    if (window.getComputedStyle(cursor).display !== "none") {
+    if (isCursorVisible) {
       cursorX(e.clientX);
       cursorY(e.clientY);
       followerX(e.clientX);
@@ -450,182 +481,67 @@ projectToggleButtons.forEach((button) => {
 
 
 // --- 10. EXPERIENCE SECTION ANIMATIONS ---
-function updateExperiencePath() {
-  const container = document.querySelector('.experience-container');
-  const svg = document.querySelector('.wavy-svg');
-  const pathBase = document.querySelector('.wavy-path-base');
-  const pathActive = document.querySelector('.wavy-path-active');
-  const wrappers = document.querySelectorAll('.experience-icon-wrapper');
-
-  if (!container || !svg || !pathBase || !pathActive || wrappers.length === 0) return;
-
-  const containerRect = container.getBoundingClientRect();
-  const width = containerRect.width;
-  const height = containerRect.height;
-
-  // Update SVG ViewBox to match container dimensions
-  svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
-  svg.setAttribute('width', '100%');
-  svg.setAttribute('height', '100%');
-
-  // Start Path Logic
-  // Find the exact X center of the first icon to start the line
-  const firstWrapper = wrappers[0];
-  const firstWrapperRect = firstWrapper.getBoundingClientRect();
-  const startX = firstWrapperRect.left - containerRect.left + firstWrapperRect.width / 2;
-
-  let d = `M ${startX} 0`;
-
-  let prevX = startX;
-  let prevY = 0;
-
-  // Helper to get offset relative to the container
-  function getOffsetTop(el) {
-    let top = 0;
-    while (el && el !== container) {
-      top += el.offsetTop;
-      el = el.offsetParent;
-    }
-    return top;
-  }
-
-  wrappers.forEach((wrapper, index) => {
-    // Dynamic X Calculation:
-    // This finds the exact center of the icon relative to the container
-    const wrapperRect = wrapper.getBoundingClientRect();
-    const pointX = wrapperRect.left - containerRect.left + wrapperRect.width / 2;
-    const pointY = getOffsetTop(wrapper) + wrapper.offsetHeight / 2;
-
-    // Curve Logic: Bezier curve from prev point to current wrapper center
-    const cp1X = prevX;
-    const cp1Y = prevY + (pointY - prevY) * 0.5;
-    const cp2X = pointX;
-    const cp2Y = pointY - (pointY - prevY) * 0.5;
-
-    d += ` C ${cp1X} ${cp1Y}, ${cp2X} ${cp2Y}, ${pointX} ${pointY}`;
-
-    prevX = pointX;
-    prevY = pointY;
-  });
-
-  // Finish path to bottom
-  const bottomX = prevX; // Continue straight down from last icon
-  const bottomY = height;
-
-  d += ` L ${bottomX} ${bottomY}`;
-
-  pathBase.setAttribute('d', d);
-  pathActive.setAttribute('d', d);
-
-  return d;
-}
-
 function initExperienceAnimations() {
   const container = document.querySelector('.experience-container');
-  const svgPath = document.querySelector('.wavy-path-active');
+  const items = document.querySelectorAll('.experience-item');
+  const line = document.querySelector('.experience-timeline-line');
 
-  if (!container || !svgPath) return;
+  if (!container || items.length === 0) return;
 
-  // Initial Path Calculation with delay for layout
-  setTimeout(() => {
-    updateExperiencePath();
-    ScrollTrigger.refresh();
-  }, 200);
-
-  // Re-calculate on Resize with Debounce
-  let resizeTimeout;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      updateExperiencePath();
-      ScrollTrigger.refresh();
-      if (locoScroll) locoScroll.update();
-    }, 250);
-  });
-
-  // 1. Wavy Line Drawing Animation
-  try {
-    updateExperiencePath();
-    const pathLength = svgPath.getTotalLength();
-
-    gsap.set(svgPath, {
-      strokeDasharray: pathLength,
-      strokeDashoffset: pathLength
-    });
-
-    gsap.to(svgPath, {
-      strokeDashoffset: 0,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: container,
-        scroller: '#main',
-        start: 'top 70%',
-        end: 'bottom 30%',
-        scrub: 1,
+  // 1. Animate the vertical timeline line
+  if (line) {
+    gsap.fromTo(line, 
+      { scaleY: 0, transformOrigin: "top" },
+      {
+        scaleY: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: container,
+          scroller: "#main",
+          start: "top 80%",
+          end: "bottom 30%",
+          scrub: true,
+        }
       }
-    });
-  } catch (e) {
-    console.warn('Wavy line animation failed:', e);
+    );
   }
 
-  // 2. Cards & Icons Entry Animations
-  const rows = document.querySelectorAll('.experience-row');
+  // 2. Animate items as they enter
+  items.forEach((item, index) => {
+    const dot = item.querySelector('.experience-dot');
+    const date = item.querySelector('.experience-date');
+    const card = item.querySelector('.experience-card');
 
-  rows.forEach((row, index) => {
-    const card = row.querySelector('.experience-card');
-    const icon = row.querySelector('.experience-icon');
+    // Create a unique timeline for each item
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: item,
+        scroller: "#main",
+        start: "top bottom-=100", // Start animation when item is near bottom
+        toggleActions: "play none none reverse",
+      }
+    });
 
-    // Set initial state explicitly
+    // Ensure elements exist before animating
+    if (dot) {
+      tl.fromTo(dot, 
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.7)" }
+      );
+    }
+    if (date) {
+      tl.fromTo(date, 
+        { x: -30, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.6, ease: "power2.out" }, 
+        "-=0.4"
+      );
+    }
     if (card) {
-      gsap.set(card, { opacity: 0, y: 60 });
-    }
-    if (icon) {
-      gsap.set(icon, { opacity: 0, scale: 0.5 });
-    }
-
-    // Animate Card
-    if (card) {
-      gsap.to(card, {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: row,
-          scroller: '#main',
-          start: 'top 90%',
-          end: 'top 60%',
-          toggleActions: 'play none none reverse',
-        }
-      });
-    }
-
-    // Animate Icon
-    if (icon) {
-      gsap.to(icon, {
-        scale: 1,
-        opacity: 1,
-        duration: 0.8,
-        ease: 'back.out(1.7)',
-        scrollTrigger: {
-          trigger: row,
-          scroller: '#main',
-          start: 'top 90%',
-          end: 'top 60%',
-          toggleActions: 'play none none reverse',
-        }
-      });
-
-      // Active State (Glow when in center)
-      ScrollTrigger.create({
-        trigger: row,
-        scroller: '#main',
-        start: 'top 55%',
-        end: 'bottom 45%',
-        onEnter: () => icon.classList.add('active'),
-        onLeave: () => icon.classList.add('active'), // Keep active after passing
-        onLeaveBack: () => icon.classList.remove('active'),
-      });
+      tl.fromTo(card, 
+        { x: 50, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, 
+        "-=0.5"
+      );
     }
   });
 }
@@ -714,6 +630,7 @@ function initScrollMarquee() {
   if (!marqueeScroll) return;
 
   // State variables
+  let isAnimating = true;
   let currentX = 0;
   let baseSpeed = 0.5; // Slower base pixels per frame
   let scrollVelocity = 0;
@@ -723,6 +640,8 @@ function initScrollMarquee() {
 
   // Animation loop - optimized
   function animate() {
+    if (!isAnimating) return;
+
     // Calculate speed based on scroll velocity
     const speed = baseSpeed + Math.min(Math.abs(scrollVelocity) * 0.03, 2);
 
@@ -785,6 +704,24 @@ function initScrollMarquee() {
     marqueeWrapper.addEventListener('mouseleave', () => {
       baseSpeed = 0.5; // Resume normal (slower) speed
     });
+  }
+
+  // Intersection Observer for performance
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        if (!isAnimating) {
+          isAnimating = true;
+          animate();
+        }
+      } else {
+        isAnimating = false;
+      }
+    });
+  }, { rootMargin: "100px" }); // Start slightly before it enters
+
+  if(marqueeScroll.parentElement) {
+      observer.observe(marqueeScroll.parentElement);
   }
 }
 
