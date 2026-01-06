@@ -80,7 +80,7 @@
   </head>
 
   <body class="loading">
-    <div class="noise-overlay"></div>
+    <!-- <div class="noise-overlay"></div> -->
     <!-- Preloader Wrapper -->
     <!-- <div id="preloader">
       <div class="preloader-content">
@@ -457,7 +457,9 @@
           <div class="services-section">
             <div class="services-container content-layer">
               <div class="services-intro">
-                <h2>What I Do</h2>
+                <h2>
+                  <span class="line-mask"><span>What I Do</span></span>
+                </h2>
                 <p>
                   Tailored technical solutions for brands that want to stand
                   out.
@@ -544,17 +546,22 @@
                   <div class="experience-date">Sept 2025 - Present</div>
                   <div class="experience-card">
                     <div class="card-header">
-                      <div class="card-icon-title">
+                      <div class="header-icon">
                         <i class="ph ph-shield-check"></i>
-                        <h3>Software Developer Intern</h3>
                       </div>
-                      <span class="company">Akola Police Cybercell</span>
+                      <div class="header-content">
+                        <h3>Software Developer Intern</h3>
+                        <span class="company">Akola Police Cybercell</span>
+                      </div>
                     </div>
-                    <p>
-                      Developing tools for cyber investigation efficiency and
-                      administrative automation. Designed web apps to streamline
-                      workflows.
-                    </p>
+                    <ul class="experience-bullets">
+                      <li>Developing tools for cyber investigation efficiency.</li>
+                      <li>Designed web apps to steamline administrative workflows.</li>
+                      <li>Automated data processing tasks reducing manual effort.</li>
+                    </ul>
+                    <div class="card-watermark">
+                      <i class="ph ph-shield-check"></i>
+                    </div>
                     <div class="card-tags">
                       <span>Node.js</span><span>WhatsApp API</span><span>Automation</span>
                     </div>
@@ -567,17 +574,22 @@
                   <div class="experience-date">May 2024 - Jul 2024</div>
                   <div class="experience-card">
                     <div class="card-header">
-                      <div class="card-icon-title">
+                      <div class="header-icon">
                         <i class="ph ph-code"></i>
-                        <h3>Internship Trainee</h3>
                       </div>
-                      <span class="company">Xenosis IT Solutions</span>
+                      <div class="header-content">
+                        <h3>Internship Trainee</h3>
+                        <span class="company">Xenosis IT Solutions</span>
+                      </div>
                     </div>
-                    <p>
-                      Gained hands-on experience in full-stack development.
-                      Contributed to UI/UX design and deployed functional client
-                      applications.
-                    </p>
+                    <ul class="experience-bullets">
+                      <li>Contributed to UI/UX design and full-stack development.</li>
+                      <li>Deployed functional client applications.</li>
+                      <li>Collaborated with senior devs on live projects.</li>
+                    </ul>
+                    <div class="card-watermark">
+                      <i class="ph ph-code"></i>
+                    </div>
                     <div class="card-tags">
                       <span>Full Stack</span><span>UI/UX</span><span>React</span>
                     </div>
@@ -590,17 +602,22 @@
                   <div class="experience-date">Sep 2021 - Nov 2021</div>
                   <div class="experience-card">
                     <div class="card-header">
-                      <div class="card-icon-title">
+                      <div class="header-icon">
                         <i class="ph ph-desktop"></i>
-                        <h3>Internship Trainee</h3>
                       </div>
-                      <span class="company">iBase Electrosoft LLP</span>
+                      <div class="header-content">
+                        <h3>Internship Trainee</h3>
+                        <span class="company">iBase Electrosoft LLP</span>
+                      </div>
                     </div>
-                    <p>
-                      Practical experience in Core Python, Tkinter GUI, and
-                      logic building through small-scale graphical programming
-                      projects.
-                    </p>
+                    <ul class="experience-bullets">
+                      <li>Built GUI applications using Core Python and Tkinter.</li>
+                      <li>Enhanced logic building through graphical programming.</li>
+                      <li>Delivered small-scale automation scripts.</li>
+                    </ul>
+                    <div class="card-watermark">
+                      <i class="ph ph-desktop"></i>
+                    </div>
                     <div class="card-tags">
                       <span>Python</span><span>Tkinter</span><span>GUI</span>
                     </div>
@@ -630,9 +647,12 @@
                       <div class="project-index">01</div>
                       <div class="project-info">
                         <h2 class="project-title">LYNQ Ai ChatApp</h2>
-                        <span class="project-tags">Node.js · Socket.io · AI</span>
+                        <div class="project-meta">
+                          <span class="project-type">Web Application</span>
+                          <span class="separator">•</span>
+                          <span class="project-tags">Node.js · Socket.io · AI</span>
+                        </div>
                       </div>
-                      <div class="project-type">Web Application</div>
                       <div class="project-arrow">
                         <i class="ph ph-arrow-up-right"></i>
                       </div>
@@ -643,9 +663,12 @@
                       <div class="project-index">02</div>
                       <div class="project-info">
                         <h2 class="project-title">ZenByte Portfolio</h2>
-                        <span class="project-tags">React · OpenAI · Tailwind</span>
+                        <div class="project-meta">
+                          <span class="project-type">AI Tool</span>
+                          <span class="separator">•</span>
+                          <span class="project-tags">React · OpenAI · Tailwind</span>
+                        </div>
                       </div>
-                      <div class="project-type">AI Tool</div>
                       <div class="project-arrow">
                         <i class="ph ph-arrow-up-right"></i>
                       </div>
@@ -656,9 +679,12 @@
                       <div class="project-index">03</div>
                       <div class="project-info">
                         <h2 class="project-title">E-Commerce Platform</h2>
-                        <span class="project-tags">Next.js · Stripe · Postgres</span>
+                        <div class="project-meta">
+                          <span class="project-type">Full Stack</span>
+                          <span class="separator">•</span>
+                          <span class="project-tags">Next.js · Stripe · Postgres</span>
+                        </div>
                       </div>
-                      <div class="project-type">Full Stack</div>
                       <div class="project-arrow">
                         <i class="ph ph-arrow-up-right"></i>
                       </div>
@@ -669,9 +695,12 @@
                       <div class="project-index">04</div>
                       <div class="project-info">
                         <h2 class="project-title">Analytics Dashboard</h2>
-                        <span class="project-tags">React · D3.js · Real-time</span>
+                        <div class="project-meta">
+                          <span class="project-type">Data Viz</span>
+                          <span class="separator">•</span>
+                          <span class="project-tags">React · D3.js · Real-time</span>
+                        </div>
                       </div>
-                      <div class="project-type">Data Viz</div>
                       <div class="project-arrow">
                         <i class="ph ph-arrow-up-right"></i>
                       </div>

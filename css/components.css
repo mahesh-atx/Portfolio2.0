@@ -123,6 +123,29 @@
     }
 }
 
+/* Custom Cursor VIEW state */
+body.cursor-view .custom-cursor-follower {
+    width: 80px;
+    height: 80px;
+    background-color: #fff;
+    mix-blend-mode: difference;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body.cursor-view .custom-cursor-follower::after {
+    content: 'VIEW';
+    color: #000;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+body.cursor-view .custom-cursor {
+    opacity: 0;
+}
+
 /* Buttons */
 button {
     cursor: pointer;

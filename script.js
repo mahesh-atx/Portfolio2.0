@@ -201,7 +201,7 @@ ScrollTrigger.refresh();
 // --- 5. MASKED TEXT ANIMATIONS ---
 function initMaskedAnimations() {
   const headings = document.querySelectorAll(
-    ".about h2, .experience-title h1, .projects-section-title h1, .footer-text h1"
+    ".about-content h1, .services-intro h2, .experience-title h1, .projects-header h1, .footer-heading h1"
   );
 
   headings.forEach((heading) => {
@@ -250,6 +250,27 @@ function initProjectHoverAnimations() {
     if (e.target.closest(".project-list")) {
         xTo(e.clientX);
         yTo(e.clientY);
+        
+        // Tilt Effect Calculation
+        // Calculate velocity or position relative to screen center/movement
+        // Simple tilt based on movement direction is tricky with QuickTo, let's use velocity proxy or just position relative to center of screen?
+        // Let's us position relative to cursor movement direction approx
+        
+        const xVelocity = (e.movementX || 0) * 2; // exaggerated velocity
+        const yVelocity = (e.movementY || 0) * 2;
+        
+        // Clamp rotation
+        const rotationX = gsap.utils.clamp(-20, 20, -yVelocity); // Moving up -> tilt back (negative rotateX? check css perspective)
+        const rotationY = gsap.utils.clamp(-20, 20, xVelocity);  // Moving right -> tilt right
+        
+        gsap.to(revealWrapper, {
+            rotationX: rotationX,
+            rotationY: rotationY,
+            duration: 0.5,
+            ease: "power2.out",
+            overwrite: "auto"
+        });
+        
     }
   });
 
@@ -277,12 +298,13 @@ function initProjectHoverAnimations() {
         { scale: 1.2 }, 
         { scale: 1, duration: 0.4, ease: "power2.out" }
       );
+      
+      // Enable View Cursor
+      document.body.classList.add('cursor-view');
     });
 
     row.addEventListener("mouseleave", () => {
-       // Only hide if leaving the row and not entering another (handled by shared wrapper logic usually, but here handled by list leave or row switch)
-       // Actually simplest to hide when leaving the list or individual row?
-       // Let's hide when leaving the entire list to avoid flickering, but here we trigger show on enter.
+       document.body.classList.remove('cursor-view');
     });
   });
 
@@ -401,28 +423,47 @@ initCustomCursor();
 // --- 8. ANIMATED EYES FOLLOW CURSOR ---
 function initEyeTracking() {
   const eyes = document.querySelectorAll('.hero-eye');
-
   if (eyes.length === 0) return;
 
+  // Cache eye positions
+  let eyePositions = [];
+
+  function updateEyePositions() {
+    eyePositions = Array.from(eyes).map(eye => {
+      const rect = eye.getBoundingClientRect();
+      return {
+        element: eye,
+        centerX: rect.left + rect.width / 2,
+        centerY: rect.top + rect.height / 2,
+        pupil: eye.querySelector('.hero-pupil')
+      };
+    });
+  }
+
+  // Initial calculation
+  updateEyePositions();
+  window.addEventListener('resize', updateEyePositions);
+  // Update on scroll since eyes move with page
+  window.addEventListener('scroll', updateEyePositions, { passive: true });
+  if (typeof locoScroll !== 'undefined') {
+      locoScroll.on('scroll', updateEyePositions);
+  }
+
+
   document.addEventListener('mousemove', (e) => {
-    eyes.forEach(eye => {
-      const pupil = eye.querySelector('.hero-pupil');
-      if (!pupil) return;
+    eyePositions.forEach(eyeData => {
+      if (!eyeData.pupil) return;
 
-      const eyeRect = eye.getBoundingClientRect();
-      const eyeCenterX = eyeRect.left + eyeRect.width / 2;
-      const eyeCenterY = eyeRect.top + eyeRect.height / 2;
-
-      const angle = Math.atan2(e.clientY - eyeCenterY, e.clientX - eyeCenterX);
+      const angle = Math.atan2(e.clientY - eyeData.centerY, e.clientX - eyeData.centerX);
       const distance = Math.min(
-        Math.hypot(e.clientX - eyeCenterX, e.clientY - eyeCenterY) / 10,
+        Math.hypot(e.clientX - eyeData.centerX, e.clientY - eyeData.centerY) / 10,
         8 // Max movement radius
       );
 
       const pupilX = Math.cos(angle) * distance;
       const pupilY = Math.sin(angle) * distance;
 
-      pupil.style.transform = `translate(${pupilX}px, ${pupilY}px)`;
+      eyeData.pupil.style.transform = `translate(${pupilX}px, ${pupilY}px)`;
     });
   });
 }
@@ -538,6 +579,21 @@ function initExperienceAnimations() {
   const line = document.querySelector('.experience-timeline-line');
 
   if (!container || items.length === 0) return;
+
+  // 0. Spotlight Logic
+  items.forEach(item => {
+    const card = item.querySelector('.experience-card');
+    if(!card) return;
+    
+    item.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+    });
+  });
 
   // 1. Animate the vertical timeline line
   if (line) {
@@ -689,6 +745,11 @@ function initScrollMarquee() {
   let lastScrollY = 0;
   let isReversed = false;
   let scrollWidth = marqueeScroll.scrollWidth / 2;
+
+  // Recalculate on resize to handle responsive layout changes
+  window.addEventListener('resize', () => {
+    scrollWidth = marqueeScroll.scrollWidth / 2;
+  });
 
   // Animation loop - optimized
   function animate() {

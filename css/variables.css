@@ -34,10 +34,10 @@
 
     /* Shadows */
     --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.12);
-    --shadow-xl: 0 35px 80px rgba(0, 0, 0, 0.15);
-    --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.4);
+    --shadow-md: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 15px 30px rgba(0, 0, 0, 0.12); /* Optimized blur from 50px */
+    --shadow-xl: 0 25px 50px rgba(0, 0, 0, 0.15); /* Optimized blur from 80px */
+    --shadow-glow: 0 0 15px rgba(99, 102, 241, 0.4); /* Optimized blur from 20px */
 
     /* Preloader Variables (Light Theme Default) */
     --preloader-bg: #efeded;
