@@ -364,6 +364,23 @@ nav {
     text-align: left;
 }
 
+/* Bento Grid Header */
+.bento-header {
+    text-align: center;
+    padding: 0 0 2em;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.bento-header h1 {
+    font-size: clamp(2em, 5vw, 3em);
+    color: var(--text-heading);
+}
+
+.bento-header .line-mask span {
+    text-align: center;
+}
+
 /* Bento Grid */
 .bento-grid {
     display: grid;
