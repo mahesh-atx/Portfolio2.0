@@ -44,8 +44,8 @@
 .radius-container {
   padding-top: var(--secondry-padding);
   background-color: var(--bg-primary);
-  border-bottom-left-radius: 100px;
-  border-bottom-right-radius: 100px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   min-height: 90vh;
   display: flex;
   flex-direction: column;
@@ -57,8 +57,8 @@
   position: relative;
   z-index: 99;
   background-color: var(--bg-secondary);
-  border-bottom-left-radius: 100px;
-  border-bottom-right-radius: 100px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 nav {
@@ -192,6 +192,10 @@ nav {
   font-weight: 600;
 }
 
+.hero-text .line-mask {
+  overflow: visible !important;
+}
+
 .hero-buttons {
   display: flex;
   align-items: center;
@@ -211,14 +215,21 @@ nav {
 
 .hero-inline-images .inline-block {
   display: inline-block !important;
-  width: 1.2em;
-  height: 1.2em;
-  border-radius: 0.2em;
-  border: 2px solid var(--bg-primary);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  margin-left: -0.25em;
+  width: 1.3em;
+  height: 1.3em;
+  border-radius: 0.3em;
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  /* z-index held for 0.5s on mouseleave to stay on top while shrinking */
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              box-shadow 0.3s ease,
+              z-index 0s 0.5s; 
+  margin-left: -0.3em;
   position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: doodleFloat 3s ease-in-out infinite;
 }
 
 .hero-inline-images .inline-block:first-child {
@@ -227,36 +238,57 @@ nav {
 
 .hero-inline-images .block-1 {
   z-index: 3;
-  transform: rotate(-6deg);
-  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  --base-rotation: -6deg;
+  transform: rotate(var(--base-rotation));
+  background-image: url("../assets/doddle-1.jpg");
+  animation-delay: 0s;
 }
 
 .hero-inline-images .block-2 {
   z-index: 2;
-  transform: rotate(0deg);
-  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  --base-rotation: 0deg;
+  transform: rotate(var(--base-rotation));
+  background-image: url("../assets/doddle-2.jpg");
+  animation-delay: 0.2s;
 }
 
 .hero-inline-images .block-3 {
   z-index: 1;
-  transform: rotate(6deg);
-  background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+  --base-rotation: 6deg;
+  transform: rotate(var(--base-rotation));
+  background-image: url("../assets/doddle-3.jpg");
+  animation-delay: 0.4s;
 }
 
-.hero-inline-images:hover .inline-block {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+@keyframes doodleFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(var(--base-rotation, 0deg));
+  }
+  50% {
+    transform: translateY(-5px) rotate(var(--base-rotation, 0deg));
+  }
 }
 
-.hero-inline-images:hover .block-1 {
-  transform: rotate(-10deg) translateY(-3px);
+/* Focus Effect: Dim others when container is hovered */
+.hero-inline-images:hover .inline-block:not(:hover) {
+  opacity: 0.4;
+  transform: scale(0.9) rotate(var(--base-rotation));
+  filter: grayscale(0.6) blur(1px);
+  transition: all 0.4s ease;
 }
 
-.hero-inline-images:hover .block-2 {
-  transform: rotate(0deg) translateY(-4px);
-}
-
-.hero-inline-images:hover .block-3 {
-  transform: rotate(10deg) translateY(-3px);
+/* Super Pop Effect: Enhance current item */
+.hero-inline-images .inline-block:hover {
+  z-index: 100;
+  transform: scale(1.8) rotate(0deg) translateY(-10px) !important; /* Dramatic pop */
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.3);
+  border-color: #ffffff;
+  animation-play-state: paused;
+  filter: none;
+  /* Bouncier transition for the pop effect */
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.4), 
+              box-shadow 0.3s ease,
+              z-index 0s 0s;
 }
 
 /* Hero Pill Badge */
@@ -471,6 +503,7 @@ nav {
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+  will-change: transform; /* GPU acceleration for scroll performance */
 }
 
 .bento-cell:hover {
@@ -1532,6 +1565,7 @@ nav {
   position: relative;
   z-index: 2;
   /* padding-left: 80px; */ /* Removed legacy padding */
+  will-change: transform, opacity; /* GPU acceleration for scroll animations */
 }
 
 .experience-dot {
@@ -1547,6 +1581,7 @@ nav {
   border-radius: 50%;
   z-index: 3;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  will-change: transform, opacity; /* GPU acceleration for scroll animations */
 }
 
 .experience-date {
@@ -1631,12 +1666,13 @@ nav {
     animation: beam-spin 3s linear infinite;
   }
 
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  /* backdrop-filter: blur(10px); */ /* Disabled for scroll performance */
+  /* -webkit-backdrop-filter: blur(10px); */
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform; /* GPU acceleration for scroll performance */
 }
 
 .experience-card:hover {
@@ -1825,13 +1861,14 @@ nav {
 
 /* Projects Section - Bento Grid */
 .projects-section {
-  padding: var(--section-padding) var(--primary-padding);
+  padding: var(--section-padding) 0 0 0;
   background-color: var(--bg-primary);
 }
 
 .projects-container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 var(--primary-padding);
 }
 
 .projects-header {
@@ -2174,6 +2211,27 @@ footer {
   padding: 0;
   color: var(--text-primary);
   border-radius: 0;
+  overflow: hidden; /* To contain the large curve */
+  margin-top: 4em;
+}
+
+/* Curved Bottom Blur Effect */
+.main-footer::after {
+  content: "";
+  position: absolute;
+  bottom: -150px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140%;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.03);
+  /* backdrop-filter: blur(40px); */ /* Disabled for scroll performance - extremely heavy */
+  /* -webkit-backdrop-filter: blur(40px); */
+  border-radius: 50%;
+  z-index: 1;
+  pointer-events: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.1);
 }
 
 /* Remove Aura Background */
@@ -2183,7 +2241,10 @@ footer {
 
 /* CTA Section */
 .footer-cta-container {
-  padding: 6em 2em 4em;
+  padding: 6em var(--primary-padding) 4em;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   text-align: center;
   position: relative;
   z-index: 2;
@@ -2241,8 +2302,8 @@ footer {
 
 .footer-btn.secondary {
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+  /* backdrop-filter: blur(5px); */ /* Disabled for scroll performance */
+  /* -webkit-backdrop-filter: blur(5px); */
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: #ffffff;
 }
@@ -2258,7 +2319,10 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2em var(--primary-padding);
+  padding: 2em 0;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   position: relative;
   z-index: 2;
 }
@@ -2283,9 +2347,9 @@ footer {
 
 .footer-meta {
   display: flex;
-  flex-direction: row;
-  gap: 1em;
-  align-items: center;
+  flex-direction: column;
+  gap: 0.5em;
+  align-items: flex-start;
   font-size: 0.85em;
   color: rgba(255, 255, 255, 0.7);
   opacity: 1;
@@ -2322,8 +2386,8 @@ footer {
   height: 40px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+  /* backdrop-filter: blur(5px); */ /* Disabled for scroll performance */
+  /* -webkit-backdrop-filter: blur(5px); */
   border: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
@@ -2386,6 +2450,7 @@ footer {
   .footer-meta {
     flex-direction: column;
     gap: 0.5em;
+    align-items: center;
   }
 
   .footer-actions {
@@ -2485,8 +2550,8 @@ footer {
   font-size: 0.85rem;
   color: #fff;
   font-weight: 500;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  /* backdrop-filter: blur(8px); */ /* Disabled for scroll performance */
+  /* -webkit-backdrop-filter: blur(8px); */
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
@@ -2528,8 +2593,8 @@ footer {
     rgba(255, 255, 255, 0.1),
     rgba(255, 255, 255, 0.25)
   );
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  /* backdrop-filter: blur(15px); */ /* Disabled for scroll performance */
+  /* -webkit-backdrop-filter: blur(15px); */
   z-index: 1;
   /* Create the curve */
   border-top-left-radius: 50% 100%;
@@ -2549,7 +2614,6 @@ footer {
 }
 
 .project-list-container {
-  padding: 0 4vw;
   position: relative;
   max-width: 1600px;
   margin: 0 auto;

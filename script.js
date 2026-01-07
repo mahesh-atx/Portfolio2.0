@@ -777,86 +777,10 @@ window.addEventListener("load", () => {
   setTimeout(() => {
     initExperienceAnimations();
     initProjectHoverAnimations();
-    initProjectsAnimations();
     ScrollTrigger.refresh();
   }, 500);
 });
 
-// --- 11. PROJECTS SECTION ANIMATIONS - PINNED CARD STACK ---
-// --- 11. PROJECTS SECTION ANIMATIONS - PINNED CARD STACK ---
-function initProjectsAnimations() {
-  const container = document.querySelector(".card-stack-container");
-  const cards = document.querySelectorAll(".stack-card");
-
-  if (!container || cards.length === 0) return;
-
-  // Initial Set
-  const totalCards = cards.length;
-
-  // Create Main Timeline
-  const tl = gsap.timeline();
-
-  cards.forEach((card, index) => {
-    // Set initial z-index so they stack correctly (0 at bottom, last at top)
-    gsap.set(card, { zIndex: index + 1 });
-
-    if (index === 0) {
-      gsap.set(card, { y: 0, scale: 1, opacity: 1 });
-    } else {
-      gsap.set(card, { y: window.innerHeight, scale: 0.9, opacity: 0 });
-    }
-  });
-
-  // Build Timeline Sequence
-  const offset = 40; // Pixels from top for stacking visibility
-
-  cards.forEach((card, index) => {
-    if (index === 0) return;
-
-    // Define the "step" for this card's entry
-    const duration = 1; // Relative duration
-    const position = (index - 1) * duration;
-
-    // Animate Current Card In
-    tl.to(
-      card,
-      {
-        y: index * offset, // Stop slightly lower than previous
-        scale: 1,
-        opacity: 1,
-        duration: duration,
-        ease: "power2.out",
-        force3D: true,
-      },
-      position
-    );
-
-    // Animate ALL previous cards scale down
-    for (let i = 0; i < index; i++) {
-      tl.to(
-        cards[i],
-        {
-          scale: 1 - 0.05 * (index - i), // 1 -> 0.95 -> 0.9
-          duration: duration,
-          ease: "power2.out",
-        },
-        position
-      );
-    }
-  });
-
-  // Create ScrollTrigger linked to this timeline
-  ScrollTrigger.create({
-    trigger: container,
-    scroller: "#main",
-    start: "top top",
-    end: "bottom bottom",
-    pin: ".card-stack",
-    pinSpacing: false,
-    scrub: 1,
-    animation: tl,
-  });
-}
 
 // --- 12. SCROLL-REACTIVE TYPOGRAPHY MARQUEE ---
 function initScrollMarquee() {
