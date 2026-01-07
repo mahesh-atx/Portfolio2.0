@@ -503,7 +503,6 @@ nav {
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
-  will-change: transform; /* GPU acceleration for scroll performance */
 }
 
 .bento-cell:hover {
@@ -1565,7 +1564,6 @@ nav {
   position: relative;
   z-index: 2;
   /* padding-left: 80px; */ /* Removed legacy padding */
-  will-change: transform, opacity; /* GPU acceleration for scroll animations */
 }
 
 .experience-dot {
@@ -1581,7 +1579,6 @@ nav {
   border-radius: 50%;
   z-index: 3;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  will-change: transform, opacity; /* GPU acceleration for scroll animations */
 }
 
 .experience-date {
@@ -1666,13 +1663,12 @@ nav {
     animation: beam-spin 3s linear infinite;
   }
 
-  /* backdrop-filter: blur(10px); */ /* Disabled for scroll performance */
-  /* -webkit-backdrop-filter: blur(10px); */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  will-change: transform; /* GPU acceleration for scroll performance */
 }
 
 .experience-card:hover {
@@ -2225,8 +2221,8 @@ footer {
   width: 140%;
   height: 300px;
   background: rgba(255, 255, 255, 0.03);
-  /* backdrop-filter: blur(40px); */ /* Disabled for scroll performance - extremely heavy */
-  /* -webkit-backdrop-filter: blur(40px); */
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
   border-radius: 50%;
   z-index: 1;
   pointer-events: none;
@@ -2302,8 +2298,8 @@ footer {
 
 .footer-btn.secondary {
   background: rgba(255, 255, 255, 0.1);
-  /* backdrop-filter: blur(5px); */ /* Disabled for scroll performance */
-  /* -webkit-backdrop-filter: blur(5px); */
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: #ffffff;
 }
@@ -2319,7 +2315,7 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2em 0;
+  padding: 2em var(--primary-padding);
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -2386,8 +2382,8 @@ footer {
   height: 40px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.1);
-  /* backdrop-filter: blur(5px); */ /* Disabled for scroll performance */
-  /* -webkit-backdrop-filter: blur(5px); */
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
@@ -2550,8 +2546,8 @@ footer {
   font-size: 0.85rem;
   color: #fff;
   font-weight: 500;
-  /* backdrop-filter: blur(8px); */ /* Disabled for scroll performance */
-  /* -webkit-backdrop-filter: blur(8px); */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
@@ -2593,8 +2589,8 @@ footer {
     rgba(255, 255, 255, 0.1),
     rgba(255, 255, 255, 0.25)
   );
-  /* backdrop-filter: blur(15px); */ /* Disabled for scroll performance */
-  /* -webkit-backdrop-filter: blur(15px); */
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   z-index: 1;
   /* Create the curve */
   border-top-left-radius: 50% 100%;
