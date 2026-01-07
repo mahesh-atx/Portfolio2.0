@@ -355,7 +355,7 @@ function initMaskedAnimations() {
           scroller: "#main",
           start: "top 80%",
           end: "bottom 20%",
-          toggleActions: "play none none reverse",
+          toggleActions: "play none none none",
         },
       });
     }
@@ -990,7 +990,7 @@ function initExperienceAnimations() {
         trigger: item,
         scroller: "#main",
         start: "top bottom-=100", // Start animation when item is near bottom
-        toggleActions: "play none none reverse",
+        toggleActions: "play none none none",
       },
     });
 
@@ -1177,7 +1177,7 @@ function initExperienceAnimations() {
           scroller: "#main",
           start: "top 70%",
           end: "bottom 20%",
-          toggleActions: "play none none reverse",
+          toggleActions: "play none none none",
         },
       }
     );
