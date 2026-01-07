@@ -1044,3 +1044,39 @@ window.addEventListener("load", () => {
     initScrollMarquee();
   }, 600);
 });
+
+// --- 8. EXPERIENCE ANIMATIONS ---
+function initExperienceAnimations() {
+  const cards = document.querySelectorAll(".experience-card");
+
+  if (cards.length > 0) {
+    gsap.fromTo(
+      cards,
+      {
+        y: 50,
+        opacity: 0,
+        filter: "blur(10px)",
+        scale: 0.95,
+      },
+      {
+        y: 0,
+        opacity: 1,
+        filter: "blur(0px)",
+        scale: 1,
+        duration: 0.8,
+        ease: "power2.out",
+        stagger: 0.15,
+        scrollTrigger: {
+          trigger: ".experience-container",
+          scroller: "#main",
+          start: "top 70%",
+          end: "bottom 20%",
+          toggleActions: "play none none reverse",
+        },
+      }
+    );
+  }
+}
+
+// Call it
+initExperienceAnimations();

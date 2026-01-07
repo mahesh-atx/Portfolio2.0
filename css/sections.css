@@ -2987,3 +2987,14 @@ footer {
     display: none !important; /* Disable hover effect on mobile */
   }
 }
+
+/* Experience Card - Animation Prep */
+.experience-card {
+  will-change: transform, opacity, filter;
+  /* Ensure a solid background for blur effect to look good */
+  background-color: var(--bg-primary); 
+  border-radius: 20px; /* Matching existing radius if possible, inferred */
+  /* Padding is already handled by inner layout, but ensuring box model constraint */
+  backface-visibility: hidden;
+  transform-origin: center center;
+}
