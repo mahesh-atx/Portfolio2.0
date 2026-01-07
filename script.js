@@ -272,12 +272,10 @@ function initProjectHoverAnimations() {
     return;
   }
 
-  // Initial State - position off-screen to prevent flash at origin
+  // Initial State
   gsap.set(revealWrapper, {
     xPercent: -50,
     yPercent: -50,
-    x: -9999,
-    y: -9999,
     autoAlpha: 0,
     scale: 0.9,
   });
@@ -450,13 +448,6 @@ function initProjectHoverAnimations() {
         clearInterval(slideshowInterval);
         slideshowInterval = null;
       }
-      if (slideshowTimeout) {
-        clearTimeout(slideshowTimeout);
-        slideshowTimeout = null;
-      }
-      
-      // Reset lastHoveredRow
-      lastHoveredRow = null;
 
       gsap.to(revealWrapper, {
         autoAlpha: 0,
@@ -466,28 +457,6 @@ function initProjectHoverAnimations() {
       });
     });
   }
-  
-  // Also hide on scroll (using Locomotive Scroll)
-  if (typeof locoScroll !== "undefined") {
-    locoScroll.on("scroll", () => {
-      // Check if project list is in view
-      const listRect = projectList?.getBoundingClientRect();
-      if (listRect && (listRect.bottom < 0 || listRect.top > window.innerHeight)) {
-        // List is out of view, hide the reveal wrapper
-        gsap.set(revealWrapper, { autoAlpha: 0 });
-        lastHoveredRow = null;
-      }
-    });
-  }
-  
-  // Fallback: Also hide on regular scroll for non-Locomotive environments
-  window.addEventListener("scroll", () => {
-    const listRect = projectList?.getBoundingClientRect();
-    if (listRect && (listRect.bottom < 0 || listRect.top > window.innerHeight)) {
-      gsap.set(revealWrapper, { autoAlpha: 0 });
-      lastHoveredRow = null;
-    }
-  }, { passive: true });
 }
 
 initProjectHoverAnimations();

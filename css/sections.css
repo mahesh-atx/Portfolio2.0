@@ -310,6 +310,14 @@ nav {
    ============================================ */
 .footer-heading h1 {
   font-size: clamp(2.5em, 6vw, 4em) !important;
+  color: #1a1a1a !important; /* Keep dark text in both modes */
+}
+
+/* Footer text colors - consistent in both modes */
+.main-footer,
+.main-footer .footer-heading,
+.main-footer .footer-cta-container {
+  color: #1a1a1a;
 }
 
 /* ============================================
@@ -1455,12 +1463,12 @@ nav {
 .service-num {
   font-family: "Ot-medium", sans-serif;
   font-size: 0.85em;
-  color: var(--text-heading);
-  background: rgba(0, 0, 0, 0.03);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  color: var(--accent-primary);
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
   padding: 0.4em 0.8em;
   border-radius: 8px;
-  opacity: 0.8;
+  opacity: 1;
 }
 
 /* Arrow Badge */
@@ -1525,9 +1533,9 @@ nav {
 }
 
 #main.dark-mode .service-num {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.9);
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: var(--accent-primary);
 }
 
 #main.dark-mode .service-arrow {
@@ -2423,7 +2431,7 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2em var(--primary-padding);
+  padding: 2em 0;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
