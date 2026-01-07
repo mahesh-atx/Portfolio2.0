@@ -285,10 +285,118 @@ nav {
   border-color: #ffffff;
   animation-play-state: paused;
   filter: none;
+  cursor: pointer;
   /* Bouncier transition for the pop effect */
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.4), 
               box-shadow 0.3s ease,
               z-index 0s 0s;
+}
+
+/* Cursor pointer for interactivity */
+.hero-inline-images .inline-block {
+  cursor: pointer;
+}
+
+/* Mobile tap-active state (controlled by JS) */
+.hero-inline-images .inline-block.tap-active,
+.footer-inline-images .inline-block.tap-active {
+  z-index: 100 !important;
+  border-color: #ffffff !important;
+  animation-play-state: paused !important;
+}
+
+/* ============================================
+   Footer Heading - Larger Font Size
+   ============================================ */
+.footer-heading h1 {
+  font-size: clamp(2.5em, 6vw, 4em) !important;
+}
+
+/* ============================================
+   Footer Inline Images (Same as Hero Doodles)
+   ============================================ */
+.footer-inline-images {
+  display: inline-flex !important;
+  align-items: center;
+  margin: 0 0.1em;
+  vertical-align: middle;
+  position: relative;
+}
+
+.footer-inline-images .inline-block {
+  display: inline-block !important;
+  width: 1.2em;
+  height: 1.2em;
+  border-radius: 0.25em;
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              box-shadow 0.3s ease,
+              z-index 0s 0.5s;
+  margin-left: -0.25em;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: doodleFloat 3s ease-in-out infinite;
+  cursor: pointer;
+}
+
+.footer-inline-images .inline-block:first-child {
+  margin-left: 0;
+}
+
+.footer-inline-images .block-1 {
+  z-index: 3;
+  --base-rotation: -6deg;
+  transform: rotate(var(--base-rotation));
+  background-image: url("../assets/doddle-1.jpg");
+  animation-delay: 0s;
+}
+
+.footer-inline-images .block-2 {
+  z-index: 2;
+  --base-rotation: 0deg;
+  transform: rotate(var(--base-rotation));
+  background-image: url("../assets/doddle-2.jpg");
+  animation-delay: 0.2s;
+}
+
+.footer-inline-images .block-3 {
+  z-index: 1;
+  --base-rotation: 6deg;
+  transform: rotate(var(--base-rotation));
+  background-image: url("../assets/doddle-3.jpg");
+  animation-delay: 0.4s;
+}
+
+/* Footer doodles focus effect */
+.footer-inline-images:hover .inline-block:not(:hover) {
+  opacity: 0.4;
+  transform: scale(0.9) rotate(var(--base-rotation));
+  filter: grayscale(0.6) blur(1px);
+  transition: all 0.4s ease;
+}
+
+/* Footer doodles pop effect */
+.footer-inline-images .inline-block:hover {
+  z-index: 100;
+  transform: scale(1.8) rotate(0deg) translateY(-10px) !important;
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.3);
+  border-color: #ffffff;
+  animation-play-state: paused;
+  filter: none;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.4), 
+              box-shadow 0.3s ease,
+              z-index 0s 0s;
+}
+
+/* Prevent clipping on hover - allow doodles to overflow */
+.footer-heading h1,
+.footer-heading h1 .line-mask,
+.footer-heading h1 .line-mask > span,
+.footer-inline-images {
+  overflow: visible !important;
 }
 
 /* Hero Pill Badge */

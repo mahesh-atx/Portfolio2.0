@@ -16,6 +16,8 @@ function playHeroAnimations() {
   const heroImage =
     document.querySelector(".glass-card-container") ||
     document.querySelector(".hero-img-container");
+  // Hero inline doodle blocks
+  const doodleBlocks = document.querySelectorAll(".hero-inline-images .inline-block");
 
   // Ensure elements are visible for animation
   // (Mask parents already hide overflow, but opacity helps smooth entry)
@@ -30,6 +32,32 @@ function playHeroAnimations() {
       ease: "power4.out",
       stagger: 0.1,
     });
+  }
+
+  // Doodle blocks entrance animation - dramatic staggered pop effect
+  if (doodleBlocks.length > 0) {
+    tl.fromTo(
+      doodleBlocks,
+      {
+        scale: 0,
+        opacity: 0,
+        rotation: -45,
+        y: 30,
+      },
+      {
+        scale: 1,
+        opacity: 1,
+        rotation: (index) => [-6, 0, 6][index] || 0, // Match their base rotations
+        y: 0,
+        duration: 0.8,
+        ease: "elastic.out(1, 0.5)",
+        stagger: {
+          each: 0.12,
+          from: "start",
+        },
+      },
+      "-=0.6" // Start slightly before text finishes
+    );
   }
 
   if (heroImage) {
@@ -244,10 +272,12 @@ function initProjectHoverAnimations() {
     return;
   }
 
-  // Initial State
+  // Initial State - position off-screen to prevent flash at origin
   gsap.set(revealWrapper, {
     xPercent: -50,
     yPercent: -50,
+    x: -9999,
+    y: -9999,
     autoAlpha: 0,
     scale: 0.9,
   });
@@ -420,6 +450,13 @@ function initProjectHoverAnimations() {
         clearInterval(slideshowInterval);
         slideshowInterval = null;
       }
+      if (slideshowTimeout) {
+        clearTimeout(slideshowTimeout);
+        slideshowTimeout = null;
+      }
+      
+      // Reset lastHoveredRow
+      lastHoveredRow = null;
 
       gsap.to(revealWrapper, {
         autoAlpha: 0,
@@ -429,6 +466,28 @@ function initProjectHoverAnimations() {
       });
     });
   }
+  
+  // Also hide on scroll (using Locomotive Scroll)
+  if (typeof locoScroll !== "undefined") {
+    locoScroll.on("scroll", () => {
+      // Check if project list is in view
+      const listRect = projectList?.getBoundingClientRect();
+      if (listRect && (listRect.bottom < 0 || listRect.top > window.innerHeight)) {
+        // List is out of view, hide the reveal wrapper
+        gsap.set(revealWrapper, { autoAlpha: 0 });
+        lastHoveredRow = null;
+      }
+    });
+  }
+  
+  // Fallback: Also hide on regular scroll for non-Locomotive environments
+  window.addEventListener("scroll", () => {
+    const listRect = projectList?.getBoundingClientRect();
+    if (listRect && (listRect.bottom < 0 || listRect.top > window.innerHeight)) {
+      gsap.set(revealWrapper, { autoAlpha: 0 });
+      lastHoveredRow = null;
+    }
+  }, { passive: true });
 }
 
 initProjectHoverAnimations();
@@ -582,6 +641,121 @@ function initEyeTracking() {
 }
 
 initEyeTracking();
+
+// --- 8.5 MOBILE TAP INTERACTIONS FOR DOODLES ---
+function initDoodleTapInteractions() {
+  // Include both hero and footer doodles
+  const doodleBlocks = document.querySelectorAll(".hero-inline-images .inline-block, .footer-inline-images .inline-block");
+  const containers = document.querySelectorAll(".hero-inline-images, .footer-inline-images");
+  
+  if (doodleBlocks.length === 0 || containers.length === 0) return;
+  
+  // Only enable on touch devices
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (!isTouchDevice) return;
+  
+  let activeBlock = null;
+  
+  // Handle tap on individual doodle blocks
+  doodleBlocks.forEach((block, index) => {
+    block.addEventListener("click", (e) => {
+      e.stopPropagation();
+      
+      // If this block is already active, deactivate it
+      if (activeBlock === block) {
+        deactivateBlock(block);
+        activeBlock = null;
+        return;
+      }
+      
+      // Deactivate previous active block
+      if (activeBlock) {
+        deactivateBlock(activeBlock);
+      }
+      
+      // Activate this block
+      activateBlock(block);
+      activeBlock = block;
+    });
+  });
+  
+  // Close on tap outside
+  document.addEventListener("click", (e) => {
+    if (activeBlock && !e.target.closest(".hero-inline-images") && !e.target.closest(".footer-inline-images")) {
+      deactivateBlock(activeBlock);
+      activeBlock = null;
+    }
+  });
+  
+  function activateBlock(block) {
+    // Add active class
+    block.classList.add("tap-active");
+    
+    // Dim siblings
+    doodleBlocks.forEach((sibling) => {
+      if (sibling !== block) {
+        gsap.to(sibling, {
+          scale: 0.85,
+          opacity: 0.3,
+          filter: "grayscale(0.6) blur(1px)",
+          duration: 0.3,
+          ease: "power2.out",
+        });
+      }
+    });
+    
+    // Pop the active block
+    gsap.to(block, {
+      scale: 1.8,
+      rotation: 0,
+      y: -15,
+      zIndex: 100,
+      boxShadow: "0 20px 40px -5px rgba(0, 0, 0, 0.3)",
+      duration: 0.4,
+      ease: "elastic.out(1, 0.5)",
+    });
+    
+    // Pause the floating animation
+    block.style.animationPlayState = "paused";
+  }
+  
+  function deactivateBlock(block) {
+    // Remove active class
+    block.classList.remove("tap-active");
+    
+    // Get the original rotation based on block number
+    const blockClasses = block.classList;
+    let baseRotation = 0;
+    if (blockClasses.contains("block-1")) baseRotation = -6;
+    else if (blockClasses.contains("block-2")) baseRotation = 0;
+    else if (blockClasses.contains("block-3")) baseRotation = 6;
+    
+    // Reset all blocks
+    doodleBlocks.forEach((sibling) => {
+      let siblingRotation = 0;
+      if (sibling.classList.contains("block-1")) siblingRotation = -6;
+      else if (sibling.classList.contains("block-2")) siblingRotation = 0;
+      else if (sibling.classList.contains("block-3")) siblingRotation = 6;
+      
+      gsap.to(sibling, {
+        scale: 1,
+        opacity: 1,
+        filter: "none",
+        rotation: siblingRotation,
+        y: 0,
+        zIndex: sibling.classList.contains("block-1") ? 3 : sibling.classList.contains("block-2") ? 2 : 1,
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+        duration: 0.4,
+        ease: "power2.out",
+      });
+      
+      // Resume floating animation
+      sibling.style.animationPlayState = "running";
+    });
+  }
+}
+
+initDoodleTapInteractions();
 
 // --- 9. THEME TOGGLE & UTILS ---
 const themeToggleButtons = document.querySelectorAll(".theme-toggle");

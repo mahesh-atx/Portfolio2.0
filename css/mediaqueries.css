@@ -201,6 +201,35 @@
         border-width: 1px;
         width: 1em;
         height: 1em;
+        /* Disable CSS hover effects on touch devices - JS handles tap */
+        touch-action: manipulation;
+    }
+
+    /* Disable hover transforms on mobile - tap interactions handled by JS */
+    .hero-inline-images:hover .inline-block:not(:hover) {
+        opacity: 1;
+        transform: rotate(var(--base-rotation));
+        filter: none;
+    }
+
+    .hero-inline-images .inline-block:hover {
+        transform: rotate(var(--base-rotation)) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Tap hint indicator on mobile */
+    .hero-inline-images .inline-block::after {
+        content: "";
+        position: absolute;
+        inset: -4px;
+        border-radius: inherit;
+        border: 2px dashed rgba(99, 102, 241, 0.4);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .hero-inline-images:not(:has(.tap-active)) .inline-block:active::after {
+        opacity: 1;
     }
 
     .hero-pill-badge {
