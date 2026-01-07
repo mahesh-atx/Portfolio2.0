@@ -1,8 +1,6 @@
-/* === SECTIONS === */
+/* SECTIONS */
 
-/* ============================================
-   Unified Section Heading Styles
-   ============================================ */
+/* Unified Section Heading Styles */
 .section-heading,
 .about-content h1,
 .bento-header h2,
@@ -19,7 +17,7 @@
   margin: 0;
 }
 
-/* Unified line-mask base styles for GSAP scroll-triggered animations */
+/* Line-mask styles for GSAP animations */
 .about-content h1 .line-mask,
 .bento-header h2 .line-mask,
 .services-intro h2 .line-mask,
@@ -100,6 +98,12 @@ nav {
   100% {
     background-position: 0% 50%;
   }
+}
+
+/* Accent Text */
+.text-accent {
+  color: var(--accent-primary);
+  font-weight: 600;
 }
 
 /* Hero Section */
@@ -226,7 +230,6 @@ nav {
   background-position: center;
   background-repeat: no-repeat;
   animation: doodleFloat 4s ease-in-out infinite;
-  /* Elevation Shadows */
   filter: drop-shadow(0 5px 10px rgba(0,0,0,0.15));
 }
 
@@ -255,7 +258,7 @@ nav {
   transform: rotate(var(--base-rotation));
   background-image: url("../assets/doddle-1.jpg");
   animation-delay: 0s;
-  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2)); /* Higher elevation */
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
 }
 
 .hero-inline-images .block-2 {
@@ -316,12 +319,10 @@ nav {
   animation-play-state: paused !important;
 }
 
-/* ============================================
-   Footer Heading - Larger Font Size
-   ============================================ */
+/* Footer Heading */
 .footer-heading h2 {
   font-size: clamp(2.5em, 6vw, 4em) !important;
-  color: #1a1a1a !important; /* Keep dark text in both modes */
+  color: #1a1a1a !important;
 }
 
 /* Footer text colors - consistent in both modes */
@@ -331,9 +332,7 @@ nav {
   color: #1a1a1a;
 }
 
-/* ============================================
-   Footer Inline Images (Same as Hero Doodles)
-   ============================================ */
+/* Footer Inline Images */
 .footer-inline-images {
   display: inline-flex !important;
   align-items: center;
@@ -518,7 +517,6 @@ nav {
   align-items: center;
   gap: 0;
   will-change: transform;
-  /* Animation controlled by JavaScript for scroll reactivity */
 }
 
 .marquee-text {
@@ -611,8 +609,6 @@ nav {
   opacity: 0.9;
 }
 
-/* Bento header h1 inherits from unified styles above */
-
 .bento-header .line-mask span {
   text-align: center;
 }
@@ -677,7 +673,6 @@ nav {
   padding: 2em;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent 95%);
   color: #fff;
-  /* backdrop-filter: blur(2px); */ /* Removed for performance */
 }
 
 .profile-overlay h3 {
@@ -689,8 +684,6 @@ nav {
 
 .role-badge {
   background-color: rgba(255, 255, 255, 0.2);
-  /* backdrop-filter: blur(12px); */ /* Expensive blur removed */
-  /* -webkit-backdrop-filter: blur(12px); */
   padding: 0.6em 1.2em;
   border-radius: 20px;
   font-size: 0.85em;
@@ -763,7 +756,6 @@ nav {
   align-items: center;
   gap: 0.5em;
   background-color: rgba(30, 30, 30, 0.85);
-  /* backdrop-filter: blur(8px); */ /* Removed */
   padding: 0.6em 1em;
   border-radius: 20px;
   color: #fff;
@@ -810,7 +802,7 @@ nav {
   flex-direction: column;
   gap: 0.8em;
   animation: scroll-vertical 12s linear infinite;
-  will-change: transform; /* Hint for browser optimization */
+  will-change: transform;
 }
 
 .tech-cell:hover .tech-track {
@@ -838,8 +830,7 @@ nav {
   grid-column: span 1;
   grid-row: span 1;
   background: var(--gradient-widget);
-  background-size: 100% 100%; /* Static background */
-  /* animation: gradient-move 5s ease infinite; */ /* Disabled repaint-heavy animation */
+  background-size: 100% 100%;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -1083,6 +1074,11 @@ nav {
   position: relative;
 }
 
+.colored-text{
+  color: var(--accent-primary);
+  display: inline;
+}
+
 .about-content-wrapper {
   display: flex;
   align-items: center;
@@ -1167,6 +1163,52 @@ nav {
   opacity: 0.8;
   margin-bottom: 3em;
   max-width: 85%;
+}
+
+/* About Pill Badges */
+.about-pill {
+  display: inline-block;
+  padding: 0.15em 0.6em;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 0.95em;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.about-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.about-pill.blue {
+  background: rgba(99, 102, 241, 0.15);
+  color: #6366f1;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.about-pill.green {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.about-pill.purple {
+  background: rgba(168, 85, 247, 0.15);
+  color: #a855f7;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.about-pill.orange {
+  background: rgba(249, 115, 22, 0.15);
+  color: #f97316;
+  border: 1px solid rgba(249, 115, 22, 0.3);
+}
+
+.about-pill.pink {
+  background: rgba(236, 72, 153, 0.15);
+  color: #ec4899;
+  border: 1px solid rgba(236, 72, 153, 0.3);
 }
 
 .about-footer {

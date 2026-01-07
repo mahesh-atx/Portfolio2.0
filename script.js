@@ -1,6 +1,6 @@
 gsap.registerPlugin(ScrollTrigger);
 
-// --- 1. THEME INITIALIZATION (Runs First!) ---
+// THEME INITIALIZATION
 const mainElement = document.getElementById("main");
 
 if (localStorage.getItem("theme") === "dark") {
@@ -8,19 +8,13 @@ if (localStorage.getItem("theme") === "dark") {
   mainElement.classList.add("dark-mode");
 }
 
-// --- 2. HERO ANIMATION CONTROLLER ---
-// Defined separate function so we can call it from the preloader timeline
+// HERO ANIMATIONS
 function playHeroAnimations() {
   const heroLines = document.querySelectorAll(".hero h1 .line-mask > span");
-  // Updated selector to match new glass card structure
   const heroImage =
     document.querySelector(".glass-card-container") ||
     document.querySelector(".hero-img-container");
-  // Hero inline doodle blocks
   const doodleBlocks = document.querySelectorAll(".hero-inline-images .inline-block");
-
-  // Ensure elements are visible for animation
-  // (Mask parents already hide overflow, but opacity helps smooth entry)
 
   const tl = gsap.timeline();
 
@@ -34,7 +28,7 @@ function playHeroAnimations() {
     });
   }
 
-  // Doodle blocks entrance animation - dramatic staggered pop effect
+  // Doodles entrance animation
   if (doodleBlocks.length > 0) {
     tl.fromTo(
       doodleBlocks,
@@ -47,7 +41,7 @@ function playHeroAnimations() {
       {
         scale: 1,
         opacity: 1,
-        rotation: (index) => [-6, 0, 6][index] || 0, // Match their base rotations
+        rotation: (index) => [-6, 0, 6][index] || 0,
         y: 0,
         duration: 0.8,
         ease: "elastic.out(1, 0.5)",
@@ -56,7 +50,7 @@ function playHeroAnimations() {
           from: "start",
         },
       },
-      "-=0.6" // Start slightly before text finishes
+      "-=0.6"
     );
   }
 
@@ -73,11 +67,10 @@ function playHeroAnimations() {
     );
   }
 
-  // Initialize subtle parallax depth
   initHeroDepthParallax();
 }
 
-// --- 2.5 HERO DEPTH PARALLAX (2D) ---
+// HERO DEPTH PARALLAX
 function initHeroDepthParallax() {
   const card = document.querySelector(".glass-card-container");
   const doodles = document.querySelectorAll(".hero-inline-images .inline-block");
@@ -99,7 +92,7 @@ function initHeroDepthParallax() {
   if (doodles.length > 0) {
     doodles.forEach((doodle, i) => {
       gsap.to(doodle, {
-        y: -(20 + (i * 20)), // Different speeds for each doodle
+        y: -(20 + (i * 20)),
         ease: "none",
         scrollTrigger: {
           trigger: ".hero",
@@ -113,7 +106,7 @@ function initHeroDepthParallax() {
 
   if (heroText) {
     gsap.to(heroText, {
-      y: 15, // Moves slightly slower in opposite direction
+      y: 15,
       ease: "none",
       scrollTrigger: {
         trigger: ".hero",
@@ -125,14 +118,13 @@ function initHeroDepthParallax() {
   }
 }
 
-// --- 3. PRELOADER LOGIC ---
+// PRELOADER
 function initPreloader() {
   const container = document.querySelector("#preloader");
   const ball = document.querySelector("#loader-ball");
   const letters = document.querySelectorAll("#preloader-text span");
   const face = document.querySelector(".face");
 
-  // If preloader HTML is missing/commented out, just show content and return
   if (!container) {
     document.body.classList.remove("loading");
     playHeroAnimations();
@@ -143,23 +135,19 @@ function initPreloader() {
   const counterElement = document.getElementById("preloader-counter");
   const words = ["Welcome", "Bonjour", "வணக்கம்", "नमस्ते"];
   
-  // Disable scrolling during load
   document.body.style.overflow = "hidden";
 
   const tl = gsap.timeline({
     onComplete: () => {
       gsap.set(container, { display: "none" });
       document.body.classList.remove("loading");
-      document.body.style.overflow = ""; // Re-enable scroll
+      document.body.style.overflow = "";
       ScrollTrigger.refresh();
     },
   });
 
   if (ball) gsap.set(ball, { scale: 0, autoAlpha: 1 });
 
-  // --- 1. Counter & Text Cycle (Concurrent) ---
-  
-  // A. Counter Animation (0 -> 100)
   if (counterElement) {
     let counterObj = { val: 0 };
     tl.to(counterObj, {
@@ -172,27 +160,23 @@ function initPreloader() {
     }, "start");
   }
 
-  // B. Text Cycling
   if (textElement) {
-    let textDuration = 3.5 / words.length; // Spread words over the counter time
+    let textDuration = 3.5 / words.length;
     
     words.forEach((word, index) => {
       const isLast = index === words.length - 1;
-      // Start time for this specific word
       const startTime = index * textDuration; 
 
       tl.add(() => {
         textElement.textContent = word;
       }, "start+=" + startTime);
 
-      // Simple Fade In/Out for text
       tl.fromTo(textElement, 
         { opacity: 0, y: 10 }, 
         { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" },
         "start+=" + startTime
       );
 
-      // Fade out unless it's the last word
       if (!isLast) {
         tl.to(textElement, 
           { opacity: 0, y: -10, duration: 0.3, ease: "power2.in" }, 
@@ -202,8 +186,7 @@ function initPreloader() {
     });
   }
 
-  // --- 2. Ball Entrance ---
-  if (ball) {
+   if (ball) {
     tl.to(
       ball,
       {
@@ -215,10 +198,8 @@ function initPreloader() {
     );
   }
 
-  // --- 3. Drop & Expand (After Counter finishes) ---
-   if (ball) {
+  if (ball) {
     tl
-      // Ball Drop
       .call(() => {
         if (!ball) return;
         const ballRect = ball.getBoundingClientRect();
@@ -229,18 +210,16 @@ function initPreloader() {
           duration: 1.5,
           ease: "bounce.out",
         });
-      }, null, "+=0.2") // Wait a tiny bit after counter finishes
+      }, null, "+=0.2")
       
-      .to({}, { duration: 1.5 }) // Wait for drop bounce
+      .to({}, { duration: 1.5 })
 
-      // Squash
       .to(ball, {
         scaleX: 1.6,
         scaleY: 0.4,
         duration: 0.1,
         ease: "power2.out",
       })
-      // Recover
       .to(ball, {
         scaleX: 1,
         scaleY: 1,
@@ -249,10 +228,8 @@ function initPreloader() {
       });
   }
 
-  // --- 4. Final Expand & Reveal ---
   const exitDuration = 1.2;
   
-  // Fade out elements
   const exitTargets = [];
   if (textElement) exitTargets.push(textElement);
   if (face) exitTargets.push(face);
@@ -273,7 +250,6 @@ function initPreloader() {
   }
 
   if (ball) {
-    // Massive Expand (Cover screen)
     tl.to(
       ball,
       {
@@ -281,15 +257,13 @@ function initPreloader() {
         duration: exitDuration,
         ease: "power4.inOut",
       },
-      "<" // Start with text fade out
+      "<"
     );
   }
 
-  // === CONCURRENT HERO REVEAL ===
   tl.add(() => {
-    // Start Hero Animation AS the container fades
     playHeroAnimations();
-  }, "-=0.6") // Sync point
+  }, "-=0.6")
 
     // Container Fade Out
     .to(
@@ -305,7 +279,7 @@ function initPreloader() {
 
 initPreloader();
 
-// --- 4. LOCOMOTIVE SCROLL ---
+// LOCOMOTIVE SCROLL
 const locoScroll = new LocomotiveScroll({
   el: document.querySelector("#main"),
   smooth: true,
@@ -334,7 +308,7 @@ locoScroll.on("scroll", ScrollTrigger.update);
 ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
 ScrollTrigger.refresh();
 
-// --- 5. MASKED TEXT ANIMATIONS ---
+// MASKED TEXT ANIMATIONS
 function initMaskedAnimations() {
   const headings = document.querySelectorAll(
     ".about-content h1, .bento-header h2, .services-intro h2, .experience-title h2, .projects-header h2, .footer-heading h2"
@@ -364,8 +338,7 @@ function initMaskedAnimations() {
 
 initMaskedAnimations();
 
-// --- 5.5 BENTO GRID ANIMATIONS ---
-// --- 5.5 PROJECT HOVER REVEAL ANIMATIONS ---
+// PROJECT HOVER REVEAL
 function initProjectHoverAnimations() {
   const projectRows = document.querySelectorAll(".project-row");
   const revealWrapper = document.querySelector(".project-reveal-wrapper");
@@ -378,7 +351,6 @@ function initProjectHoverAnimations() {
     return;
   }
 
-  // Initial State
   gsap.set(revealWrapper, {
     xPercent: -50,
     yPercent: -50,
@@ -386,10 +358,8 @@ function initProjectHoverAnimations() {
     scale: 0.9,
   });
   
-  // Hide next image initially
   gsap.set(nextImg, { y: "100%" });
 
-  // Mouse Move Handler (Follow Cursor)
   const xTo = gsap.quickTo(revealWrapper, "x", {
     duration: 0.4,
     ease: "power3",
@@ -400,22 +370,15 @@ function initProjectHoverAnimations() {
   });
 
   window.addEventListener("mousemove", (e) => {
-    // Check if hovering over the list area
     if (e.target.closest(".project-list")) {
       xTo(e.clientX);
       yTo(e.clientY);
 
-      // Tilt Effect Calculation
-      // Calculate velocity or position relative to screen center/movement
-      // Simple tilt based on movement direction is tricky with QuickTo, let's use velocity proxy or just position relative to center of screen?
-      // Let's us position relative to cursor movement direction approx
-
-      const xVelocity = (e.movementX || 0) * 2; // exaggerated velocity
+      const xVelocity = (e.movementX || 0) * 2;
       const yVelocity = (e.movementY || 0) * 2;
 
-      // Clamp rotation
-      const rotationX = gsap.utils.clamp(-20, 20, -yVelocity); // Moving up -> tilt back (negative rotateX? check css perspective)
-      const rotationY = gsap.utils.clamp(-20, 20, xVelocity); // Moving right -> tilt right
+      const rotationX = gsap.utils.clamp(-20, 20, -yVelocity);
+      const rotationY = gsap.utils.clamp(-20, 20, xVelocity);
 
       gsap.to(revealWrapper, {
         rotationX: rotationX,
@@ -427,14 +390,12 @@ function initProjectHoverAnimations() {
     }
   });
 
-  // Image slideshow state
   let slideshowInterval = null;
   let slideshowTimeout = null;
   let currentImageIndex = 0;
   let lastHoveredRow = null;
-  let currentImages = []; // Track current project's images
+  let currentImages = [];
 
-  // Row Hover Handlers
   projectRows.forEach((row) => {
     row.addEventListener("mouseenter", () => {
       const imgUrl = row.getAttribute("data-image");
@@ -442,7 +403,6 @@ function initProjectHoverAnimations() {
       const isNewRow = lastHoveredRow !== row;
       lastHoveredRow = row;
 
-      // Clear any existing slideshow AND pending timeout
       if (slideshowInterval) {
         clearInterval(slideshowInterval);
         slideshowInterval = null;
@@ -452,24 +412,20 @@ function initProjectHoverAnimations() {
         slideshowTimeout = null;
       }
 
-      // Update current images for this row
       if (imagesAttr) {
         currentImages = imagesAttr.split(",").map((img) => img.trim());
       } else {
         currentImages = imgUrl ? [imgUrl] : [];
       }
 
-      // Slide down animation when switching to a new row
       if (isNewRow && currentImages.length > 0) {
         currentImageIndex = 0;
         
-        // Animate current image out (slide down)
         gsap.to(currentImg, {
           y: "100%",
           duration: 0.3,
           ease: "power2.in",
           onComplete: () => {
-            // Set new image and animate in from top
             currentImg.src = currentImages[0];
             
             gsap.set(currentImg, { y: "-100%" });
@@ -481,20 +437,16 @@ function initProjectHoverAnimations() {
           }
         });
         
-        // Start slideshow after initial animation (only for multi-image projects)
         if (currentImages.length > 1) {
           slideshowTimeout = setTimeout(() => {
             slideshowInterval = setInterval(() => {
-              // Use the stored currentImages array (not stale closure)
               if (currentImages.length <= 1) return;
               
               const nextIndex = (currentImageIndex + 1) % currentImages.length;
               
-              // Preload and set next image
               nextImg.src = currentImages[nextIndex];
               gsap.set(nextImg, { y: "100%" });
               
-              // Animate both images simultaneously - seamless overlap
               gsap.to(currentImg, {
                 y: "-100%",
                 duration: 0.6,
@@ -506,7 +458,6 @@ function initProjectHoverAnimations() {
                 duration: 0.6,
                 ease: "power2.inOut",
                 onComplete: () => {
-                  // Swap: next becomes current
                   currentImageIndex = nextIndex;
                   currentImg.src = currentImages[currentImageIndex];
                   gsap.set(currentImg, { y: 0 });
@@ -514,7 +465,7 @@ function initProjectHoverAnimations() {
                 },
               });
             }, 2000);
-          }, 800); // Wait for initial slide-down animation
+          }, 800);
         }
       }
 
@@ -527,14 +478,12 @@ function initProjectHoverAnimations() {
         overwrite: "auto",
       });
 
-      // Enable View Cursor
       document.body.classList.add("cursor-view");
     });
 
     row.addEventListener("mouseleave", () => {
       document.body.classList.remove("cursor-view");
 
-      // Stop slideshow AND any pending timeout when leaving row
       if (slideshowInterval) {
         clearInterval(slideshowInterval);
         slideshowInterval = null;
@@ -546,10 +495,8 @@ function initProjectHoverAnimations() {
     });
   });
 
-  // Hide when leaving the list container
   if (projectList) {
     projectList.addEventListener("mouseleave", () => {
-      // Clear slideshow
       if (slideshowInterval) {
         clearInterval(slideshowInterval);
         slideshowInterval = null;
@@ -567,7 +514,7 @@ function initProjectHoverAnimations() {
 
 initProjectHoverAnimations();
 
-// --- 6. MAGNETIC BUTTONS ---
+// MAGNETIC BUTTONS
 function initMagneticButtons() {
   const magnets = document.querySelectorAll(".magnetic-btn");
   magnets.forEach((magnet) => {
@@ -599,7 +546,7 @@ function initMagneticButtons() {
 
 initMagneticButtons();
 
-// --- 7. CUSTOM CURSOR ---
+// CUSTOM CURSOR
 function initCustomCursor() {
   const cursor = document.querySelector(".custom-cursor");
   const follower = document.querySelector(".custom-cursor-follower");
@@ -620,7 +567,6 @@ function initCustomCursor() {
     ease: "power3",
   });
 
-  // Optimize visibility check to avoid getComputedStyle on every frame
   let isCursorVisible = window.innerWidth > 768;
   window.addEventListener("resize", () => {
     isCursorVisible = window.innerWidth > 768;
@@ -635,7 +581,6 @@ function initCustomCursor() {
     }
   });
 
-  // Updated for new elements
   const interactiveElements = document.querySelectorAll(
     "a, button, .project-card, .view-projects-btn, .work, .collection-category-btn, .gallery-item"
   );
@@ -664,12 +609,11 @@ function initCustomCursor() {
 
 initCustomCursor();
 
-// --- 8. ANIMATED EYES FOLLOW CURSOR ---
+// EYE TRACKING
 function initEyeTracking() {
   const eyes = document.querySelectorAll(".hero-eye");
   if (eyes.length === 0) return;
 
-  // Cache eye positions
   let eyePositions = [];
 
   function updateEyePositions() {
@@ -684,10 +628,8 @@ function initEyeTracking() {
     });
   }
 
-  // Initial calculation
   updateEyePositions();
   window.addEventListener("resize", updateEyePositions);
-  // Update on scroll since eyes move with page
   window.addEventListener("scroll", updateEyePositions, { passive: true });
   if (typeof locoScroll !== "undefined") {
     locoScroll.on("scroll", updateEyePositions);
@@ -702,9 +644,8 @@ function initEyeTracking() {
         e.clientX - eyeData.centerX
       );
       const distance = Math.min(
-        Math.hypot(e.clientX - eyeData.centerX, e.clientY - eyeData.centerY) /
-          10,
-        8 // Max movement radius
+        Math.hypot(e.clientX - eyeData.centerX, e.clientY - eyeData.centerY) / 10,
+        8
       );
 
       const pupilX = Math.cos(angle) * distance;
@@ -717,44 +658,37 @@ function initEyeTracking() {
 
 initEyeTracking();
 
-// --- 8.5 MOBILE TAP INTERACTIONS FOR DOODLES ---
+// MOBILE DOODLE INTERACTIONS
 function initDoodleTapInteractions() {
-  // Include both hero and footer doodles
   const doodleBlocks = document.querySelectorAll(".hero-inline-images .inline-block, .footer-inline-images .inline-block");
   const containers = document.querySelectorAll(".hero-inline-images, .footer-inline-images");
   
   if (doodleBlocks.length === 0 || containers.length === 0) return;
   
-  // Only enable on touch devices
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   if (!isTouchDevice) return;
   
   let activeBlock = null;
   
-  // Handle tap on individual doodle blocks
   doodleBlocks.forEach((block, index) => {
     block.addEventListener("click", (e) => {
       e.stopPropagation();
       
-      // If this block is already active, deactivate it
       if (activeBlock === block) {
         deactivateBlock(block);
         activeBlock = null;
         return;
       }
       
-      // Deactivate previous active block
       if (activeBlock) {
         deactivateBlock(activeBlock);
       }
       
-      // Activate this block
       activateBlock(block);
       activeBlock = block;
     });
   });
   
-  // Close on tap outside
   document.addEventListener("click", (e) => {
     if (activeBlock && !e.target.closest(".hero-inline-images") && !e.target.closest(".footer-inline-images")) {
       deactivateBlock(activeBlock);
@@ -763,10 +697,8 @@ function initDoodleTapInteractions() {
   });
   
   function activateBlock(block) {
-    // Add active class
     block.classList.add("tap-active");
     
-    // Dim siblings
     doodleBlocks.forEach((sibling) => {
       if (sibling !== block) {
         gsap.to(sibling, {
@@ -779,7 +711,6 @@ function initDoodleTapInteractions() {
       }
     });
     
-    // Pop the active block
     gsap.to(block, {
       scale: 1.8,
       rotation: 0,
@@ -790,22 +721,18 @@ function initDoodleTapInteractions() {
       ease: "elastic.out(1, 0.5)",
     });
     
-    // Pause the floating animation
     block.style.animationPlayState = "paused";
   }
   
   function deactivateBlock(block) {
-    // Remove active class
     block.classList.remove("tap-active");
     
-    // Get the original rotation based on block number
     const blockClasses = block.classList;
     let baseRotation = 0;
     if (blockClasses.contains("block-1")) baseRotation = -6;
     else if (blockClasses.contains("block-2")) baseRotation = 0;
     else if (blockClasses.contains("block-3")) baseRotation = 6;
     
-    // Reset all blocks
     doodleBlocks.forEach((sibling) => {
       let siblingRotation = 0;
       if (sibling.classList.contains("block-1")) siblingRotation = -6;
@@ -824,7 +751,6 @@ function initDoodleTapInteractions() {
         ease: "power2.out",
       });
       
-      // Resume floating animation
       sibling.style.animationPlayState = "running";
     });
   }
@@ -832,7 +758,7 @@ function initDoodleTapInteractions() {
 
 initDoodleTapInteractions();
 
-// --- 9. THEME TOGGLE & UTILS ---
+// THEME TOGGLE
 const themeToggleButtons = document.querySelectorAll(".theme-toggle");
 updateIcons(document.body.classList.contains("dark-mode"));
 
@@ -862,7 +788,7 @@ function updateIcons(isDark) {
   });
 }
 
-// Copy email functionality for both header and hero buttons
+// COPY EMAIL
 function setupCopyEmail(buttonId, originalText) {
   const btn = document.getElementById(buttonId);
   if (btn) {
@@ -936,7 +862,7 @@ projectToggleButtons.forEach((button) => {
   });
 });
 
-// --- 10. EXPERIENCE SECTION ANIMATIONS ---
+// EXPERIENCE ANIMATIONS
 function initExperienceAnimations() {
   const container = document.querySelector(".experience-container");
   const items = document.querySelectorAll(".experience-item");
@@ -944,7 +870,6 @@ function initExperienceAnimations() {
 
   if (!container || items.length === 0) return;
 
-  // 0. Spotlight Logic
   items.forEach((item) => {
     const card = item.querySelector(".experience-card");
     if (!card) return;
@@ -959,7 +884,6 @@ function initExperienceAnimations() {
     });
   });
 
-  // 1. Animate the vertical timeline line - faster scrub
   if (line) {
     gsap.fromTo(
       line,
@@ -972,29 +896,26 @@ function initExperienceAnimations() {
           scroller: "#main",
           start: "top 85%",
           end: "bottom 50%",
-          scrub: 0.5, // Faster response
+          scrub: 0.5,
         },
       }
     );
   }
 
-  // 2. Animate items with snappy, dynamic entrance
   items.forEach((item, index) => {
     const dot = item.querySelector(".experience-dot");
     const date = item.querySelector(".experience-date");
     const card = item.querySelector(".experience-card");
 
-    // Create a snappy timeline for each item
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: item,
         scroller: "#main",
-        start: "top bottom-=50", // Trigger earlier
+        start: "top bottom-=50",
         toggleActions: "play none none none",
       },
     });
 
-    // Dot - quick pop with elastic bounce
     if (dot) {
       tl.fromTo(
         dot,
@@ -1003,7 +924,6 @@ function initExperienceAnimations() {
       );
     }
     
-    // Date - fast slide with slight overshoot
     if (date) {
       tl.fromTo(
         date,
@@ -1013,7 +933,6 @@ function initExperienceAnimations() {
       );
     }
     
-    // Card - dynamic entrance with blur-to-sharp effect
     if (card) {
       tl.fromTo(
         card,
@@ -1037,79 +956,66 @@ function initExperienceAnimations() {
   });
 }
 
-// Initialize only after page load and Locomotive Scroll is ready
+// INIT ON LOAD
 window.addEventListener("load", () => {
   setTimeout(() => {
     initExperienceAnimations();
     initProjectHoverAnimations();
+    initScrollMarquee();
     ScrollTrigger.refresh();
   }, 500);
 });
 
-
-// --- 12. SCROLL-REACTIVE TYPOGRAPHY MARQUEE ---
+// SCROLL MARQUEE
 function initScrollMarquee() {
   const marqueeScroll = document.querySelector(".marquee-scroll");
   if (!marqueeScroll) return;
 
-  // State variables
   let isAnimating = true;
   let currentX = 0;
-  let baseSpeed = 0.5; // Slower base pixels per frame
+  let baseSpeed = 0.5;
   let scrollVelocity = 0;
   let lastScrollY = 0;
   let isReversed = false;
   let scrollWidth = marqueeScroll.scrollWidth / 2;
 
-  // Recalculate on resize to handle responsive layout changes
   window.addEventListener("resize", () => {
     scrollWidth = marqueeScroll.scrollWidth / 2;
   });
 
-  // Animation loop - optimized
   function animate() {
     if (!isAnimating) return;
 
-    // Calculate speed based on scroll velocity
     const speed = baseSpeed + Math.min(Math.abs(scrollVelocity) * 0.03, 2);
 
-    // Update position
     currentX += isReversed ? speed : -speed;
 
-    // Seamless loop
     if (currentX <= -scrollWidth) {
       currentX += scrollWidth;
     } else if (currentX >= 0) {
       currentX -= scrollWidth;
     }
 
-    // Apply transform with GPU acceleration
     marqueeScroll.style.transform = `translate3d(${currentX}px, 0, 0)`;
 
-    // Decay scroll velocity
     scrollVelocity *= 0.9;
 
     requestAnimationFrame(animate);
   }
 
-  // Start animation
   requestAnimationFrame(animate);
 
-  // Listen to Locomotive Scroll
   locoScroll.on("scroll", (args) => {
     const currentScrollY = args.scroll.y;
     const delta = currentScrollY - lastScrollY;
 
-    // Update velocity based on scroll delta
     scrollVelocity = delta;
 
-    // Reverse direction when scrolling up
     isReversed = delta < 0;
 
     lastScrollY = currentScrollY;
   });
 
-  // Fallback for native scroll (if locomotive fails)
   let fallbackLastY = window.scrollY;
   window.addEventListener(
     "scroll",
@@ -1127,18 +1033,16 @@ function initScrollMarquee() {
     { passive: true }
   );
 
-  // Pause on hover
   const marqueeWrapper = document.querySelector(".marquee-wrapper");
   if (marqueeWrapper) {
     marqueeWrapper.addEventListener("mouseenter", () => {
-      baseSpeed = 0.15; // Slow down on hover
+      baseSpeed = 0.15;
     });
     marqueeWrapper.addEventListener("mouseleave", () => {
-      baseSpeed = 0.5; // Resume normal (slower) speed
+      baseSpeed = 0.5;
     });
   }
 
-  // Intersection Observer for performance
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -1153,16 +1057,10 @@ function initScrollMarquee() {
       });
     },
     { rootMargin: "100px" }
-  ); // Start slightly before it enters
+  );
 
   if (marqueeScroll.parentElement) {
     observer.observe(marqueeScroll.parentElement);
   }
 }
 
-// Initialize Scroll Marquee after page load
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    initScrollMarquee();
-  }, 600);
-});
