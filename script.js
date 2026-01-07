@@ -959,7 +959,7 @@ function initExperienceAnimations() {
     });
   });
 
-  // 1. Animate the vertical timeline line
+  // 1. Animate the vertical timeline line - faster scrub
   if (line) {
     gsap.fromTo(
       line,
@@ -970,52 +970,68 @@ function initExperienceAnimations() {
         scrollTrigger: {
           trigger: container,
           scroller: "#main",
-          start: "top 80%",
-          end: "bottom 30%",
-          scrub: true,
+          start: "top 85%",
+          end: "bottom 50%",
+          scrub: 0.5, // Faster response
         },
       }
     );
   }
 
-  // 2. Animate items as they enter
+  // 2. Animate items with snappy, dynamic entrance
   items.forEach((item, index) => {
     const dot = item.querySelector(".experience-dot");
     const date = item.querySelector(".experience-date");
     const card = item.querySelector(".experience-card");
 
-    // Create a unique timeline for each item
+    // Create a snappy timeline for each item
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: item,
         scroller: "#main",
-        start: "top bottom-=100", // Start animation when item is near bottom
+        start: "top bottom-=50", // Trigger earlier
         toggleActions: "play none none none",
       },
     });
 
-    // Ensure elements exist before animating
+    // Dot - quick pop with elastic bounce
     if (dot) {
       tl.fromTo(
         dot,
         { scale: 0, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.7)" }
+        { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2)" }
       );
     }
+    
+    // Date - fast slide with slight overshoot
     if (date) {
       tl.fromTo(
         date,
-        { x: -30, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.6, ease: "power2.out" },
-        "-=0.4"
+        { x: -20, opacity: 0, filter: "blur(4px)" },
+        { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.3, ease: "expo.out" },
+        "-=0.2"
       );
     }
+    
+    // Card - dynamic entrance with blur-to-sharp effect
     if (card) {
       tl.fromTo(
         card,
-        { x: 50, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
-        "-=0.5"
+        { 
+          y: 30, 
+          opacity: 0, 
+          scale: 0.95,
+          filter: "blur(8px)"
+        },
+        { 
+          y: 0, 
+          opacity: 1, 
+          scale: 1,
+          filter: "blur(0px)",
+          duration: 0.4, 
+          ease: "expo.out" 
+        },
+        "-=0.25"
       );
     }
   });
@@ -1150,39 +1166,3 @@ window.addEventListener("load", () => {
     initScrollMarquee();
   }, 600);
 });
-
-// --- 8. EXPERIENCE ANIMATIONS ---
-function initExperienceAnimations() {
-  const cards = document.querySelectorAll(".experience-card");
-
-  if (cards.length > 0) {
-    gsap.fromTo(
-      cards,
-      {
-        y: 50,
-        opacity: 0,
-        filter: "blur(10px)",
-        scale: 0.95,
-      },
-      {
-        y: 0,
-        opacity: 1,
-        filter: "blur(0px)",
-        scale: 1,
-        duration: 0.8,
-        ease: "power2.out",
-        stagger: 0.15,
-        scrollTrigger: {
-          trigger: ".experience-container",
-          scroller: "#main",
-          start: "top 70%",
-          end: "bottom 20%",
-          toggleActions: "play none none none",
-        },
-      }
-    );
-  }
-}
-
-// Call it
-initExperienceAnimations();
