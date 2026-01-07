@@ -421,21 +421,28 @@ function initProjectHoverAnimations() {
       if (isNewRow && currentImages.length > 0) {
         currentImageIndex = 0;
         
-        gsap.to(currentImg, {
-          y: "100%",
-          duration: 0.3,
-          ease: "power2.in",
-          onComplete: () => {
-            currentImg.src = currentImages[0];
-            
-            gsap.set(currentImg, { y: "-100%" });
-            gsap.to(currentImg, {
-              y: 0,
-              duration: 0.4,
-              ease: "power2.out"
-            });
-          }
-        });
+        const isFirstLoad = currentImg.getAttribute("src") === "" || currentImg.getAttribute("src") === window.location.href;
+
+        if (isFirstLoad) {
+          currentImg.src = currentImages[0];
+          gsap.set(currentImg, { y: 0 });
+        } else {
+          gsap.to(currentImg, {
+            y: "100%",
+            duration: 0.3,
+            ease: "power2.in",
+            onComplete: () => {
+              currentImg.src = currentImages[0];
+              
+              gsap.set(currentImg, { y: "-100%" });
+              gsap.to(currentImg, {
+                y: 0,
+                duration: 0.4,
+                ease: "power2.out"
+              });
+            }
+          });
+        }
         
         if (currentImages.length > 1) {
           slideshowTimeout = setTimeout(() => {
