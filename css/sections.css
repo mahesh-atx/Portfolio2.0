@@ -219,17 +219,15 @@ nav {
   height: 1.3em;
   border-radius: 0.3em;
   border: 1.5px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  /* z-index held for 0.5s on mouseleave to stay on top while shrinking */
-  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
-              box-shadow 0.3s ease,
-              z-index 0s 0.5s; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin-left: -0.3em;
   position: relative;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  animation: doodleFloat 3s ease-in-out infinite;
+  animation: doodleFloat 4s ease-in-out infinite;
+  /* Elevation Shadows */
+  filter: drop-shadow(0 5px 10px rgba(0,0,0,0.15));
 }
 
 /* Touch Target Expansion (48px transparent hit area) */
@@ -257,6 +255,7 @@ nav {
   transform: rotate(var(--base-rotation));
   background-image: url("../assets/doddle-1.jpg");
   animation-delay: 0s;
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2)); /* Higher elevation */
 }
 
 .hero-inline-images .block-2 {
@@ -280,31 +279,28 @@ nav {
     transform: translateY(0) rotate(var(--base-rotation, 0deg));
   }
   50% {
-    transform: translateY(-5px) rotate(var(--base-rotation, 0deg));
+    transform: translateY(-8px) rotate(var(--base-rotation, 0deg));
   }
 }
 
 /* Focus Effect: Dim others when container is hovered */
 .hero-inline-images:hover .inline-block:not(:hover) {
-  opacity: 0.4;
+  opacity: 0.3;
   transform: scale(0.9) rotate(var(--base-rotation));
-  filter: grayscale(0.6) blur(1px);
-  transition: all 0.4s ease;
+  filter: grayscale(1) blur(2px) opacity(0.5);
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 /* Super Pop Effect: Enhance current item */
 .hero-inline-images .inline-block:hover {
-  z-index: 100;
-  transform: scale(1.8) rotate(0deg) translateY(-10px) !important; /* Dramatic pop */
-  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.3);
+  z-index: 100 !important;
+  transform: scale(1.6) rotate(0deg) translateY(-15px) !important;
+  filter: drop-shadow(0 25px 30px rgba(0, 0, 0, 0.3));
   border-color: #ffffff;
   animation-play-state: paused;
-  filter: none;
   cursor: pointer;
-  /* Bouncier transition for the pop effect */
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.4), 
-              box-shadow 0.3s ease,
-              z-index 0s 0s;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.2), 
+              filter 0.3s ease;
 }
 
 /* Cursor pointer for interactivity */
@@ -2615,16 +2611,42 @@ footer {
 .glass-card {
   width: 100%;
   height: 100%;
-  /* Removed background on the card itself so image is visible clearly, or keep subtle tint */
-  background: transparent;
+  background: rgba(255, 255, 255, 0.02);
   border-radius: 30px;
-  /* border: 1px solid rgba(255, 255, 255, 0.4); */ /* Optional: remove border if it interferes with full image look */
-  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.3);
+  /* Integrated Layered Shadows for Depth */
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.1), /* Crisp inner border */
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),  /* Sharp contact shadow */
+    0 20px 40px -10px rgba(0, 0, 0, 0.3), /* Deep distance shadow */
+    0 30px 60px -15px rgba(0, 0, 0, 0.2); /* Soft ambient falloff */
   padding: 0;
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  z-index: 2;
+}
+
+/* Ambient Glow Pseudo-Element */
+.glass-card-container::before {
+  content: "";
+  position: absolute;
+  inset: -10%;
+  background: radial-gradient(
+    circle at center,
+    rgba(99, 102, 241, 0.15) 0%,
+    rgba(139, 92, 246, 0.1) 30%,
+    transparent 70%
+  );
+  filter: blur(40px);
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+
+.glass-card-container:hover::before {
+  opacity: 1;
 }
 
 /* Image fills the card completely */

@@ -72,6 +72,57 @@ function playHeroAnimations() {
       "<0.2"
     );
   }
+
+  // Initialize subtle parallax depth
+  initHeroDepthParallax();
+}
+
+// --- 2.5 HERO DEPTH PARALLAX (2D) ---
+function initHeroDepthParallax() {
+  const card = document.querySelector(".glass-card-container");
+  const doodles = document.querySelectorAll(".hero-inline-images .inline-block");
+  const heroText = document.querySelector(".hero-text");
+
+  if (card) {
+    gsap.to(card, {
+      y: -30,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".hero",
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+      },
+    });
+  }
+
+  if (doodles.length > 0) {
+    doodles.forEach((doodle, i) => {
+      gsap.to(doodle, {
+        y: -(20 + (i * 20)), // Different speeds for each doodle
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".hero",
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    });
+  }
+
+  if (heroText) {
+    gsap.to(heroText, {
+      y: 15, // Moves slightly slower in opposite direction
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".hero",
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+      },
+    });
+  }
 }
 
 // --- 3. PRELOADER LOGIC ---
@@ -88,26 +139,70 @@ function initPreloader() {
     return;
   }
 
+  const textElement = document.getElementById("preloader-text");
+  const counterElement = document.getElementById("preloader-counter");
+  const words = ["Welcome", "Bonjour", "வணக்கம்", "नमस्ते"];
+  
+  // Disable scrolling during load
+  document.body.style.overflow = "hidden";
+
   const tl = gsap.timeline({
     onComplete: () => {
       gsap.set(container, { display: "none" });
       document.body.classList.remove("loading");
+      document.body.style.overflow = ""; // Re-enable scroll
       ScrollTrigger.refresh();
     },
   });
 
   if (ball) gsap.set(ball, { scale: 0, autoAlpha: 1 });
 
-  // Only add animations if elements exist
-  if (letters.length > 0) {
-    tl.to(letters, {
-      y: 0,
-      duration: 1,
-      stagger: 0.05,
-      ease: "power4.out",
+  // --- 1. Counter & Text Cycle (Concurrent) ---
+  
+  // A. Counter Animation (0 -> 100)
+  if (counterElement) {
+    let counterObj = { val: 0 };
+    tl.to(counterObj, {
+      val: 100,
+      duration: 3.5,
+      ease: "power2.inOut",
+      onUpdate: () => {
+        counterElement.textContent = Math.floor(counterObj.val) + "%";
+      },
+    }, "start");
+  }
+
+  // B. Text Cycling
+  if (textElement) {
+    let textDuration = 3.5 / words.length; // Spread words over the counter time
+    
+    words.forEach((word, index) => {
+      const isLast = index === words.length - 1;
+      // Start time for this specific word
+      const startTime = index * textDuration; 
+
+      tl.add(() => {
+        textElement.textContent = word;
+      }, "start+=" + startTime);
+
+      // Simple Fade In/Out for text
+      tl.fromTo(textElement, 
+        { opacity: 0, y: 10 }, 
+        { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" },
+        "start+=" + startTime
+      );
+
+      // Fade out unless it's the last word
+      if (!isLast) {
+        tl.to(textElement, 
+          { opacity: 0, y: -10, duration: 0.3, ease: "power2.in" }, 
+          "start+=" + (startTime + textDuration - 0.3)
+        );
+      }
     });
   }
 
+  // --- 2. Ball Entrance ---
   if (ball) {
     tl.to(
       ball,
@@ -116,8 +211,13 @@ function initPreloader() {
         duration: 0.5,
         ease: "elastic.out(1, 0.5)",
       },
-      letters.length > 0 ? "-=0.5" : "0" // Adjust timing based on letters existence
-    )
+      "start+=0.2"
+    );
+  }
+
+  // --- 3. Drop & Expand (After Counter finishes) ---
+   if (ball) {
+    tl
       // Ball Drop
       .call(() => {
         if (!ball) return;
@@ -129,8 +229,9 @@ function initPreloader() {
           duration: 1.5,
           ease: "bounce.out",
         });
-      })
-      .to({}, { duration: 1.5 })
+      }, null, "+=0.2") // Wait a tiny bit after counter finishes
+      
+      .to({}, { duration: 1.5 }) // Wait for drop bounce
 
       // Squash
       .to(ball, {
@@ -148,18 +249,23 @@ function initPreloader() {
       });
   }
 
-  if (letters.length > 0 || face) {
-    const fadeTargets = [];
-    if (letters.length > 0) fadeTargets.push(letters);
-    if (face) fadeTargets.push(face);
+  // --- 4. Final Expand & Reveal ---
+  const exitDuration = 1.2;
+  
+  // Fade out elements
+  const exitTargets = [];
+  if (textElement) exitTargets.push(textElement);
+  if (face) exitTargets.push(face);
+  if (counterElement) exitTargets.push(counterElement);
 
+  if (exitTargets.length > 0) {
     tl.to(
-      fadeTargets,
+      exitTargets,
       {
         y: -20,
         opacity: 0,
-        duration: 0.2,
-        stagger: 0.02,
+        duration: 0.3,
+        stagger: 0.1,
         ease: "power2.in",
       },
       "+=0.1"
@@ -172,10 +278,10 @@ function initPreloader() {
       ball,
       {
         scale: 250,
-        duration: 1.2,
+        duration: exitDuration,
         ease: "power4.inOut",
       },
-      "<"
+      "<" // Start with text fade out
     );
   }
 
@@ -183,9 +289,9 @@ function initPreloader() {
   tl.add(() => {
     // Start Hero Animation AS the container fades
     playHeroAnimations();
-  }, "-=0.6") // Sync point: Start slightly before expansion finishes
+  }, "-=0.6") // Sync point
 
-    // Container Fade Out (Reveals the animating hero underneath)
+    // Container Fade Out
     .to(
       container,
       {
