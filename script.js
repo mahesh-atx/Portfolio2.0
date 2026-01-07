@@ -58,12 +58,12 @@ function playHeroAnimations() {
     tl.from(
       heroImage,
       {
-        scale: 0.8,
+        scale: 0.9,
         opacity: 0,
-        duration: 1.2,
+        duration: 1,
         ease: "power2.out",
       },
-      "<0.2"
+      0.5
     );
   }
 
