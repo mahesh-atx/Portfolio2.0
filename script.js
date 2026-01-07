@@ -13,7 +13,9 @@ if (localStorage.getItem("theme") === "dark") {
 function playHeroAnimations() {
   const heroLines = document.querySelectorAll(".hero h1 .line-mask > span");
   // Updated selector to match new glass card structure
-  const heroImage = document.querySelector(".glass-card-container") || document.querySelector(".hero-img-container");
+  const heroImage =
+    document.querySelector(".glass-card-container") ||
+    document.querySelector(".hero-img-container");
 
   // Ensure elements are visible for animation
   // (Mask parents already hide overflow, but opacity helps smooth entry)
@@ -29,7 +31,7 @@ function playHeroAnimations() {
       stagger: 0.1,
     });
   }
-  
+
   if (heroImage) {
     tl.from(
       heroImage,
@@ -88,34 +90,34 @@ function initPreloader() {
       },
       letters.length > 0 ? "-=0.5" : "0" // Adjust timing based on letters existence
     )
-    // Ball Drop
-    .call(() => {
-      if(!ball) return;
-      const ballRect = ball.getBoundingClientRect();
-      const dropDist = window.innerHeight - ballRect.bottom - 40;
+      // Ball Drop
+      .call(() => {
+        if (!ball) return;
+        const ballRect = ball.getBoundingClientRect();
+        const dropDist = window.innerHeight - ballRect.bottom - 40;
 
-      gsap.to(ball, {
-        y: dropDist,
-        duration: 1.5,
-        ease: "bounce.out",
+        gsap.to(ball, {
+          y: dropDist,
+          duration: 1.5,
+          ease: "bounce.out",
+        });
+      })
+      .to({}, { duration: 1.5 })
+
+      // Squash
+      .to(ball, {
+        scaleX: 1.6,
+        scaleY: 0.4,
+        duration: 0.1,
+        ease: "power2.out",
+      })
+      // Recover
+      .to(ball, {
+        scaleX: 1,
+        scaleY: 1,
+        duration: 0.3,
+        ease: "elastic.out(1, 0.3)",
       });
-    })
-    .to({}, { duration: 1.5 })
-
-    // Squash
-    .to(ball, {
-      scaleX: 1.6,
-      scaleY: 0.4,
-      duration: 0.1,
-      ease: "power2.out",
-    })
-    // Recover
-    .to(ball, {
-      scaleX: 1,
-      scaleY: 1,
-      duration: 0.3,
-      ease: "elastic.out(1, 0.3)",
-    });
   }
 
   if (letters.length > 0 || face) {
@@ -149,22 +151,22 @@ function initPreloader() {
     );
   }
 
-    // === CONCURRENT HERO REVEAL ===
+  // === CONCURRENT HERO REVEAL ===
   tl.add(() => {
     // Start Hero Animation AS the container fades
     playHeroAnimations();
   }, "-=0.6") // Sync point: Start slightly before expansion finishes
 
     // Container Fade Out (Reveals the animating hero underneath)
-  .to(
-    container,
-    {
-      opacity: 0,
-      duration: 1,
-      ease: "power2.inOut",
-    },
-    "<"
-  );
+    .to(
+      container,
+      {
+        opacity: 0,
+        duration: 1,
+        ease: "power2.inOut",
+      },
+      "<"
+    );
 }
 
 initPreloader();
@@ -201,7 +203,7 @@ ScrollTrigger.refresh();
 // --- 5. MASKED TEXT ANIMATIONS ---
 function initMaskedAnimations() {
   const headings = document.querySelectorAll(
-    ".about-content h1, .services-intro h2, .experience-title h1, .projects-header h1, .footer-heading h1"
+    ".about-content h1, .bento-header h1, .services-intro h2, .experience-title h1, .projects-header h1, .footer-heading h1"
   );
 
   headings.forEach((heading) => {
@@ -233,55 +235,153 @@ initMaskedAnimations();
 function initProjectHoverAnimations() {
   const projectRows = document.querySelectorAll(".project-row");
   const revealWrapper = document.querySelector(".project-reveal-wrapper");
-  const revealImg = document.querySelector(".project-reveal-img");
+  const currentImg = document.querySelector(".project-reveal-img-current");
+  const nextImg = document.querySelector(".project-reveal-img-next");
   const projectList = document.querySelector(".project-list");
 
-  if (!projectRows.length || !revealWrapper || !revealImg) return;
+  if (!projectRows.length || !revealWrapper || !currentImg || !nextImg) {
+    console.log("Project hover elements not found");
+    return;
+  }
 
   // Initial State
-  gsap.set(revealWrapper, { xPercent: -50, yPercent: -50, autoAlpha: 0, scale: 0.8 });
+  gsap.set(revealWrapper, {
+    xPercent: -50,
+    yPercent: -50,
+    autoAlpha: 0,
+    scale: 0.9,
+  });
+  
+  // Hide next image initially
+  gsap.set(nextImg, { y: "100%" });
 
   // Mouse Move Handler (Follow Cursor)
-  const xTo = gsap.quickTo(revealWrapper, "x", { duration: 0.4, ease: "power3" });
-  const yTo = gsap.quickTo(revealWrapper, "y", { duration: 0.4, ease: "power3" });
+  const xTo = gsap.quickTo(revealWrapper, "x", {
+    duration: 0.4,
+    ease: "power3",
+  });
+  const yTo = gsap.quickTo(revealWrapper, "y", {
+    duration: 0.4,
+    ease: "power3",
+  });
 
   window.addEventListener("mousemove", (e) => {
     // Check if hovering over the list area
     if (e.target.closest(".project-list")) {
-        xTo(e.clientX);
-        yTo(e.clientY);
-        
-        // Tilt Effect Calculation
-        // Calculate velocity or position relative to screen center/movement
-        // Simple tilt based on movement direction is tricky with QuickTo, let's use velocity proxy or just position relative to center of screen?
-        // Let's us position relative to cursor movement direction approx
-        
-        const xVelocity = (e.movementX || 0) * 2; // exaggerated velocity
-        const yVelocity = (e.movementY || 0) * 2;
-        
-        // Clamp rotation
-        const rotationX = gsap.utils.clamp(-20, 20, -yVelocity); // Moving up -> tilt back (negative rotateX? check css perspective)
-        const rotationY = gsap.utils.clamp(-20, 20, xVelocity);  // Moving right -> tilt right
-        
-        gsap.to(revealWrapper, {
-            rotationX: rotationX,
-            rotationY: rotationY,
-            duration: 0.5,
-            ease: "power2.out",
-            overwrite: "auto"
-        });
-        
+      xTo(e.clientX);
+      yTo(e.clientY);
+
+      // Tilt Effect Calculation
+      // Calculate velocity or position relative to screen center/movement
+      // Simple tilt based on movement direction is tricky with QuickTo, let's use velocity proxy or just position relative to center of screen?
+      // Let's us position relative to cursor movement direction approx
+
+      const xVelocity = (e.movementX || 0) * 2; // exaggerated velocity
+      const yVelocity = (e.movementY || 0) * 2;
+
+      // Clamp rotation
+      const rotationX = gsap.utils.clamp(-20, 20, -yVelocity); // Moving up -> tilt back (negative rotateX? check css perspective)
+      const rotationY = gsap.utils.clamp(-20, 20, xVelocity); // Moving right -> tilt right
+
+      gsap.to(revealWrapper, {
+        rotationX: rotationX,
+        rotationY: rotationY,
+        duration: 0.5,
+        ease: "power2.out",
+        overwrite: "auto",
+      });
     }
   });
+
+  // Image slideshow state
+  let slideshowInterval = null;
+  let slideshowTimeout = null;
+  let currentImageIndex = 0;
+  let lastHoveredRow = null;
+  let currentImages = []; // Track current project's images
 
   // Row Hover Handlers
   projectRows.forEach((row) => {
     row.addEventListener("mouseenter", () => {
       const imgUrl = row.getAttribute("data-image");
-      
-      // Update Image
-      if (imgUrl) {
-          revealImg.src = imgUrl;
+      const imagesAttr = row.getAttribute("data-images");
+      const isNewRow = lastHoveredRow !== row;
+      lastHoveredRow = row;
+
+      // Clear any existing slideshow AND pending timeout
+      if (slideshowInterval) {
+        clearInterval(slideshowInterval);
+        slideshowInterval = null;
+      }
+      if (slideshowTimeout) {
+        clearTimeout(slideshowTimeout);
+        slideshowTimeout = null;
+      }
+
+      // Update current images for this row
+      if (imagesAttr) {
+        currentImages = imagesAttr.split(",").map((img) => img.trim());
+      } else {
+        currentImages = imgUrl ? [imgUrl] : [];
+      }
+
+      // Slide down animation when switching to a new row
+      if (isNewRow && currentImages.length > 0) {
+        currentImageIndex = 0;
+        
+        // Animate current image out (slide down)
+        gsap.to(currentImg, {
+          y: "100%",
+          duration: 0.3,
+          ease: "power2.in",
+          onComplete: () => {
+            // Set new image and animate in from top
+            currentImg.src = currentImages[0];
+            
+            gsap.set(currentImg, { y: "-100%" });
+            gsap.to(currentImg, {
+              y: 0,
+              duration: 0.4,
+              ease: "power2.out"
+            });
+          }
+        });
+        
+        // Start slideshow after initial animation (only for multi-image projects)
+        if (currentImages.length > 1) {
+          slideshowTimeout = setTimeout(() => {
+            slideshowInterval = setInterval(() => {
+              // Use the stored currentImages array (not stale closure)
+              if (currentImages.length <= 1) return;
+              
+              const nextIndex = (currentImageIndex + 1) % currentImages.length;
+              
+              // Preload and set next image
+              nextImg.src = currentImages[nextIndex];
+              gsap.set(nextImg, { y: "100%" });
+              
+              // Animate both images simultaneously - seamless overlap
+              gsap.to(currentImg, {
+                y: "-100%",
+                duration: 0.6,
+                ease: "power2.inOut",
+              });
+              
+              gsap.to(nextImg, {
+                y: "0%",
+                duration: 0.6,
+                ease: "power2.inOut",
+                onComplete: () => {
+                  // Swap: next becomes current
+                  currentImageIndex = nextIndex;
+                  currentImg.src = currentImages[currentImageIndex];
+                  gsap.set(currentImg, { y: 0 });
+                  gsap.set(nextImg, { y: "100%" });
+                },
+              });
+            }, 2000);
+          }, 800); // Wait for initial slide-down animation
+        }
       }
 
       // Show Wrapper
@@ -290,34 +390,44 @@ function initProjectHoverAnimations() {
         scale: 1,
         duration: 0.4,
         ease: "power2.out",
-        overwrite: "auto"
+        overwrite: "auto",
       });
 
-      // Optional: Parallax inner image
-      gsap.fromTo(revealImg, 
-        { scale: 1.2 }, 
-        { scale: 1, duration: 0.4, ease: "power2.out" }
-      );
-      
       // Enable View Cursor
-      document.body.classList.add('cursor-view');
+      document.body.classList.add("cursor-view");
     });
 
     row.addEventListener("mouseleave", () => {
-       document.body.classList.remove('cursor-view');
+      document.body.classList.remove("cursor-view");
+
+      // Stop slideshow AND any pending timeout when leaving row
+      if (slideshowInterval) {
+        clearInterval(slideshowInterval);
+        slideshowInterval = null;
+      }
+      if (slideshowTimeout) {
+        clearTimeout(slideshowTimeout);
+        slideshowTimeout = null;
+      }
     });
   });
 
   // Hide when leaving the list container
   if (projectList) {
-      projectList.addEventListener("mouseleave", () => {
-        gsap.to(revealWrapper, {
-            autoAlpha: 0,
-            scale: 0.8,
-            duration: 0.3,
-            ease: "power2.in"
-        });
+    projectList.addEventListener("mouseleave", () => {
+      // Clear slideshow
+      if (slideshowInterval) {
+        clearInterval(slideshowInterval);
+        slideshowInterval = null;
+      }
+
+      gsap.to(revealWrapper, {
+        autoAlpha: 0,
+        scale: 0.8,
+        duration: 0.3,
+        ease: "power2.in",
       });
+    });
   }
 }
 
@@ -379,7 +489,7 @@ function initCustomCursor() {
   // Optimize visibility check to avoid getComputedStyle on every frame
   let isCursorVisible = window.innerWidth > 768;
   window.addEventListener("resize", () => {
-      isCursorVisible = window.innerWidth > 768;
+    isCursorVisible = window.innerWidth > 768;
   });
 
   window.addEventListener("mousemove", (e) => {
@@ -422,41 +532,44 @@ initCustomCursor();
 
 // --- 8. ANIMATED EYES FOLLOW CURSOR ---
 function initEyeTracking() {
-  const eyes = document.querySelectorAll('.hero-eye');
+  const eyes = document.querySelectorAll(".hero-eye");
   if (eyes.length === 0) return;
 
   // Cache eye positions
   let eyePositions = [];
 
   function updateEyePositions() {
-    eyePositions = Array.from(eyes).map(eye => {
+    eyePositions = Array.from(eyes).map((eye) => {
       const rect = eye.getBoundingClientRect();
       return {
         element: eye,
         centerX: rect.left + rect.width / 2,
         centerY: rect.top + rect.height / 2,
-        pupil: eye.querySelector('.hero-pupil')
+        pupil: eye.querySelector(".hero-pupil"),
       };
     });
   }
 
   // Initial calculation
   updateEyePositions();
-  window.addEventListener('resize', updateEyePositions);
+  window.addEventListener("resize", updateEyePositions);
   // Update on scroll since eyes move with page
-  window.addEventListener('scroll', updateEyePositions, { passive: true });
-  if (typeof locoScroll !== 'undefined') {
-      locoScroll.on('scroll', updateEyePositions);
+  window.addEventListener("scroll", updateEyePositions, { passive: true });
+  if (typeof locoScroll !== "undefined") {
+    locoScroll.on("scroll", updateEyePositions);
   }
 
-
-  document.addEventListener('mousemove', (e) => {
-    eyePositions.forEach(eyeData => {
+  document.addEventListener("mousemove", (e) => {
+    eyePositions.forEach((eyeData) => {
       if (!eyeData.pupil) return;
 
-      const angle = Math.atan2(e.clientY - eyeData.centerY, e.clientX - eyeData.centerX);
+      const angle = Math.atan2(
+        e.clientY - eyeData.centerY,
+        e.clientX - eyeData.centerX
+      );
       const distance = Math.min(
-        Math.hypot(e.clientX - eyeData.centerX, e.clientY - eyeData.centerY) / 10,
+        Math.hypot(e.clientX - eyeData.centerX, e.clientY - eyeData.centerY) /
+          10,
         8 // Max movement radius
       );
 
@@ -528,7 +641,10 @@ function setupCopyEmail(buttonId, originalText) {
 }
 
 setupCopyEmail("copy-email-btn", "Copy");
-setupCopyEmail("copy-email-btn-hero", '<i class="fa-regular fa-copy"></i> Copy email');
+setupCopyEmail(
+  "copy-email-btn-hero",
+  '<i class="fa-regular fa-copy"></i> Copy email'
+);
 
 function copyEmailFallback(text, buttonEl) {
   const textArea = document.createElement("textarea");
@@ -571,33 +687,33 @@ projectToggleButtons.forEach((button) => {
   });
 });
 
-
 // --- 10. EXPERIENCE SECTION ANIMATIONS ---
 function initExperienceAnimations() {
-  const container = document.querySelector('.experience-container');
-  const items = document.querySelectorAll('.experience-item');
-  const line = document.querySelector('.experience-timeline-line');
+  const container = document.querySelector(".experience-container");
+  const items = document.querySelectorAll(".experience-item");
+  const line = document.querySelector(".experience-timeline-line");
 
   if (!container || items.length === 0) return;
 
   // 0. Spotlight Logic
-  items.forEach(item => {
-    const card = item.querySelector('.experience-card');
-    if(!card) return;
-    
-    item.addEventListener('mousemove', (e) => {
+  items.forEach((item) => {
+    const card = item.querySelector(".experience-card");
+    if (!card) return;
+
+    item.addEventListener("mousemove", (e) => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      
-      card.style.setProperty('--mouse-x', `${x}px`);
-      card.style.setProperty('--mouse-y', `${y}px`);
+
+      card.style.setProperty("--mouse-x", `${x}px`);
+      card.style.setProperty("--mouse-y", `${y}px`);
     });
   });
 
   // 1. Animate the vertical timeline line
   if (line) {
-    gsap.fromTo(line, 
+    gsap.fromTo(
+      line,
       { scaleY: 0, transformOrigin: "top" },
       {
         scaleY: 1,
@@ -608,16 +724,16 @@ function initExperienceAnimations() {
           start: "top 80%",
           end: "bottom 30%",
           scrub: true,
-        }
+        },
       }
     );
   }
 
   // 2. Animate items as they enter
   items.forEach((item, index) => {
-    const dot = item.querySelector('.experience-dot');
-    const date = item.querySelector('.experience-date');
-    const card = item.querySelector('.experience-card');
+    const dot = item.querySelector(".experience-dot");
+    const date = item.querySelector(".experience-date");
+    const card = item.querySelector(".experience-card");
 
     // Create a unique timeline for each item
     const tl = gsap.timeline({
@@ -626,36 +742,38 @@ function initExperienceAnimations() {
         scroller: "#main",
         start: "top bottom-=100", // Start animation when item is near bottom
         toggleActions: "play none none reverse",
-      }
+      },
     });
 
     // Ensure elements exist before animating
     if (dot) {
-      tl.fromTo(dot, 
+      tl.fromTo(
+        dot,
         { scale: 0, opacity: 0 },
         { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.7)" }
       );
     }
     if (date) {
-      tl.fromTo(date, 
+      tl.fromTo(
+        date,
         { x: -30, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.6, ease: "power2.out" }, 
+        { x: 0, opacity: 1, duration: 0.6, ease: "power2.out" },
         "-=0.4"
       );
     }
     if (card) {
-      tl.fromTo(card, 
+      tl.fromTo(
+        card,
         { x: 50, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, 
+        { x: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
         "-=0.5"
       );
     }
   });
 }
 
-
 // Initialize only after page load and Locomotive Scroll is ready
-window.addEventListener('load', () => {
+window.addEventListener("load", () => {
   setTimeout(() => {
     initExperienceAnimations();
     initProjectHoverAnimations();
@@ -667,8 +785,8 @@ window.addEventListener('load', () => {
 // --- 11. PROJECTS SECTION ANIMATIONS - PINNED CARD STACK ---
 // --- 11. PROJECTS SECTION ANIMATIONS - PINNED CARD STACK ---
 function initProjectsAnimations() {
-  const container = document.querySelector('.card-stack-container');
-  const cards = document.querySelectorAll('.stack-card');
+  const container = document.querySelector(".card-stack-container");
+  const cards = document.querySelectorAll(".stack-card");
 
   if (!container || cards.length === 0) return;
 
@@ -700,41 +818,49 @@ function initProjectsAnimations() {
     const position = (index - 1) * duration;
 
     // Animate Current Card In
-    tl.to(card, {
-      y: index * offset, // Stop slightly lower than previous
-      scale: 1,
-      opacity: 1,
-      duration: duration,
-      ease: "power2.out",
-      force3D: true
-    }, position);
+    tl.to(
+      card,
+      {
+        y: index * offset, // Stop slightly lower than previous
+        scale: 1,
+        opacity: 1,
+        duration: duration,
+        ease: "power2.out",
+        force3D: true,
+      },
+      position
+    );
 
     // Animate ALL previous cards scale down
     for (let i = 0; i < index; i++) {
-      tl.to(cards[i], {
-        scale: 1 - (0.05 * (index - i)), // 1 -> 0.95 -> 0.9
-        duration: duration,
-        ease: "power2.out"
-      }, position);
+      tl.to(
+        cards[i],
+        {
+          scale: 1 - 0.05 * (index - i), // 1 -> 0.95 -> 0.9
+          duration: duration,
+          ease: "power2.out",
+        },
+        position
+      );
     }
   });
 
   // Create ScrollTrigger linked to this timeline
   ScrollTrigger.create({
     trigger: container,
-    scroller: '#main',
-    start: 'top top',
-    end: 'bottom bottom',
-    pin: '.card-stack',
+    scroller: "#main",
+    start: "top top",
+    end: "bottom bottom",
+    pin: ".card-stack",
     pinSpacing: false,
     scrub: 1,
-    animation: tl
+    animation: tl,
   });
 }
 
 // --- 12. SCROLL-REACTIVE TYPOGRAPHY MARQUEE ---
 function initScrollMarquee() {
-  const marqueeScroll = document.querySelector('.marquee-scroll');
+  const marqueeScroll = document.querySelector(".marquee-scroll");
   if (!marqueeScroll) return;
 
   // State variables
@@ -747,7 +873,7 @@ function initScrollMarquee() {
   let scrollWidth = marqueeScroll.scrollWidth / 2;
 
   // Recalculate on resize to handle responsive layout changes
-  window.addEventListener('resize', () => {
+  window.addEventListener("resize", () => {
     scrollWidth = marqueeScroll.scrollWidth / 2;
   });
 
@@ -781,7 +907,7 @@ function initScrollMarquee() {
   requestAnimationFrame(animate);
 
   // Listen to Locomotive Scroll
-  locoScroll.on('scroll', (args) => {
+  locoScroll.on("scroll", (args) => {
     const currentScrollY = args.scroll.y;
     const delta = currentScrollY - lastScrollY;
 
@@ -796,52 +922,58 @@ function initScrollMarquee() {
 
   // Fallback for native scroll (if locomotive fails)
   let fallbackLastY = window.scrollY;
-  window.addEventListener('scroll', () => {
-    const currentY = window.scrollY;
-    const delta = currentY - fallbackLastY;
+  window.addEventListener(
+    "scroll",
+    () => {
+      const currentY = window.scrollY;
+      const delta = currentY - fallbackLastY;
 
-    if (Math.abs(delta) > 1) {
-      scrollVelocity = delta;
-      isReversed = delta < 0;
-    }
+      if (Math.abs(delta) > 1) {
+        scrollVelocity = delta;
+        isReversed = delta < 0;
+      }
 
-    fallbackLastY = currentY;
-  }, { passive: true });
+      fallbackLastY = currentY;
+    },
+    { passive: true }
+  );
 
   // Pause on hover
-  const marqueeWrapper = document.querySelector('.marquee-wrapper');
+  const marqueeWrapper = document.querySelector(".marquee-wrapper");
   if (marqueeWrapper) {
-    marqueeWrapper.addEventListener('mouseenter', () => {
+    marqueeWrapper.addEventListener("mouseenter", () => {
       baseSpeed = 0.15; // Slow down on hover
     });
-    marqueeWrapper.addEventListener('mouseleave', () => {
+    marqueeWrapper.addEventListener("mouseleave", () => {
       baseSpeed = 0.5; // Resume normal (slower) speed
     });
   }
 
   // Intersection Observer for performance
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        if (!isAnimating) {
-          isAnimating = true;
-          animate();
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (!isAnimating) {
+            isAnimating = true;
+            animate();
+          }
+        } else {
+          isAnimating = false;
         }
-      } else {
-        isAnimating = false;
-      }
-    });
-  }, { rootMargin: "100px" }); // Start slightly before it enters
+      });
+    },
+    { rootMargin: "100px" }
+  ); // Start slightly before it enters
 
-  if(marqueeScroll.parentElement) {
-      observer.observe(marqueeScroll.parentElement);
+  if (marqueeScroll.parentElement) {
+    observer.observe(marqueeScroll.parentElement);
   }
 }
 
 // Initialize Scroll Marquee after page load
-window.addEventListener('load', () => {
+window.addEventListener("load", () => {
   setTimeout(() => {
     initScrollMarquee();
   }, 600);
 });
-

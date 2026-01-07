@@ -290,6 +290,16 @@
         display: none;
     }
 
+    /* ========== UNIFIED SECTION HEADINGS - TABLET/MOBILE ========== */
+    .about-content h1,
+    .bento-header h1,
+    .services-intro h2,
+    .experience-title h1,
+    .projects-header h1,
+    .footer-heading h1 {
+        font-size: clamp(1.8em, 6vw, 2.5em);
+    }
+
     /* ========== EXPERIENCE SECTION - ENHANCED MOBILE ========== */
     .experience {
         padding: 3em var(--primary-padding);
@@ -297,10 +307,6 @@
 
     .experience-title {
         margin-bottom: 2.5em;
-    }
-
-    .experience-title h1 {
-        font-size: clamp(2em, 6vw, 2.8em);
     }
 
     .experience-container {
@@ -469,10 +475,6 @@
         margin-bottom: 2em;
     }
 
-    .projects-header h1 {
-        font-size: clamp(2em, 6vw, 2.8em);
-    }
-
     .projects-subtitle {
         font-size: 1em;
         opacity: 0.7;
@@ -560,10 +562,6 @@
     .footer-gif-wrapper {
         width: 80px;
         height: 80px;
-    }
-
-    .footer-heading h1 {
-        font-size: clamp(1.8em, 6vw, 2.5em);
     }
 
     .footer-actions {
@@ -664,10 +662,6 @@
 
     .about-content {
         align-items: center;
-    }
-
-    .about-content h1 {
-        font-size: 2.2em;
     }
 
     .about-content h2 {
@@ -842,20 +836,6 @@
         border-radius: 16px;
     }
 
-    .about-content h1 {
-        font-size: 1.8em;
-    }
-
-    .about-content h2 {
-        font-size: clamp(1.2em, 4.5vw, 1.5em);
-        line-height: 1.4;
-    }
-
-    .about-content p {
-        font-size: 0.9em;
-        line-height: 1.6;
-    }
-
     .about-stats {
         gap: 1.5em;
     }
@@ -868,6 +848,16 @@
         font-size: 0.75em;
     }
 
+    /* ========== UNIFIED SECTION HEADINGS - SMALL PHONES ========== */
+    .about-content h1,
+    .bento-header h1,
+    .services-intro h2,
+    .experience-title h1,
+    .projects-header h1,
+    .footer-heading h1 {
+        font-size: clamp(1.6em, 7vw, 2em);
+    }
+
     /* ========== EXPERIENCE SECTION - SMALL PHONES ========== */
     .experience {
         padding: 2.5em 1em;
@@ -875,10 +865,6 @@
 
     .experience-title {
         margin-bottom: 2em;
-    }
-
-    .experience-title h1 {
-        font-size: clamp(1.8em, 7vw, 2.2em);
     }
 
     .experience-container {
@@ -943,10 +929,6 @@
         padding: 2.5em 1em;
     }
 
-    .projects-header h1 {
-        font-size: clamp(1.8em, 7vw, 2.2em);
-    }
-
     .project-row {
         padding: 1.2em 0;
     }
@@ -974,10 +956,6 @@
     .footer-gif-wrapper {
         width: 70px;
         height: 70px;
-    }
-
-    .footer-heading h1 {
-        font-size: clamp(1.5em, 6vw, 2em);
     }
 
     .footer-btn {

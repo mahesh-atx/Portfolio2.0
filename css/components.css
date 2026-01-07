@@ -163,6 +163,15 @@ button {
     border: 5px solid var(--border-capsule-hover);
 }
 
+/* Nav Copy/CV Button Sizing - Same size */
+.nav-mail .capsule {
+    min-width: 70px;
+    text-align: center;
+    padding: 0.8em 1.2em;
+    font-size: 0.9em;
+    font-family: 'Ot-medium', sans-serif;
+}
+
 /* Nav & Mobile */
 .mobile {
     display: none;
