@@ -5,11 +5,11 @@
    ============================================ */
 .section-heading,
 .about-content h1,
-.bento-header h1,
+.bento-header h2,
 .services-intro h2,
-.experience-title h1,
-.projects-header h1,
-.footer-heading h1 {
+.experience-title h2,
+.projects-header h2,
+.footer-heading h2 {
   font-size: clamp(3em, 5vw, 3em);
   font-family: "Ot-medium", sans-serif;
   font-weight: 600;
@@ -21,22 +21,22 @@
 
 /* Unified line-mask base styles for GSAP scroll-triggered animations */
 .about-content h1 .line-mask,
-.bento-header h1 .line-mask,
+.bento-header h2 .line-mask,
 .services-intro h2 .line-mask,
-.experience-title h1 .line-mask,
-.projects-header h1 .line-mask,
-.footer-heading h1 .line-mask {
+.experience-title h2 .line-mask,
+.projects-header h2 .line-mask,
+.footer-heading h2 .line-mask {
   display: block;
   overflow: hidden;
   line-height: 1.2;
 }
 
 .about-content h1 .line-mask span,
-.bento-header h1 .line-mask span,
+.bento-header h2 .line-mask span,
 .services-intro h2 .line-mask span,
-.experience-title h1 .line-mask span,
-.projects-header h1 .line-mask span,
-.footer-heading h1 .line-mask span {
+.experience-title h2 .line-mask span,
+.projects-header h2 .line-mask span,
+.footer-heading h2 .line-mask span {
   display: block;
 }
 
@@ -232,6 +232,21 @@ nav {
   animation: doodleFloat 3s ease-in-out infinite;
 }
 
+/* Touch Target Expansion (48px transparent hit area) */
+.hero-inline-images .inline-block::after,
+.footer-inline-images .inline-block::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 48px;
+  height: 48px;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  z-index: 10;
+  cursor: pointer;
+}
+
 .hero-inline-images .inline-block:first-child {
   margin-left: 0;
 }
@@ -308,7 +323,7 @@ nav {
 /* ============================================
    Footer Heading - Larger Font Size
    ============================================ */
-.footer-heading h1 {
+.footer-heading h2 {
   font-size: clamp(2.5em, 6vw, 4em) !important;
   color: #1a1a1a !important; /* Keep dark text in both modes */
 }
@@ -400,9 +415,9 @@ nav {
 }
 
 /* Prevent clipping on hover - allow doodles to overflow */
-.footer-heading h1,
-.footer-heading h1 .line-mask,
-.footer-heading h1 .line-mask > span,
+.footer-heading h2,
+.footer-heading h2 .line-mask,
+.footer-heading h2 .line-mask > span,
 .footer-inline-images {
   overflow: visible !important;
 }
@@ -591,6 +606,13 @@ nav {
   padding: 0 0 2em;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+/* Adjusted Bento Header Hierarchy - Distinct from Footer CTA */
+.bento-header h2 {
+  font-size: clamp(2.5em, 5vw, 3.5em) !important;
+  color: var(--text-heading);
+  opacity: 0.9;
 }
 
 /* Bento header h1 inherits from unified styles above */

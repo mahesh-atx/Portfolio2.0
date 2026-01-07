@@ -231,7 +231,7 @@ ScrollTrigger.refresh();
 // --- 5. MASKED TEXT ANIMATIONS ---
 function initMaskedAnimations() {
   const headings = document.querySelectorAll(
-    ".about-content h1, .bento-header h1, .services-intro h2, .experience-title h1, .projects-header h1, .footer-heading h1"
+    ".about-content h1, .bento-header h2, .services-intro h2, .experience-title h2, .projects-header h2, .footer-heading h2"
   );
 
   headings.forEach((heading) => {

@@ -69,8 +69,12 @@
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.css"
+      onerror="this.href='https://unpkg.com/locomotive-scroll@3.5.4/dist/locomotive-scroll.css'"
     />
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script
+      src="https://unpkg.com/@phosphor-icons/web"
+      onerror="this.src='https://cdn.jsdelivr.net/npm/@phosphor-icons/web'"
+    ></script>
     <link rel="stylesheet" href="./fonts.css" />
     <link rel="stylesheet" href="./css/variables.css" />
     <link rel="stylesheet" href="./css/utilities.css" />
@@ -110,11 +114,15 @@
           src=""
           alt="Project Preview"
           class="project-reveal-img project-reveal-img-current"
+          width="600"
+          height="400"
         />
         <img
           src=""
           alt="Project Preview"
           class="project-reveal-img project-reveal-img-next"
+          width="600"
+          height="400"
         />
       </div>
     </div>
@@ -310,6 +318,8 @@
                       <img
                         src="./assets/profile-1.jpg"
                         alt="Mahesh Dongare"
+                        width="400"
+                        height="500"
                         onerror="this.src='https://placehold.co/400x500?text=MD'"
                       />
                     </div>
@@ -357,18 +367,24 @@
                 alt="Mahesh - Profile 1"
                 class="stack-img img-1"
                 loading="lazy"
+                width="400"
+                height="500"
               />
               <img
                 src="./assets/profile-2.jpg"
                 alt="Mahesh - Profile 2"
                 class="stack-img img-2"
                 loading="lazy"
+                width="400"
+                height="500"
               />
               <img
                 src="./assets/profile-3.jpg"
                 alt="Mahesh - Profile 3"
                 class="stack-img img-3"
                 loading="lazy"
+                width="400"
+                height="500"
               />
             </div>
           </div>
@@ -414,9 +430,9 @@
             <div class="about-me">
               <!-- Bento Grid Header -->
               <div class="bento-header content-layer">
-                <h1>
+                <h2>
                   <span class="line-mask"><span>Get to Know Me</span></span>
-                </h1>
+                </h2>
               </div>
               <div class="bento-grid content-layer">
                 <!-- Cell 1: Profile Photo -->
@@ -426,6 +442,8 @@
                       src="./assets/Snapchat-211615248.jpg"
                       alt="Mahesh"
                       loading="lazy"
+                      width="600"
+                      height="800"
                       onerror="this.src='https://placehold.co/600x800?text=MD'"
                     />
                   </div>
@@ -597,9 +615,9 @@
 
             <div class="experience" id="experience-section">
               <div class="experience-title content-layer">
-                <h1>
+                <h2>
                   <span class="line-mask"><span>Experience</span></span>
-                </h1>
+                </h2>
               </div>
 
               <div class="experience-container content-layer">
@@ -710,9 +728,9 @@
         <div class="projects-section" id="projects-section">
           <div class="projects-container content-layer">
             <div class="projects-header">
-              <h1>
+              <h2>
                 <span class="line-mask"><span>Featured Work</span></span>
-              </h1>
+              </h2>
               <p class="projects-subtitle">A selection of things I've built</p>
             </div>
 
@@ -823,12 +841,14 @@
                   src="./assets/download.gif"
                   alt="Let's Talk"
                   loading="lazy"
+                  width="150"
+                  height="150"
                   onerror="this.src='https://placehold.co/150x150?text=Hi'"
                 />
               </div>
 
               <div class="footer-heading">
-                <h1>
+                <h2>
                   <span class="line-mask"><span>Tell me about</span></span>
                   <span class="line-mask"
                     ><span
@@ -914,9 +934,18 @@
       </footer>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
+      onerror="this.src='https://unpkg.com/gsap@3.12.2/dist/gsap.min.js'"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"
+      onerror="this.src='https://unpkg.com/gsap@3.12.2/dist/ScrollTrigger.min.js'"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.min.js"
+      onerror="this.src='https://unpkg.com/locomotive-scroll@3.5.4/dist/locomotive-scroll.min.js'"
+    ></script>
     <script src="./script.js"></script>
   </body>
 </html>
